@@ -2,6 +2,8 @@
 
 C++ 和 Python 愛好者
 
+![Image of Yaktocat](https://github.com/mudream4869/crpg/blob/master/shot.png)
+
 ## Dependency
 
 * Mac
