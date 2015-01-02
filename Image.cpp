@@ -1,0 +1,144 @@
+#include <OpenGL/gl.h> 
+#include <OpenGL/glu.h> 
+#include <GLUT/glut.h>
+#include <cstdio>
+#include <cstdlib>
+#include "Image.h"
+#include "Tool.h"
+#define __BMPSHIFT 54
+
+Image::Image(const char* path, bool is_trans, Color3i trans_color){
+    fprintf(stderr,"Image: ready to load %s\n", path);
+    FILE* file = fopen(path, "rb");
+    // open texture data
+    if (file == NULL){ 
+	    fprintf(stderr, "Fail to load bmp file!\n");
+        return;
+    }
+
+    fseek(file, 18, SEEK_SET);
+    fread(&width, sizeof(width), 1, file);
+    fread(&height, sizeof(height), 1, file);
+    
+    bool HeightNeg = false;
+    if(height < 0){
+        HeightNeg = true;
+        height = (~height) + 1;
+    }
+    
+    fseek(file, 0x1C, SEEK_SET);
+    fread(&this->bits, 2, 1, file);
+ 
+    //fprintf(stderr, "Load img, width = %u, height = %u\n", width, height);
+    //fprintf(stderr, "Img bits = %d\n", (int)this->bits);
+
+    int byte_count = (int)this->bits/8;
+    unsigned char* data = (unsigned char *)malloc(width*height*byte_count + __BMPSHIFT);
+
+    // allocate buffer
+    fseek(file, 0, SEEK_SET);
+    fread(data, width*height*byte_count + __BMPSHIFT, 1, file);
+    fclose(file);
+
+    // allocate a texture name
+    glGenTextures( 1, &texture_id);
+
+    // select our current texture
+    glBindTexture( GL_TEXTURE_2D, texture_id);
+
+    // select modulate to mix texture with color for shading
+    glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    
+    //glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+    // when texture area is small, bilinear filter the closest MIP map
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+
+    // when texture area is large, bilinear filter the first MIP map
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+
+    // if wrap is true, the texture wraps over at the edges (repeat)
+    //       ... false, the texture ends at the edges (clamp)
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // build our texture MIP maps
+
+    //BMP
+    
+    unsigned char* datt4 = (unsigned char *)malloc(width*height*4);
+    bool last_trans = false;
+    bool now_trans = false;
+    for(int lx = 0;lx < width*height;++lx){
+        datt4[4*lx + 0] = data[lx*byte_count + __BMPSHIFT + 2];
+        datt4[4*lx + 1] = data[lx*byte_count + __BMPSHIFT + 1];
+        datt4[4*lx + 2] = data[lx*byte_count + __BMPSHIFT + 0];
+        last_trans = now_trans;
+        now_trans = Absi(trans_color.r - (int)datt4[4*lx + 0]) <= 1
+                   and Absi(trans_color.g - (int)datt4[4*lx + 1]) <= 1
+                   and Absi(trans_color.b - (int)datt4[4*lx + 2]) <= 1;
+        if(is_trans and (now_trans) )
+            datt4[4*lx + 3] = 0;
+        else{
+            if(byte_count == 4)
+                datt4[4*lx + 3] = data[lx*byte_count + 3 + __BMPSHIFT];
+            else
+                datt4[4*lx + 3] = 255;
+        }
+    }
+    free(data);
+
+    if(not HeightNeg){
+        //fprintf(stderr, "Not pos height\n");
+        unsigned char* datt = (unsigned char *)malloc(width*height*4);
+        for(int lx = 0;lx < height;lx++)
+            for(int ly = lx*width*4;ly < (lx + 1)*width*4;ly++)
+                datt[(height - 1 - lx)*width*4 + (ly - lx*width*4)] = datt4[ly];
+        gluBuild2DMipmaps( GL_TEXTURE_2D, 4, width, height, GL_RGBA, GL_UNSIGNED_BYTE, datt);
+        free(datt);
+    }else
+        gluBuild2DMipmaps( GL_TEXTURE_2D, 4, width, height, GL_RGBA, GL_UNSIGNED_BYTE, datt4);
+
+    // free buffer
+    free(datt4);
+    fprintf(stderr,"Image: load %s ok\n", path);
+    return;
+}
+
+Image::~Image(){
+    //TODO: recycle the texture_id?
+    return;
+}
+
+int Image::GetHeight(){
+    return height;
+}
+
+int Image::GetWidth(){
+    return width;
+}
+
+GLuint Image::GetTextureId(){
+    return texture_id;
+}
+
+short int Image::GetBits(){
+    return bits;
+}
+
+void Image::TestRender(float x, float y, float draw_width, float draw_height, int level){
+    float xs[] = {x, x + draw_width, x + draw_width, x};
+    float xc[] = {0, 1, 1, 0};
+    float ys[] = {y, y, y + draw_height, y + draw_height};
+    float yc[] = {0, 0, 1, 1};
+
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture_id);
+    glBegin(GL_POLYGON);
+    for(int lx = 3;lx >= 0;lx--){
+		xs[lx] = xs[lx] - 1, ys[lx] = 1 - ys[lx];
+        glTexCoord2d((GLfloat)(xc[lx]), (GLfloat)(yc[lx]));
+		glVertex3f((GLfloat)(xs[lx]), (GLfloat)(ys[lx]), 0.01*(float)level);
+	}
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+    return;
+}
