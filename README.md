@@ -26,4 +26,4 @@ C++ 和 Python 愛好者
 ## TODO
 
 * 使用中文
-* 說明文件
+* 說明文件: ([WIKI](https://github.com/mudream4869/crpg/wiki/CRPG介紹))
