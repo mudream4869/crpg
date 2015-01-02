@@ -21,7 +21,7 @@ void WindowMsg::TickEvent(int a){
         return;
     }
     char c[2] = {msg[ptr], 0};
-    ptr_x += 0.1;
+    ptr_x += 0.06;
     if(ptr_x > width)
         ptr_x = 0.1, ptr_y = ptr_y + 0.1;
     this->DrawText(ptr_x, ptr_y, c) ;
