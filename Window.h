@@ -12,6 +12,8 @@ const int WINDOW_DRAW_IMAGE = 3;
 class Window{
 public:
     Window(float _left, float _top, float _width, float _height);
+    ~Window();
+
     void DrawText(float x, float y, const char* str);
     void DrawBox(float x, float y, float w, float h, Color4f color);
     void DrawImage(float x, float y, float w, float h, Image* img);

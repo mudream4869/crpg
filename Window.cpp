@@ -14,6 +14,11 @@ Window::Window(float _left, float _top, float _width, float _height){
     return;
 }
 
+Window::~Window(){
+    this->Clear();
+    return;
+}
+
 void Window::DrawText(float x, float y, const char* str){
     WindowDraw windraw;
     windraw.DrawId = WINDOW_DRAW_TEXT;
