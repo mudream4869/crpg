@@ -99,33 +99,30 @@ void Map::LoadMap(const char* path){
     }
 
     fprintf(stderr, "ready to load level\n") ;
-    // TODO: load level_count
-    this->level_count = 4;
 
-    map_load =  new point**[level_count];
-    for(int lx = 0;lx < level_count;lx++){
-        map_load[lx] = new point*[map_width];
-        for(int ly = 0;ly < map_width;ly++)
-            map_load[lx][ly] = new point[map_height];
-    }
     //fprintf(stderr, "level new up ok\n");
-    int lc = 0, tmp_value;
+    int tmp_value;
     for(auto level_node = root_node->first_node("layer"); level_node; level_node = level_node->next_sibling("layer")){
+        point** prc = new point*[map_width];
+        for(int ly = 0;ly < map_width;ly++)
+            prc[ly] = new point[map_height];
+
         auto data_node = level_node->first_node("data");
         int lx = 0, ly = 0;
         for(auto grid_node = data_node->first_node("tile"); grid_node; grid_node = grid_node->next_sibling("tile")){
             tmp_value = std::atoi(grid_node->first_attribute("gid")->value())-1;
             if(tmp_value == -1)
-                map_load[lc][lx][ly] = new_point(-1, -1);
+                prc[lx][ly] = new_point(-1, -1);
             else
-                map_load[lc][lx][ly] = new_point(tmp_value%img_width_count, tmp_value/img_width_count);
+                prc[lx][ly] = new_point(tmp_value%img_width_count, tmp_value/img_width_count);
             lx++;
             if(lx == this->map_width){
                 lx = 0, ly++;
             }
         }
-        lc++;
+        map_load.push_back(prc);
     }
+    this->level_count = map_load.size();
     
     fprintf(stderr, "Map: Ready to load events in map.\n");
     // Load Events
@@ -135,8 +132,8 @@ void Map::LoadMap(const char* path){
             if(strcmp(event_node->first_attribute("type")->value(), "Event") != 0) continue;
             EventData new_event_data;
             strcpy(new_event_data.name ,event_node->first_attribute("name")->value());
-            new_event_data.x = std::atoi(event_node->first_attribute("x")->value())/32;
-            new_event_data.y = std::atoi(event_node->first_attribute("y")->value())/32;
+            new_event_data.x = std::atoi(event_node->first_attribute("x")->value())/img_pw;
+            new_event_data.y = std::atoi(event_node->first_attribute("y")->value())/img_ph;
             event_datas.push_back(new_event_data);
         }
     }
@@ -213,4 +210,8 @@ void Map::Render(float left, float top, float width, float height, int x, int y,
 
 std::vector<EventData> Map::GetEventDatas(){
     return event_datas;
+}
+
+int Map::GetLevelCount()const{
+    return this->level_count;
 }

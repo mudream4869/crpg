@@ -189,7 +189,7 @@ void ScenePlay::Render(){
         int xx = hero_status.x + dir9_x[lx];
         int yy = hero_status.y + dir9_y[lx];
         // TODO:4 = level_count
-        for(int ll = 0;ll < 4;ll++){
+        for(int ll = 0;ll < map_use->GetLevelCount();ll++){
             if(map_use->GetPriority(xx, yy, ll)){
                 map_use->RenderATile(
                     start_x,
