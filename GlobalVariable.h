@@ -6,6 +6,7 @@
 namespace GlobalVariable{
     extern std::map<const char*, int, StrCompare> global_value;
     extern std::map<const char*, bool, StrCompare> global_flag;
+    
     void InitGlobalVariable();
     int GetValue(const char* name);
     void SetValue(const char* name, int a);
