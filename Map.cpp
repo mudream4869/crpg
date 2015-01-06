@@ -73,20 +73,32 @@ void Map::LoadMap(const char* path){
     int img_height_count = img->GetHeight()/img_ph;
     tile_use->SetSize(img_pw, img_ph);
 
-    //fprintf(stderr, "ready to load terrain\n");
+    fprintf(stderr, "ready to load terrain\n");
     for(auto terrain_node = tileset_node->first_node("tile"); terrain_node; terrain_node = terrain_node->next_sibling("tile")){
         int tile_id = std::atoi(terrain_node->first_attribute("id")->value());
-        char tmp_str[20];
+        char tmp_str[20] = {0};
         int status = 0, cc = 0;
-        strcpy(tmp_str, terrain_node->first_attribute("terrain")->value());
+        if(terrain_node->first_attribute("terrain") != 0)
+            strcpy(tmp_str, terrain_node->first_attribute("terrain")->value());
         for(int lx = 0;tmp_str[lx] != 0;lx++){
             if(tmp_str[lx] == ',') cc++;
             if(tmp_str[lx] == '0') status |= 1<<cc;
         }
         terrain[std::pair<int,int>(tile_id%img_width_count, tile_id/img_width_count)] = status;
+        
+        auto properties_node = terrain_node->first_node("properties");
+        if(properties_node != 0){
+            for(auto property_node = properties_node->first_node("property");
+                    property_node; property_node = property_node->next_sibling("property")){
+                if(strcmp("priority", property_node->first_attribute("name")->value()) == 0){
+                    priority[std::pair<int,int>(tile_id%img_width_count, tile_id/img_width_count)]
+                        = atoi(property_node->first_attribute("value")->value());
+                }
+            }
+        }
     }
 
-    //fprintf(stderr, "ready to load level\n") ;
+    fprintf(stderr, "ready to load level\n") ;
     // TODO: load level_count
     this->level_count = 4;
 
@@ -150,6 +162,31 @@ bool Map::CanDo(int xx, int yy, int dir)const{
             return false;
     }
     return true;
+}
+
+int Map::GetPriority(int x, int y, int l)const{
+    if(x < 0 or y < 0 or x >= map_width or y >= map_height)
+        return 0;  
+    int xx = map_load[l][x][y].x,
+        yy = map_load[l][x][y].y;
+    if(priority.count(std::pair<int,int>(xx, yy)) == 0)
+        return 0;
+    return priority.at(std::pair<int,int>(xx, yy));
+}
+
+void Map::RenderATile(float left, float top, float width, float height, int x, int y, int l){
+    if(map_load[l][x][y].x == -1) return;
+    float delta_x = width/(float)20;
+    float delta_y = height/(float)20;
+    tile_use->Render(
+        left + (float)x*delta_x,
+        top + (float)y*delta_y,
+        delta_x, delta_y,
+        map_load[l][x][y].x,
+        map_load[l][x][y].y,
+        l + 1
+    );
+    return; 
 }
 
 void Map::Render(float left, float top, float width, float height, int x, int y, int x_count, int y_count){

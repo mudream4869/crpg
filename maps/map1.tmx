@@ -5,7 +5,7 @@
   <terraintypes>
    <terrain name="solid" tile="-1"/>
   </terraintypes>
-  <tile id="13" terrain="0,0,,"/>
+  <tile id="13" terrain=",0,,"/>
   <tile id="19" terrain="0,0,0,0"/>
   <tile id="29" terrain="0,0,0,"/>
   <tile id="30" terrain="0,0,,"/>
@@ -23,10 +23,81 @@
   <tile id="90" terrain="0,,0,"/>
   <tile id="96" terrain=",0,,0"/>
   <tile id="98" terrain="0,,0,"/>
-  <tile id="125" terrain=",0,,0"/>
-  <tile id="126" terrain="0,,0,"/>
-  <tile id="133" terrain=",0,0,0"/>
-  <tile id="134" terrain="0,,0,0"/>
+  <tile id="100">
+   <properties>
+    <property name="priority" value="1"/>
+   </properties>
+  </tile>
+  <tile id="101">
+   <properties>
+    <property name="priority" value="1"/>
+   </properties>
+  </tile>
+  <tile id="102">
+   <properties>
+    <property name="priority" value="1"/>
+   </properties>
+  </tile>
+  <tile id="103">
+   <properties>
+    <property name="priority" value="1"/>
+   </properties>
+  </tile>
+  <tile id="108">
+   <properties>
+    <property name="priority" value="1"/>
+   </properties>
+  </tile>
+  <tile id="109">
+   <properties>
+    <property name="priority" value="1"/>
+   </properties>
+  </tile>
+  <tile id="110">
+   <properties>
+    <property name="priority" value="1"/>
+   </properties>
+  </tile>
+  <tile id="111">
+   <properties>
+    <property name="priority" value="1"/>
+   </properties>
+  </tile>
+  <tile id="116">
+   <properties>
+    <property name="priority" value="1"/>
+   </properties>
+  </tile>
+  <tile id="117">
+   <properties>
+    <property name="priority" value="1"/>
+   </properties>
+  </tile>
+  <tile id="118">
+   <properties>
+    <property name="priority" value="1"/>
+   </properties>
+  </tile>
+  <tile id="119">
+   <properties>
+    <property name="priority" value="1"/>
+   </properties>
+  </tile>
+  <tile id="124">
+   <properties>
+    <property name="priority" value="1"/>
+   </properties>
+  </tile>
+  <tile id="125">
+   <properties>
+    <property name="priority" value="1"/>
+   </properties>
+  </tile>
+  <tile id="126">
+   <properties>
+    <property name="priority" value="1"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Layer1" width="20" height="20">
   <data>
