@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "ScenePlay.h"
 #include "WindowSelect.h"
+#include "WindowGameObject.h"
 #include "SysCall.h"
 #include "Env.h"
 
@@ -53,6 +54,8 @@ ScenePlay::ScenePlay(Map* _map, Hero* _hero, int init_x, int init_y, float _scre
     delete[] main_menu_string[1];
     delete[] main_menu_string[2];
 
+    obj_menu = new WindowGameObject(0.1, 0.1);
+    main_menu = obj_menu;
     return;
 }
 

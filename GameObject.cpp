@@ -64,6 +64,10 @@ void GameObjectData::CallGameObject(const char* str){
 }
 
 void GameObjectData::SetGameObjectCount(const char* str, int val){
+    if(val == 0){
+        gameobject_count.erase(str);
+        return;
+    }
     if(gameobject_count.count(str) == 0){
         char* tmp = new char[strlen(str) + 2];
         strcpy(tmp, str);
