@@ -7,6 +7,7 @@
 #include <cstring>
 #include <string>
 #include "Map.h"
+#include "Config.h"
 
 #include "rapidxml/rapidxml.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
@@ -173,8 +174,8 @@ int Map::GetPriority(int x, int y, int l)const{
 
 void Map::RenderATile(float left, float top, float width, float height, int x, int y, int l){
     if(map_load[l][x][y].x == -1) return;
-    float delta_x = width/(float)20;
-    float delta_y = height/(float)20;
+    float delta_x = CONFIG_DELTA_X;
+    float delta_y = CONFIG_DELTA_Y;
     tile_use->Render(
         left + (float)x*delta_x,
         top + (float)y*delta_y,
@@ -187,9 +188,8 @@ void Map::RenderATile(float left, float top, float width, float height, int x, i
 }
 
 void Map::Render(float left, float top, float width, float height, int x, int y, int x_count, int y_count){
-    float delta_x = width/(float)x_count;
-    float delta_y = height/(float)y_count;
-    int tmp_value;
+    float delta_x = CONFIG_DELTA_X;
+    float delta_y = CONFIG_DELTA_Y;
     for(int l = 0;l < this->level_count;l++){
         for(int lx = x;lx < x+x_count;lx++){
             for(int ly = x;ly < y+y_count;ly++){

@@ -12,4 +12,7 @@ const char CONFIG_PATH_SAVEFILE[] = "saves/";
 const int CONFIG_DIR_X[] = {0, -1, 1, 0};
 const int CONFIG_DIR_Y[] = {1, 0, 0, -1};
 
+const float CONFIG_DELTA_X = 0.2;
+const float CONFIG_DELTA_Y = 0.2;
+
 #endif
