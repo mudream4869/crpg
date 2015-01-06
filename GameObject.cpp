@@ -4,7 +4,7 @@ std::map<const char*, GameObject*, StrCompare> GameObjectData::gameobject_pool;
 std::map<const char*, int, StrCompare> GameObjectData::gameobject_count;
 
 void GameObjectData::InitGameObject(){
-    // TODO:Load
+      
 }
 
 int GameObjectData::GetGameObjectCount(const char* str){

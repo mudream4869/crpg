@@ -3,42 +3,16 @@
 #include <GLUT/glut.h>
 #include <cstdio>
 #include <cstdlib>
+#include <vector>
 #include "Image.h"
 #include "Tool.h"
+#include "LoadPng/lodepng.h"
+
 #define __BMPSHIFT 54
 
 Image::Image(const char* path, bool is_trans, Color3i trans_color){
     fprintf(stderr,"Image: ready to load %s\n", path);
-    FILE* file = fopen(path, "rb");
-    // open texture data
-    if (file == NULL){ 
-	    fprintf(stderr, "Fail to load bmp file!\n");
-        return;
-    }
-
-    fseek(file, 18, SEEK_SET);
-    fread(&width, sizeof(width), 1, file);
-    fread(&height, sizeof(height), 1, file);
-    
-    bool HeightNeg = false;
-    if(height < 0){
-        HeightNeg = true;
-        height = (~height) + 1;
-    }
-    
-    fseek(file, 0x1C, SEEK_SET);
-    fread(&this->bits, 2, 1, file);
- 
-    //fprintf(stderr, "Load img, width = %u, height = %u\n", width, height);
-    //fprintf(stderr, "Img bits = %d\n", (int)this->bits);
-
-    int byte_count = (int)this->bits/8;
-    unsigned char* data = (unsigned char *)malloc(width*height*byte_count + __BMPSHIFT);
-
-    // allocate buffer
-    fseek(file, 0, SEEK_SET);
-    fread(data, width*height*byte_count + __BMPSHIFT, 1, file);
-    fclose(file);
+    int sl = strlen(path);
 
     // allocate a texture name
     glGenTextures( 1, &texture_id);
@@ -62,6 +36,46 @@ Image::Image(const char* path, bool is_trans, Color3i trans_color){
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     // build our texture MIP maps
 
+    if(strcmp(path+sl-3, "bmp") == 0)
+        this->__LoadBmp(path, is_trans, trans_color);
+    else if(strcmp(path+sl-3, "png") == 0)
+        this->__LoadPng(path);
+    
+    fprintf(stderr,"Image: load %s ok\n", path);
+    return;
+}
+
+void Image::__LoadBmp(const char* path, bool is_trans, Color3i trans_color){
+     FILE* file = fopen(path, "rb");
+    // open texture data
+    if (file == NULL){ 
+	    fprintf(stderr, "Fail to load bmp file!\n");
+        return;
+    }
+
+    fseek(file, 18, SEEK_SET);
+    fread(&width, sizeof(width), 1, file);
+    fread(&height, sizeof(height), 1, file);
+
+    bool HeightNeg = false;
+    if(height < 0){
+        HeightNeg = true;
+        height = (~height) + 1;
+    }
+ 
+    fseek(file, 0x1C, SEEK_SET);
+    fread(&this->bits, 2, 1, file);
+ 
+    //fprintf(stderr, "Load img, width = %u, height = %u\n", width, height);
+    //fprintf(stderr, "Img bits = %d\n", (int)this->bits);
+
+    int byte_count = (int)this->bits/8;
+    unsigned char* data = (unsigned char *)malloc(width*height*byte_count + __BMPSHIFT);
+
+    // allocate buffer
+    fseek(file, 0, SEEK_SET);
+    fread(data, width*height*byte_count + __BMPSHIFT, 1, file);
+    fclose(file);
     //BMP
     
     unsigned char* datt4 = (unsigned char *)malloc(width*height*4);
@@ -96,10 +110,26 @@ Image::Image(const char* path, bool is_trans, Color3i trans_color){
         free(datt);
     }else
         gluBuild2DMipmaps( GL_TEXTURE_2D, 4, width, height, GL_RGBA, GL_UNSIGNED_BYTE, datt4);
-
     // free buffer
     free(datt4);
-    fprintf(stderr,"Image: load %s ok\n", path);
+    return;
+}
+
+void Image::__LoadPng(const char* path){
+    std::vector<unsigned char> get_image;
+    unsigned int _width, _height;
+    unsigned err = lodepng::decode(get_image, _width, _height, path);
+    if(err){
+        fprintf(stderr, "LoadPng: %s error", path);
+        exit(1);
+    }
+    this->width = (signed int)(_width);
+    this->height = (signed int)(_height);
+    unsigned char* datt = (unsigned char *)malloc(width*height*4);
+    for(int lx = 0;lx < get_image.size();lx++)
+        datt[lx] = get_image[lx];
+    gluBuild2DMipmaps( GL_TEXTURE_2D, 4, width, height, GL_RGBA, GL_UNSIGNED_BYTE, datt);
+    free(datt);
     return;
 }
 

@@ -20,6 +20,10 @@ public:
     void TestRender(float x, float y, float draw_width, float draw_height, int level);
 
 private:
+
+    void __LoadBmp(const char* path, bool is_trans, Color3i trans_color);
+    void __LoadPng(const char* path);
+
     int height;
     int width;
     short int bits;
