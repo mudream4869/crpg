@@ -11,7 +11,7 @@ namespace GameObjectData{
         char name[20];
         PyObject* choose_callback;
     };
-    extern std::map<const char*, GameObject*, StrCompare> gameobject_pool;
+    extern std::map<const char*, GameObject, StrCompare> gameobject_pool;
     extern std::map<const char*, int, StrCompare> gameobject_count;
     
     void InitGameObject();

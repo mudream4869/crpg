@@ -24,6 +24,7 @@
 #include "SysCall.h"
 #include "Msg.h"
 #include "GlobalVariable.h"
+#include "GameObject.h"
 
 Image* img1;
 
@@ -45,9 +46,11 @@ void InitResource(){
  
     EnvInsert("event_pool", (void*)(new std::map<const char*, Event*, StrCompare>));
     EnvInsert("map_pool", (void*)(new std::map<const char*, Map*, StrCompare>));
+    
     Sys::InitSys();
     Msg::InitMsg();
     GlobalVariable::InitGlobalVariable();
+    GameObjectData::InitGameObject();
 
     img1 = new Image("hero.bmp");
     hero = new Hero();
