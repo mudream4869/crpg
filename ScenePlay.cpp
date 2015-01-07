@@ -106,6 +106,9 @@ bool ScenePlay::CanDo(int x, int y, int dir)const{
 }
 
 void ScenePlay::InputEvent(Input inp){
+    if(inp.Key == 'q'){
+        exit(0);
+    }
     if(is_main_menu_open){
         if(inp.Key == 27){
             is_main_menu_open = false;
