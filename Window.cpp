@@ -58,6 +58,7 @@ void Window::Clear(){
     window_draw.clear();
     return;
 }
+
 void Window::RenderBase(){
     float xs[] = {left, left + width, left + width, left};
     float xc[] = {0, 1, 1, 0};
@@ -76,6 +77,10 @@ void Window::RenderBase(){
     return;
 }
 
+void Window::Update(){
+    return;
+}
+
 void Window::Render(){
     this->RenderBase();
     for(int lx = 0;lx < this->window_draw.size();lx++){
@@ -87,8 +92,7 @@ void Window::Render(){
             glRasterPos2f((GLfloat)x,(GLfloat)y);
             for(int c = 0; windraw.Str[c] != 0; c++)
                 glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, windraw.Str[c]);
-        }
-        else if(windraw.DrawId == WINDOW_DRAW_BOX){
+        }else if(windraw.DrawId == WINDOW_DRAW_BOX){
             Color4f col = windraw.Color;
             glColor4f(col.r, col.g, col.b, col.a);
             float _left = windraw.Pos.x + this->left, _top = windraw.Pos.y + this->top;
@@ -99,13 +103,16 @@ void Window::Render(){
             float ys[] = {_top, _top, _top + _height, _top + _height};
             float yc[] = {0, 0, 1, 1};
             glBegin(GL_POLYGON);
-            glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
+            //glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
             for(int lx = 3;lx >= 0;lx--){
                 xs[lx] = xs[lx] - 1, ys[lx] = 1 - ys[lx];
                 glVertex3f((GLfloat)(xs[lx]), (GLfloat)(ys[lx]), 0.01*(float)2);
             }
             glColor4f(1, 1, 1, 1);
             glEnd();
+        }else if(windraw.DrawId == WINDOW_DRAW_IMAGE){
+            Image* img = (Image*) windraw.SpecialPointer;
+            img->TestRender(windraw.Pos.x + this->left, windraw.Pos.y + this->top, windraw.Size.x, windraw.Size.y, 5);
         }
     }
     return;

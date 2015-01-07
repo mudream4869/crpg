@@ -8,10 +8,10 @@ public:
     WindowGameObject(float left, float top);
     
     void InputEvent(Input inp);
+    void Update();
 
 private:
 
-    void Update();
     int ptr;
 
 };

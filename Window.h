@@ -23,6 +23,7 @@ public:
     virtual void Render();
     virtual void InputEvent(Input inp);
     virtual void TickEvent(int a); 
+    virtual void Update();
 
 protected:
     float left, top, width, height;

@@ -5,6 +5,7 @@
 #include "GlobalVariable.h"
 #include "Env.h"
 #include "ScenePlay.h"
+#include "GameObject.h"
 
 void Sys::InitSys(){
     return;
@@ -101,6 +102,21 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         scp->ChangeMap(EnvGetMap(map_name), start_x, start_y, dir);
         Py_INCREF(Py_None);
         return Py_None;
+    
+    }else if(strcmp(cmd, "SetGameObject") == 0){
+        fprintf(stderr, "call SetGameObject");
+        GameObjectData::SetGameObjectCount(
+            PyString_AsString(PyTuple_GetItem(para, 1)),
+            PyObject_IsTrue((PyTuple_GetItem(para, 2)))
+        );
+        Py_INCREF(Py_None);
+        return Py_None;
+
+    }else if(strcmp(cmd, "GetGameObject") == 0){
+        int retvalue = GameObjectData::GetGameObjectCount(
+            PyString_AsString(PyTuple_GetItem(para, 1))
+        );
+        return Py_BuildValue("i", retvalue);
 
     }else{
         Py_INCREF(Py_None);

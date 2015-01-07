@@ -9,6 +9,7 @@ class GlobalValue:
     def __getitem__(self, key):
         return self.syscall("GetValue", key)
 
+
 class GlobalFlag:
     def __init__(self, syscall):
         self.syscall = syscall
@@ -19,11 +20,25 @@ class GlobalFlag:
     def __getitem__(self, key):
         return self.syscall("GetFlag", key);
 
+
+class GameObject:
+    def __init__(self, syscall):
+        self.syscall = syscall
+
+    def __setitem__(self, key, item):
+        vitem = int(item)
+        self.syscall("SetGameObject", key, item)
+
+    def __getitem__(self, key):
+        return self.syscall("GetGameObject", key)
+
+
 class Event:
     def __init__(self, syscall):
         self.syscall = syscall
         self.global_value = GlobalValue(syscall)
         self.global_flag = GlobalFlag(syscall)
+        self.gameobject = GameObject(syscall)
  
     def ShowMsg(self, msg):
         self.syscall("ShowMsg", msg)
@@ -45,6 +60,6 @@ class Event:
 
     def ChangeMap(self, map_name, point, direction = -1):
         self.syscall("ChangeMap", map_name, point[0], point[1], direction)
-     
+
     def Action(self):
         return

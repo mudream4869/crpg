@@ -20,7 +20,6 @@ class Event1(Event):
                      ["Right"],
                      ["Right"]))
         self.WaitForMove()
-        self.ShowSaveFile()
-        self.DoMove((["Right"],))
-        self.WaitForMove()
-        self.ChangeMap("map2", (8, 8))
+        self.gameobject["object1"] = 1
+        self.gameobject["object2"] = 2
+        print("ajksdhkash[[" + str(self.gameobject["object1"]) + "]]")

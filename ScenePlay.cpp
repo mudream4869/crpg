@@ -107,7 +107,11 @@ bool ScenePlay::CanDo(int x, int y, int dir)const{
 
 void ScenePlay::InputEvent(Input inp){
     if(is_main_menu_open){
-        this->main_menu->InputEvent(inp);
+        if(inp.Key == 27){
+            is_main_menu_open = false;
+        }else{
+            this->main_menu->InputEvent(inp);
+        }
         return;
     }
     static int dir_x[] = {0, -1, 1, 0};
@@ -118,6 +122,7 @@ void ScenePlay::InputEvent(Input inp){
     if(inp.InputType == INPUT_KEYPRESS){
         if(inp.Key == 27){
             is_main_menu_open = true; 
+            this->obj_menu->Update();
             return;
         }else if(ch_dir_map.count(inp.Key)){
             // Moving on the map
