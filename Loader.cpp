@@ -25,6 +25,7 @@
 #include "Msg.h"
 #include "GlobalVariable.h"
 #include "GameObject.h"
+#include "AudioSystem.h"
 
 Image* img1;
 
@@ -51,6 +52,10 @@ void InitResource(){
     Msg::InitMsg();
     GlobalVariable::InitGlobalVariable();
     GameObjectData::InitGameObject();
+    AudioSystem::InitAudioSystem();
+
+    std::atexit(AudioSystem::ExitAudioSystem);
+    
 
     img1 = new Image("hero.bmp");
     hero = new Hero();
