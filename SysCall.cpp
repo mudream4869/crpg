@@ -6,6 +6,7 @@
 #include "Env.h"
 #include "ScenePlay.h"
 #include "GameObject.h"
+#include "AudioSystem.h"
 
 void Sys::InitSys(){
     return;
@@ -117,6 +118,16 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
             PyString_AsString(PyTuple_GetItem(para, 1))
         );
         return Py_BuildValue("i", retvalue);
+
+    }else if(strcmp(cmd, "PlaySE") == 0){
+        AudioSystem::PlaySE(PyString_AsString(PyTuple_GetItem(para, 1)));
+        Py_INCREF(Py_None);
+        return Py_None;
+
+    }else if(strcmp(cmd, "PlayBGM") == 0){
+        AudioSystem::PlayBGM(PyString_AsString(PyTuple_GetItem(para, 1)));
+        Py_INCREF(Py_None);
+        return Py_None;
 
     }else{
         Py_INCREF(Py_None);

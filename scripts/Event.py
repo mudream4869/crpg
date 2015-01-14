@@ -61,5 +61,11 @@ class Event:
     def ChangeMap(self, map_name, point, direction = -1):
         self.syscall("ChangeMap", map_name, point[0], point[1], direction)
 
+    def PlaySE(self, se_name):
+        self.syscall("PlaySE", se_name)
+
+    def PlayBGM(self, bgm_name):
+        self.syscall("PlayBGM", bgm_name)
+    
     def Action(self):
         return
