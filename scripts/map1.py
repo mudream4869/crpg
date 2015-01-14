@@ -23,4 +23,5 @@ class Event1(Event):
         self.gameobject["object1"] = 1
         self.gameobject["object2"] = 2
         self.PlaySE("Swoosh.wav")
+        self.PlayBGM("Under_Water.wav")
         print("ajksdhkash[[" + str(self.gameobject["object1"]) + "]]")

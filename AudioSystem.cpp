@@ -237,7 +237,9 @@ void AudioSystem::PlayBGM(const char* bgm_name){
     }
     ALsizei size, frequency;
     ALenum format;
-    if(LoadWavFile(bgm_name, &bgm_buffer, &size, &frequency, &format)){
+    char full_bgm_name[40];
+    sprintf(full_bgm_name, "sounds/BGM/%s", bgm_name);
+    if(LoadWavFile(full_bgm_name, &bgm_buffer, &size, &frequency, &format)){
         alSourceStop(bgm_source);
         alSourcei(bgm_source, AL_BUFFER, bgm_buffer);
         alSourcePlay(bgm_source);
