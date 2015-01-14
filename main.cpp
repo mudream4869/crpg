@@ -8,6 +8,7 @@
 
 // KeyBroad Cut
 void KeyBoard(unsigned char key, int x, int y){
+    printf("Press[%d]\n", key);
     Input inp;
     inp.InputType = INPUT_KEYPRESS;
     inp.Key = key;
