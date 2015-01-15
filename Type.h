@@ -48,5 +48,6 @@ Color3i HexToColor3i(const char* str);
 Color3i operator-(const Color3i& a, const Color3i& b);
 double LenOfColor3i(Color3i in);
 
+Vec2i Str2Vec2i(const char* str);
 
 #endif

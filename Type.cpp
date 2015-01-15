@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <cmath>
 #include "Type.h"
 
@@ -26,4 +27,10 @@ Color3i operator-(const Color3i& a, const Color3i& b){
 
 double LenOfColor3i(Color3i in){
    return std::sqrt(in.r*in.r + in.g*in.g + in.b*in.b);
+}
+
+Vec2i Str2Vec2i(const char* str){
+    int x, y;
+    sscanf(str, "(%d,%d)", &x, &y);
+    return {x, y};
 }
