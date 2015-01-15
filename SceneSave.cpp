@@ -7,7 +7,7 @@
 #include "Env.h"
 #include "Config.h"
 
-SceneSave::SceneSave():Scene(2, 2){
+SceneSave::SceneSave(){
     static const int SaveFileCount = 12;
     char* save_name[SaveFileCount];
     for(int lx = 0;lx < SaveFileCount;lx++){

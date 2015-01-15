@@ -3,8 +3,7 @@
 #include "Image.h"
 #include "Env.h"
 
-SceneStart::SceneStart(float _screen_width, float _screen_height):
-    Scene(_screen_width, _screen_height){
+SceneStart::SceneStart(){ 
     select_box = new Window(0.7, 1, 0.6, 0.53);
     select_index = 0;
     //bg = new Image("startbg.bmp");

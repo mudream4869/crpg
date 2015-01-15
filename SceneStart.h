@@ -6,7 +6,7 @@
 
 class SceneStart : public Scene{
 public:
-    SceneStart(float _screen_width, float _screen_height);
+    SceneStart();
     void InputEvent(Input inp);
     void TickEvent(int delta_time);
     void Render();

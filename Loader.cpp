@@ -82,9 +82,9 @@ void InitResource(){
     }
     
     // There map1 is the first map, first position(5, 5)
-    play_scene = new ScenePlay(EnvGetMap("map1"), hero, 5, 5, 2, 2);
+    play_scene = new ScenePlay(EnvGetMap("map1"), hero, 5, 5);
 
-    start_scene = new SceneStart(2, 2);
+    start_scene = new SceneStart();
     save_scene = new SceneSave();
     load_scene = new SceneLoad();
 

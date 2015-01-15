@@ -11,7 +11,7 @@
 
 class ScenePlay: public Scene{
 public:
-    ScenePlay(Map* _map, Hero* hero_use, int init_x, int init_y, float screen_width, float screen_height);
+    ScenePlay(Map* _map, Hero* hero_use, int init_x, int init_y);
     void InputEvent(Input inp);
     
     void ChangeMap(Map* _map, int start_x, int start_y, int dir);

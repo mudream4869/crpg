@@ -8,8 +8,7 @@
 #include "SysCall.h"
 #include "Env.h"
 
-ScenePlay::ScenePlay(Map* _map, Hero* _hero, int init_x, int init_y, float _screen_width, float _screen_height):
-    Scene(_screen_width, _screen_height){
+ScenePlay::ScenePlay(Map* _map, Hero* _hero, int init_x, int init_y){
    
     fprintf(stderr, "Load map: %s\n", _map->GetName());
     this->SetMap(_map);

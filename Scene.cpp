@@ -1,9 +1,10 @@
 #include <map>
 #include "Scene.h"
+#include "Config.h"
 
-Scene::Scene(float _screen_width, float _screen_height){
-    screen_width = _screen_width;
-    screen_height = _screen_height;
+Scene::Scene(){
+    screen_width = Config::WINDOW_WIDTH;
+    screen_height = Config::WINDOW_HEIGHT;
     return;
 }
 

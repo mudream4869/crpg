@@ -7,7 +7,7 @@
 #include "Env.h"
 #include "Config.h"
 
-SceneLoad::SceneLoad():Scene(2, 2){
+SceneLoad::SceneLoad(){
     static const int SaveFileCount = 12;
     char* save_name[SaveFileCount];
     for(int lx = 0;lx < SaveFileCount;lx++){
