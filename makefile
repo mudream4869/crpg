@@ -12,7 +12,7 @@ lodepng.o:
 	g++ LoadPng/lodepng.cpp -c
 
 %.o: %.cpp *.h
-	g++ $< -std=c++11 -c
+	g++ $< $(CFLAGS) -c
 
 clear:
 	rm *.o

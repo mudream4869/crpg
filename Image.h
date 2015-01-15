@@ -17,7 +17,7 @@ public:
     GLuint GetTextureId();
 
     // Rename to Render
-    void TestRender(float x, float y, float draw_width, float draw_height, int level);
+    void Render(float x, float y, float draw_width, float draw_height, int level);
 
 private:
 

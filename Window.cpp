@@ -112,7 +112,7 @@ void Window::Render(){
             glEnd();
         }else if(windraw.DrawId == WINDOW_DRAW_IMAGE){
             Image* img = (Image*) windraw.SpecialPointer;
-            img->TestRender(windraw.Pos.x + this->left, windraw.Pos.y + this->top, windraw.Size.x, windraw.Size.y, 5);
+            img->Render(windraw.Pos.x + this->left, windraw.Pos.y + this->top, windraw.Size.x, windraw.Size.y, 5);
         }
     }
     return;

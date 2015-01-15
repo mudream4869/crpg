@@ -154,12 +154,11 @@ short int Image::GetBits(){
     return bits;
 }
 
-void Image::TestRender(float x, float y, float draw_width, float draw_height, int level){
+void Image::Render(float x, float y, float draw_width, float draw_height, int level){
     float xs[] = {x, x + draw_width, x + draw_width, x};
     float xc[] = {0, 1, 1, 0};
     float ys[] = {y, y, y + draw_height, y + draw_height};
     float yc[] = {0, 0, 1, 1};
-
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture_id);
     glBegin(GL_POLYGON);
