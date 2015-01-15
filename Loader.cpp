@@ -37,7 +37,6 @@ Scene* load_scene;
 
 Tile* hero_tile;
 Hero* hero;
-Window* wintest;
 
 // TODO: make initializer header and cpp
 void InitResource(){
@@ -52,9 +51,10 @@ void InitResource(){
     Msg::InitMsg();
     GlobalVariable::InitGlobalVariable();
     GameObjectData::InitGameObject();
+    
+    std::atexit(AudioSystem::ExitAudioSystem);
     AudioSystem::InitAudioSystem();
 
-    std::atexit(AudioSystem::ExitAudioSystem);
     
 
     img1 = new Image("hero.bmp");
@@ -80,8 +80,10 @@ void InitResource(){
         fprintf(stderr, "add map %s\n", map_name);
         EnvAddMap(map_name, read_map);
     }
-
+    
+    // There map1 is the first map, first position(5, 5)
     play_scene = new ScenePlay(EnvGetMap("map1"), hero, 5, 5, 2, 2);
+
     start_scene = new SceneStart(2, 2);
     save_scene = new SceneSave();
     load_scene = new SceneLoad();
@@ -90,17 +92,14 @@ void InitResource(){
  
     fprintf(stderr, "Scene set up.\n");
 
-    wintest = new WindowMsg(0.1, 0.1, 1.8, 1.8, "kajsdks");
-
     // Load Scenes
     EnvInsert("scene_certain", (void*)(&now_scene));
     EnvInsert("scene_play", (void*)(&play_scene));
     EnvInsert("scene_start", (void*)(&start_scene));
     EnvInsert("scene_save", (void*)(&save_scene));
     EnvInsert("scene_load", (void*)(&load_scene));
-
+    
     // Load Maps
-
     printf("Init ok.\n");
 
     return;
