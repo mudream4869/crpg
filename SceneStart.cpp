@@ -3,10 +3,15 @@
 #include "Image.h"
 #include "Env.h"
 
+#include "AudioSystem.h"
+
+#include "Config.h"
+
 SceneStart::SceneStart(){ 
     select_box = new Window(0.7, 1, 0.6, 0.53);
     select_index = 0;
-    //bg = new Image("startbg.bmp");
+    bg = new Image(Config::SCENESTART_IMG_NAME);
+    AudioSystem::PlayBGM(Config::SCENESTART_BGM_NAME); 
     UpdateSelectBox();
     return;
 }
@@ -52,7 +57,7 @@ void SceneStart::TickEvent(int delta_time){
 }
 
 void SceneStart::Render(){
-    //bg->TestRender(0, 0, screen_width, screen_height, 1);
+    bg->Render(0, 0, screen_width, screen_height, 1);
     select_box->Render();
     return;
 }

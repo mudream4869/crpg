@@ -5,6 +5,8 @@ namespace Config{
     const char PATH_SAVEFILE[] = "saves/";
     const float WINDOW_WIDTH = 2;
     const float WINDOW_HEIGHT = 2;
+    extern char SCENESTART_IMG_NAME[20];
+    extern char SCENESTART_BGM_NAME[20];
 };
 
 const char CONFIG_PATH_SAVEFILE[] = "saves/";
