@@ -6,6 +6,7 @@
 #include "Event.h"
 #include "SysCall.h"
 #include "Env.h"
+#include "Tool.h"
 
 Event::Event(const char* map_name, const char* str){
     char tmp[20];
@@ -65,7 +66,10 @@ Event::Event(const char* map_name, const char* str){
     //fprintf(stderr, "set up solid\n");
     this->tile_use = new Tile;
     this->tile_use->SetSize(32, 48);
-    this->tile_use->SetImage(new Image(img_path)); 
+    char full_img_name[40];
+    sprintf(full_img_name, "textures/%s", GetFileName(img_path));
+    fprintf(stderr, "get [%s]\n", full_img_name);
+    this->tile_use->SetImage(new Image(full_img_name)); 
 
     // Init the trigger condition
     if(strcmp(trigger_condition_str, "on chat") == 0)

@@ -58,7 +58,7 @@ void InitResource(){
     std::atexit(AudioSystem::ExitAudioSystem);
     AudioSystem::InitAudioSystem();
 
-    img1 = new Image("hero.bmp");
+    img1 = new Image("textures/hero.bmp");
     hero = new Hero();
     hero_tile = new Tile();
     hero_tile->SetImage(img1);

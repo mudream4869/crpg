@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include "Tool.h"
 
 int Absi(int a){
@@ -20,3 +21,12 @@ std::vector<std::string> GetTmx(const char* dir_name){
         }
     return ret;
 }*/
+
+char* GetFileName(char* path){
+    int sl = strlen(path) - 1;
+    for(;path[sl] != '/' and sl>0;sl--);
+    if(path[sl] == '/')
+        return path + sl + 1;
+    else
+        return path + sl;
+}

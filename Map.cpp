@@ -8,7 +8,7 @@
 #include <string>
 #include "Map.h"
 #include "Config.h"
-
+#include "Tool.h"
 #include "rapidxml/rapidxml.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
 
@@ -60,8 +60,15 @@ void Map::LoadMap(const char* path){
     if(img_is_trans){
         trans_color = HexToColor3i(tileset_image_node->first_attribute("trans")->value());
     }
+    
+    char img_name[20];
+    strcpy(img_name, tileset_image_node->first_attribute("source")->value());
+    char full_img_name[40];
+    sprintf(full_img_name, "textures/%s", GetFileName(img_name));
+     
+    fprintf(stderr, "[%s]\n", full_img_name);
     Image* img = new Image(
-        tileset_image_node->first_attribute("source")->value(),
+        full_img_name,
         img_is_trans,
         trans_color
     );
