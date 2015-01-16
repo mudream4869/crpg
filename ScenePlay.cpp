@@ -180,7 +180,7 @@ void ScenePlay::Render(){
     if(start_x < -2) start_x = -2;
     if(start_y > 0) start_y = 0;
     if(start_y < -2) start_y = -2;
-    map_use->Render(start_x, start_y, screen_width*2, screen_height*2, 0, 0, 20, 20);
+    map_use->Render(start_x, start_y, screen_width*2, screen_height*2);
     //fprintf(stderr, "map render ok.\n");
     //fprintf(stderr, "hero_x = %d, hero_y = %d\n", hero_x, hero_y);
     hero_use->Render(

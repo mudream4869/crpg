@@ -154,7 +154,7 @@ bool Map::CanDo(int xx, int yy, int dir)const{
     static int dir_x[] = {0, -1, 1, 0};
     static int dir_y[] = {1, 0, 0, -1};
     int nxx = xx + dir_x[dir], nyy = yy + dir_y[dir];
-    for(int lc = 0;lc < 4;lc++){
+    for(int lc = 0;lc < map_load.size();lc++){
         int terrain_now = 0;
         int x = map_load[lc][xx][yy].x , y = map_load[lc][xx][yy].y;
         int nx = map_load[lc][nxx][nyy].x, ny = map_load[lc][nxx][nyy].y;
@@ -194,12 +194,12 @@ void Map::RenderATile(float left, float top, float width, float height, int x, i
     return; 
 }
 
-void Map::Render(float left, float top, float width, float height, int x, int y, int x_count, int y_count){
+void Map::Render(float left, float top, float width, float height){
     float delta_x = CONFIG_DELTA_X;
     float delta_y = CONFIG_DELTA_Y;
     for(int l = 0;l < this->level_count;l++){
-        for(int lx = x;lx < x+x_count;lx++){
-            for(int ly = x;ly < y+y_count;ly++){
+        for(int lx = 0;lx < map_width;lx++){
+            for(int ly = 0;ly < map_height;ly++){
                 if(map_load[l][lx][ly].x == -1) continue;
                 tile_use->Render(
                     left + (float)lx*delta_x,

@@ -14,7 +14,7 @@ public:
     void SetName(const char* name);
     char* GetName();
     void LoadMap(const char* path);
-    void Render(float left, float top, float width, float height, int x, int y, int x_count, int y_count);
+    void Render(float left, float top, float width, float height);
     bool CanDo(int x, int y, int dir) const ;
     int GetPriority(int x, int y, int l) const ; 
     int GetLevelCount()const;
