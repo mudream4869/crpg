@@ -60,16 +60,16 @@ Event::Event(const char* map_name, const char* str){
     ) == 0;
      
     strcpy(this->event_name, PyString_AsString(PyDict_GetItemString(p_config, "event_name")));
-    //TODO: make env ok
+    
     EnvGetEventPool()->operator[](event_name) = this;
 
     //fprintf(stderr, "set up solid\n");
     this->tile_use = new Tile;
-    this->tile_use->SetSize(32, 48);
     char full_img_name[40];
     sprintf(full_img_name, "textures/%s", GetFileName(img_path));
-    fprintf(stderr, "get [%s]\n", full_img_name);
-    this->tile_use->SetImage(new Image(full_img_name)); 
+    Image* tile_img = new Image(full_img_name);
+    this->tile_use->SetImage(tile_img); 
+    this->tile_use->SetSize(tile_img->GetWidth()/4, tile_img->GetHeight()/4);
 
     // Init the trigger condition
     if(strcmp(trigger_condition_str, "on chat") == 0)
