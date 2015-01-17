@@ -8,7 +8,8 @@ class Event1(Event):
             "image" : "hero.bmp",
             "trigger_condition" : "on chat",
             "solid" : "true", # TODO: change this to boolean
-            "fixed_direction" : "false"
+            "fixed_direction" : "false",
+            "priority" : "1"
         }
 
     def Action(self):

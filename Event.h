@@ -20,12 +20,18 @@ public:
     
     void Action(HeroStatus hero_status, bool is_enter);
     void TickEvent(int delta_time);
+    
     void Render(float left, float top);
+    int GetPriority();
+
     bool IsSolid()const;
+    
     Vec2i Position()const;
     void SetMovement(std::queue<int> _move_queue);
     bool Moving()const;
+    
     int trigger_condition;
+    
     // TODO: check if it is ok
     std::atomic<bool> running;
     
@@ -40,7 +46,9 @@ private:
     HeroStatus event_status;
     Vec2i walk_pos[4][4]; 
     char event_name[20];
-    
+   
+    int priority;
+     
     std::queue<int> move_queue;
 
     PyObject* p_class;

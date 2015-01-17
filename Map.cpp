@@ -142,6 +142,7 @@ void Map::LoadMap(const char* path){
             strcpy(new_event_data.name ,event_node->first_attribute("name")->value());
             new_event_data.x = std::atoi(event_node->first_attribute("x")->value())/img_pw;
             new_event_data.y = std::atoi(event_node->first_attribute("y")->value())/img_ph;
+            printf("Get Event x, y = %d, %d\n", new_event_data.x, new_event_data.y);
             event_datas.push_back(new_event_data);
         }
     }
@@ -163,8 +164,9 @@ bool Map::CanDo(int xx, int yy, int dir)const{
         int terrain_next = 0;
         if(terrain.count(std::pair<int,int>(nx, ny)))
             terrain_next = terrain.at(std::pair<int,int>(nx ,ny));
-        if(terrain_next || terrain_now)
+        if(terrain_next || terrain_now){
             return false;
+        }
     }
     return true;
 }
@@ -201,6 +203,28 @@ void Map::Render(float left, float top, float width, float height){
         for(int lx = 0;lx < map_width;lx++){
             for(int ly = 0;ly < map_height;ly++){
                 if(map_load[l][lx][ly].x == -1) continue;
+                tile_use->Render(
+                    left + (float)lx*delta_x,
+                    top + (float)ly*delta_y,
+                    delta_x, delta_y, // TODO: change
+                    map_load[l][lx][ly].x,
+                    map_load[l][lx][ly].y,
+                    l + 1
+                );  
+            }
+        }
+    }
+    return;
+}
+
+void Map::RenderAtPriority(float left, float top, float width, float height, int priority){
+    float delta_x = CONFIG_DELTA_X;
+    float delta_y = CONFIG_DELTA_Y;
+    for(int l = 0;l < this->level_count;l++){
+        for(int lx = 0;lx < map_width;lx++){
+            for(int ly = 0;ly < map_height;ly++){
+                if(map_load[l][lx][ly].x == -1) continue;
+                if(GetPriority(lx, ly, l) != priority) continue;
                 tile_use->Render(
                     left + (float)lx*delta_x,
                     top + (float)ly*delta_y,

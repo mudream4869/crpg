@@ -57,6 +57,7 @@ void InitResource(){
     GlobalVariable::InitGlobalVariable();
     GameObjectData::InitGameObject();
     
+     
     std::atexit(AudioSystem::ExitAudioSystem);
     AudioSystem::InitAudioSystem();
 

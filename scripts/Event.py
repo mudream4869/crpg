@@ -39,7 +39,7 @@ class Event:
         self.global_value = GlobalValue(syscall)
         self.global_flag = GlobalFlag(syscall)
         self.gameobject = GameObject(syscall)
- 
+
     def ShowMsg(self, msg):
         self.syscall("ShowMsg", msg)
     

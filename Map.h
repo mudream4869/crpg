@@ -14,11 +14,15 @@ public:
     void SetName(const char* name);
     char* GetName();
     void LoadMap(const char* path);
-    void Render(float left, float top, float width, float height);
+
     bool CanDo(int x, int y, int dir) const ;
     int GetPriority(int x, int y, int l) const ; 
     int GetLevelCount()const;
+    
     void RenderATile(float left, float top, float width, float height, int x, int y, int l);
+    void Render(float left, float top, float width, float height);
+    void RenderAtPriority(float left, float top, float width, float height, int priority);
+
     std::vector<EventData> GetEventDatas();
 
 private:

@@ -95,6 +95,7 @@ char* ScenePlay::GetMapName(){
 bool ScenePlay::CanDo(int x, int y, int dir)const{
     static int dir_x[] = {0, -1, 1, 0};
     static int dir_y[] = {1, 0, 0, -1};
+    printf("Vis ScenePlay : x, y = %d, %d\n", x, y);
     for(int lx = 0;lx < events.size();lx++){
         if(events[lx]->IsSolid() == false) continue;
         Vec2i pos = events[lx]->Position();
@@ -169,50 +170,43 @@ void ScenePlay::TickEvent(int delta_time){
 void ScenePlay::Render(){
     static int dir_x[] = {0, -1, 1, 0};
     static int dir_y[] = {1, 0, 0, -1};
-    // TODO: change 10*10
+    
     float hero_real_x = ((float)(hero_status.x) + 
                 dir_x[hero_status.moving_dir]*hero_status.moving_step/(float)16)*screen_width/10,
           hero_real_y = ((float)(hero_status.y) +
                 dir_y[hero_status.moving_dir]*hero_status.moving_step/(float)16)*screen_height/10;
+    
     float start_x = 1 - hero_real_x;
     float start_y = 1 - hero_real_y;
+    
     if(start_x > 0) start_x = 0;
     if(start_x < -2) start_x = -2;
     if(start_y > 0) start_y = 0;
     if(start_y < -2) start_y = -2;
+    
+    // Priority = 0
     map_use->Render(start_x, start_y, screen_width*2, screen_height*2);
-    //fprintf(stderr, "map render ok.\n");
-    //fprintf(stderr, "hero_x = %d, hero_y = %d\n", hero_x, hero_y);
+    
+    // Priority = 1
+    for(int lx = 0;lx < events.size();lx++)
+        if(events[lx]->GetPriority() == 1)
+            events[lx]->Render(start_x, start_y);
     hero_use->Render(
         hero_real_x + start_x,
         hero_real_y-0.2 + start_y,
         hero_status.moving_dir,
         (hero_status.moving_step/2)%4
     );
-    
-    for(int lx = 0;lx < events.size();lx++){
-        events[lx]->Render(start_x, start_y);
-    }
-    int dir9_x[] = {-1, -1, -1, 0, 0, 0, 1, 1, 1};
-    int dir9_y[] = {-1, 1, 0, 1, -1, 0, -1, 1, 0};
-    for(int lx = 0;lx < 9;lx++){
-        int xx = hero_status.x + dir9_x[lx];
-        int yy = hero_status.y + dir9_y[lx];
-        // TODO:4 = level_count
-        for(int ll = 0;ll < map_use->GetLevelCount();ll++){
-            if(map_use->GetPriority(xx, yy, ll)){
-                map_use->RenderATile(
-                    start_x,
-                    start_y,
-                    screen_width*2, screen_height*2,
-                    xx,
-                    yy,
-                    ll
-                );
-            }
-        }
-    }
+    map_use->RenderAtPriority(start_x, start_y, screen_width*2, screen_height*2, 1);
 
+    // Prioroty > 1
+    for(int priority = 2; priority <= 5;priority++){
+        map_use->RenderAtPriority(start_x, start_y, screen_width*2, screen_height*2, priority);
+        for(int lx = 0;lx < events.size();lx++)
+            if(events[lx]->GetPriority() == priority)
+                events[lx]->Render(start_x, start_y);
+    }
+   
     if(is_win_menu_open)
         win_menu->Render();
     

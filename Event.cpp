@@ -60,7 +60,8 @@ Event::Event(const char* map_name, const char* str){
     ) == 0;
      
     strcpy(this->event_name, PyString_AsString(PyDict_GetItemString(p_config, "event_name")));
-    
+    this->priority = atoi(PyString_AsString(PyDict_GetItemString(p_config, "priority")));
+
     EnvGetEventPool()->operator[](event_name) = this;
 
     //fprintf(stderr, "set up solid\n");
@@ -160,6 +161,9 @@ Vec2i Event::Position()const{
     return {event_status.x, event_status.y};
 }
 
+int Event::GetPriority(){
+    return this->priority;
+}
 void Event::SetMovement(std::queue<int> _move_queue){
     this->move_queue = _move_queue;
     CheckMovement();
@@ -202,9 +206,12 @@ void Event::Render(float left, float top){
     // TODO: make 2 environment
     static int dir_x[] = {0, -1, 1, 0};
     static int dir_y[] = {1, 0, 0, -1};
+    
+    float paint_x = ((float)event_status.x + event_status.moving_step*dir_x[event_status.moving_dir]/16.0)/10.0*2 + left;
+    float paint_y = ((float)event_status.y + event_status.moving_step*dir_y[event_status.moving_dir]/16.0)/10.0*2 + top;
+    //if()
     this->tile_use->Render(
-        ((float)event_status.x + event_status.moving_step*dir_x[event_status.moving_dir]/16.0)/10.0*2 + left,
-        ((float)event_status.y + event_status.moving_step*dir_y[event_status.moving_dir]/16.0)/10.0*2 + top - 0.2,
+        paint_x, paint_y,
         0.2, 0.3, 
         this->walk_pos[event_status.moving_dir][(event_status.moving_step/2)%4].x,
         this->walk_pos[event_status.moving_dir][(event_status.moving_step/2)%4].y,
