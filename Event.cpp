@@ -118,14 +118,20 @@ void Event::Action(HeroStatus hero_status, bool is_enter){
     // TODO: torun recycle 
     static int dir_x[] = {0, -1, 1, 0};
     static int dir_y[] = {1, 0, 0, -1};
-    
     if(this->running) return;
     bool fit_cond = false;
     if(this->trigger_condition == TRIGGER_CONDITION_ON_CHAT){
-        fit_cond = is_enter and 
+        if(this->is_solid == false)
+            fit_cond = is_enter and 
+                    hero_status.moving_step == 0 and
+                    event_status.x == hero_status.x and
+                    event_status.y == hero_status.y;
+        else
+            fit_cond = is_enter and 
                     hero_status.moving_step == 0 and
                     event_status.x == hero_status.x + dir_x[hero_status.moving_dir] and
                     event_status.y == hero_status.y + dir_y[hero_status.moving_dir];
+
         if(fit_cond and this->fixed_direction == false){
             event_status.moving_dir = 3 - hero_status.moving_dir; 
         }
