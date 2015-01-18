@@ -65,13 +65,16 @@ Event::Event(const char* map_name, const char* str){
     EnvGetEventPool()->operator[](event_name) = this;
 
     //fprintf(stderr, "set up solid\n");
-    this->tile_use = new Tile;
-    char full_img_name[40];
-    sprintf(full_img_name, "textures/%s", GetFileName(img_path));
-    Image* tile_img = new Image(full_img_name);
-    this->tile_use->SetImage(tile_img); 
-    this->tile_use->SetSize(tile_img->GetWidth()/4, tile_img->GetHeight()/4);
-
+    if(img_path[0] != 0){
+        this->tile_use = new Tile;
+        char full_img_name[40];
+        sprintf(full_img_name, "textures/%s", GetFileName(img_path));
+        Image* tile_img = new Image(full_img_name);
+        this->tile_use->SetImage(tile_img); 
+        this->tile_use->SetSize(tile_img->GetWidth()/4, tile_img->GetHeight()/4);
+    }else{
+        this->tile_use = nullptr;
+    }
     // Init the trigger condition
     if(strcmp(trigger_condition_str, "on chat") == 0)
         this->trigger_condition = TRIGGER_CONDITION_ON_CHAT;
@@ -81,8 +84,10 @@ Event::Event(const char* map_name, const char* str){
         this->trigger_condition = TRIGGER_CONDITION_AUTO;
     else if(strcmp(trigger_condition_str, "sync") == 0)
         this->trigger_condition = TRIGGER_CONDITION_SYNC;
-    else
+    else{
+        fprintf(stderr, "Event: trigger condition not fit\n");
         this->trigger_condition = TRIGGER_CONDITION_NULL;
+    }
 
     this->running = false;
     
@@ -193,8 +198,8 @@ bool Event::Moving()const{
 }
 
 void Event::TickEvent(int delta_time){
-    static int dir_x[] = {0, -1, 1, 0};
-    static int dir_y[] = {1, 0, 0, -1};
+    int dir_x[] = {0, -1, 1, 0};
+    int dir_y[] = {1, 0, 0, -1};
     if(event_status.status == 1){
         event_status.moving_step = std::min(event_status.moving_step + delta_time, 16);
         if(event_status.moving_step == 16){ // TODO: make this constant
@@ -210,18 +215,22 @@ void Event::TickEvent(int delta_time){
 
 void Event::Render(float left, float top){
     // TODO: make 2 environment
-    static int dir_x[] = {0, -1, 1, 0};
-    static int dir_y[] = {1, 0, 0, -1};
+    int dir_x[] = {0, -1, 1, 0};
+    int dir_y[] = {1, 0, 0, -1};
     
-    float paint_x = ((float)event_status.x + event_status.moving_step*dir_x[event_status.moving_dir]/16.0)/10.0*2 + left;
-    float paint_y = ((float)event_status.y + event_status.moving_step*dir_y[event_status.moving_dir]/16.0)/10.0*2 + top;
-    //if()
-    this->tile_use->Render(
-        paint_x, paint_y,
-        0.2, 0.3, 
-        this->walk_pos[event_status.moving_dir][(event_status.moving_step/2)%4].x,
-        this->walk_pos[event_status.moving_dir][(event_status.moving_step/2)%4].y,
-    2);
+    if(tile_use != nullptr){
+        float paint_x = ((float)event_status.x + event_status.moving_step*dir_x[event_status.moving_dir]/16.0)/10.0*2 + left;
+        float paint_y = ((float)event_status.y + event_status.moving_step*dir_y[event_status.moving_dir]/16.0)/10.0*2 + top;
+        Vec2i sz = tile_use->GetSize();
+        paint_y = paint_y - sz.y/(float)32*0.2 + 0.1;
+        this->tile_use->Render(
+            paint_x, paint_y,
+            sz.x/(float)32*0.2,
+            sz.y/(float)32*0.2, 
+            this->walk_pos[event_status.moving_dir][(event_status.moving_step/2)%4].x,
+            this->walk_pos[event_status.moving_dir][(event_status.moving_step/2)%4].y,
+        2);
+    }
     return;
 }
 

@@ -17,6 +17,10 @@ void Tile::SetSize(int w, int h){
     return;
 }
 
+Vec2i Tile::GetSize(){
+    return {this->piece_width, this->piece_height};
+}
+
 void Tile::SetImage(Image* img){
     this->image_use = img;
     return;
