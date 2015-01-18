@@ -66,6 +66,6 @@ class Event:
 
     def PlayBGM(self, bgm_name):
         self.syscall("PlayBGM", bgm_name)
-    
+ 
     def Action(self):
         return

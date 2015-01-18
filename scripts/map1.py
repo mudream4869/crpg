@@ -9,7 +9,9 @@ class Event1(Event):
             "trigger_condition" : "on chat",
             "solid" : "true", # TODO: change this to boolean
             "fixed_direction" : "false",
-            "priority" : "1"
+            "priority" : "1",
+            "display_cond" : [
+            ]
         }
 
     def Action(self):

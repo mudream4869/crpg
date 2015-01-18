@@ -8,6 +8,8 @@
 #include "Env.h"
 #include "Tool.h"
 
+#include "GlobalVariable.h"
+
 Event::Event(const char* map_name, const char* str){
     char tmp[20];
     
@@ -61,6 +63,24 @@ Event::Event(const char* map_name, const char* str){
      
     strcpy(this->event_name, PyString_AsString(PyDict_GetItemString(p_config, "event_name")));
     this->priority = atoi(PyString_AsString(PyDict_GetItemString(p_config, "priority")));
+    
+    // display condititon 
+    PyObject* p_cond_show = PyDict_GetItemString(p_config, "display_cond");
+    int cond_show_sz = PyList_Size(p_cond_show);
+    for(int lx = 0;lx < cond_show_sz;lx++){
+        PyObject* get_cond = PyList_GetItem(p_cond_show, lx);
+        char* str_type = PyString_AsString(PyList_GetItem(get_cond, 0));
+        char* var_name = PyString_AsString(PyList_GetItem(get_cond, 1));
+        cond new_cond;
+        strcpy(new_cond.var_name, var_name);
+        if(strcmp("flag", str_type) == 0){
+            new_cond.type = COND_TYPE_FLAG;
+        }else if(strcmp("value", str_type) == 0){
+            new_cond.type = COND_TYPE_VALUE;
+            new_cond.limit_value = (int)PyLong_AsLong(PyList_GetItem(get_cond, 2));
+        }
+        display_cond.push_back(new_cond);
+    }
 
     EnvGetEventPool()->operator[](event_name) = this;
 
@@ -118,12 +138,27 @@ Event::~Event(){
     return;
 }
 
+bool Event::Condition(){
+    for(int lx = 0;lx < display_cond.size();lx++){
+        cond prc_cond = display_cond[lx];
+        if(prc_cond.type == COND_TYPE_FLAG){
+            if(GlobalVariable::GetFlag(prc_cond.var_name) == false)
+                return false;
+        }else if(prc_cond.type == COND_TYPE_VALUE){
+            if(GlobalVariable::GetValue(prc_cond.var_name) < prc_cond.limit_value)
+                return false;
+        }
+    }
+    return true;
+}
+
 void Event::Action(HeroStatus hero_status, bool is_enter){
     // TODO: check the incref real implement
-    // TODO: torun recycle 
-    static int dir_x[] = {0, -1, 1, 0};
-    static int dir_y[] = {1, 0, 0, -1};
+    // TODO: torun recycle
     if(this->running) return;
+    if(this->Condition() == false) return;
+    int dir_x[] = {0, -1, 1, 0};
+    int dir_y[] = {1, 0, 0, -1};
     bool fit_cond = false;
     if(this->trigger_condition == TRIGGER_CONDITION_ON_CHAT){
         if(this->is_solid == false)
@@ -175,6 +210,7 @@ Vec2i Event::Position()const{
 int Event::GetPriority(){
     return this->priority;
 }
+
 void Event::SetMovement(std::queue<int> _move_queue){
     this->move_queue = _move_queue;
     CheckMovement();
@@ -215,8 +251,10 @@ void Event::TickEvent(int delta_time){
 
 void Event::Render(float left, float top){
     // TODO: make 2 environment
+    //if(this->Condition() == false) return;
     int dir_x[] = {0, -1, 1, 0};
     int dir_y[] = {1, 0, 0, -1};
+    if(this->Condition() == false) return;
     
     if(tile_use != nullptr){
         float paint_x = ((float)event_status.x + event_status.moving_step*dir_x[event_status.moving_dir]/16.0)/10.0*2 + left;
