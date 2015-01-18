@@ -1717,5 +1717,6 @@
  </layer>
  <objectgroup name="Event">
   <object name="Event1" type="Event" x="269" y="176"/>
+  <object name="EventTestAuto" type="Event" x="305" y="240"/>
  </objectgroup>
 </map>

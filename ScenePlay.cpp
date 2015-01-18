@@ -162,8 +162,11 @@ void ScenePlay::TickEvent(int delta_time){
             hero_status.moving_step = 0;
         }
     }
-    for(int lx = 0;lx < events.size();lx++)
+    for(int lx = 0;lx < events.size();lx++){
         events[lx]->TickEvent(delta_time);
+        // TODO: weird part: how to control auto event
+        events[lx]->Action({-1, -1}, 0);
+    }
     return;
 }
 

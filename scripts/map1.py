@@ -23,8 +23,26 @@ class Event1(Event):
                      ["Right"],
                      ["Right"]))
         self.WaitForMove()
-        self.gameobject["object1"] = 1
         self.gameobject["object2"] = 2
         self.PlaySE("Swoosh.wav")
         self.PlayBGM("Under_Water.wav")
-        print("ajksdhkash[[" + str(self.gameobject["object1"]) + "]]")
+
+class EventTestAuto(Event):
+    def __init__(self, func):
+        Event.__init__(self, func)
+        self.config = {
+            "event_name" : "event2",
+            "image" : "",
+            "trigger_condition" : "auto",
+            "solid" : "false",
+            "fixed_direction" : "false",
+            "priority" : "1",
+            "display_cond" : [
+                ["flag", "Test2"]
+            ]
+        }
+
+    def Action(self):
+        print("askdhkasjdkasjdhkajsd")
+        self.gameobject["object1"] = 3
+        self.global_flag["Test2"] = False
