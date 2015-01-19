@@ -19,8 +19,8 @@ void Sys::InitSys(){
 PyObject* Sys::SysCall(PyObject* self, PyObject* para){
     // TODO: garbage recycle
     fprintf(stderr, "SysCall========\n");
-    PyObject_Print(self, stderr, 0);
-    PyObject_Print(para, stderr, 0);
+    //PyObject_Print(self, stderr, 0);
+    //PyObject_Print(para, stderr, 0);
     PyObject* ret_value;
     //printf("SysCall\n");
     char cmd[20];
@@ -149,6 +149,7 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
     }else{
         Py_INCREF(Py_None);
         ret_value = Py_None;
+    
     }
 
     return ret_value;

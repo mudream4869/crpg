@@ -33,8 +33,9 @@ Event::Event(const char* map_name, const char* str){
 
     PyObject* pcb = PyCFunction_New(callback, NULL);
     PyObject* pArg = Py_BuildValue("(O)", pcb);
-
     this->p_inst = PyObject_CallObject(this->p_class, pArg);
+    Py_XDECREF(pArg);
+    
     //TODO: kill pArg;
     this->p_func = PyObject_GetAttrString(this->p_inst, "Action");
     PyObject_Print(this->p_func, stderr, 0);
@@ -53,17 +54,11 @@ Event::Event(const char* map_name, const char* str){
     strcpy(trigger_condition_str, PyString_AsString(p_trig_cond_str));
 
     //fprintf(stderr, "Ready to load solid setting\n");
-    this->is_solid = strcmp(
-        "true",
-        PyString_AsString(PyDict_GetItemString(p_config, "solid"))
-    ) == 0;
-    this->fixed_direction = strcmp(
-        "true", 
-        PyString_AsString(PyDict_GetItemString(p_config, "fixed_direction"))
-    ) == 0;
+    this->is_solid = Py_True == PyDict_GetItemString(p_config, "solid");
+    this->fixed_direction = Py_True == PyDict_GetItemString(p_config, "fixed_direction");
      
     strcpy(this->event_name, PyString_AsString(PyDict_GetItemString(p_config, "event_name")));
-    this->priority = atoi(PyString_AsString(PyDict_GetItemString(p_config, "priority")));
+    this->priority = (int)PyLong_AsLong(PyDict_GetItemString(p_config, "priority"));
     
     // display condititon 
     PyObject* p_cond_show = PyDict_GetItemString(p_config, "display_cond");
@@ -192,21 +187,18 @@ void Event::Action(HeroStatus hero_status, bool is_enter){
         this->running.unlock();
         return;
     }
+
     std::thread* torun = new std::thread(
         [this]{
-            printf("....a\n");
             PyLock();
             auto state = Py_NewInterpreter(); 
             PyEval_RestoreThread(state);
             PyObject* pArg = Py_BuildValue("()");
-            printf("....b\n");
             PyObject* ret = PyObject_CallObject(this->p_func, pArg);
-            printf("....c\n");
             Py_XDECREF(pArg);
             Py_XDECREF(ret);
             //PyEval_SaveThread();
             //Py_EndInterpreter(state);
-            printf("....d\n");
             PyUnlock();
             this->running.unlock();
         }
@@ -215,7 +207,6 @@ void Event::Action(HeroStatus hero_status, bool is_enter){
     fprintf(stderr, "Event Action\n");
     return;
 }
-
 
 bool Event::IsSolid()const{
     return this->is_solid;

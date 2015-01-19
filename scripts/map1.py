@@ -7,9 +7,9 @@ class Event1(Event):
             "event_name" : "event1",
             "image" : "hero.bmp",
             "trigger_condition" : "on chat",
-            "solid" : "true", # TODO: change this to boolean
-            "fixed_direction" : "false",
-            "priority" : "1",
+            "solid" : True,
+            "fixed_direction" : False,
+            "priority" : 1,
             "display_cond" : [
             ]
         }
@@ -21,7 +21,8 @@ class Event1(Event):
         self.ShowMsg("Hello~" + str(self.global_value["Test1"]))
         self.DoMove((["Right"],
                      ["Right"],
-                     ["Right"]))
+                     ["Right"],
+                     ["Down"]))
         self.WaitForMove()
         self.gameobject["object2"] = 2
         self.PlaySE("Swoosh.wav")
@@ -34,16 +35,15 @@ class EventTestAuto(Event):
             "event_name" : "event2",
             "image" : "",
             "trigger_condition" : "auto",
-            "solid" : "false",
-            "fixed_direction" : "false",
-            "priority" : "1",
+            "solid" : False,
+            "fixed_direction" : False,
+            "priority" : 1,
             "display_cond" : [
-                ["flag", "Test2"]
+                ["flag", "Test2"],
+                ["value", "Test1", 3]
             ]
         }
 
     def Action(self):
-        print("[[askdhkasjdkasjdhkajsd")
         self.gameobject["object1"] = 3
-        print("]]askdhkasjdkasjdhkajsd")
-        #self.global_flag["Test2"] = False
+        self.global_flag["Test2"] = False
