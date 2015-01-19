@@ -4,6 +4,10 @@ bool Msg::in_msg;
 bool Msg::can_end;
 WindowMsg* Msg::msg;
 
+std::condition_variable* Msg::GetMsgSignal(){
+    return msg->GetSignal();
+}
+
 void Msg::InitMsg(){
     in_msg = false;
     can_end = false;

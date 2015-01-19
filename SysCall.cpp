@@ -8,6 +8,10 @@
 #include "GameObject.h"
 #include "AudioSystem.h"
 
+#include "PyLock.h"
+
+std::mutex Sys::syscall_mutex;
+
 void Sys::InitSys(){
     return;
 }
@@ -17,6 +21,7 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
     fprintf(stderr, "SysCall========\n");
     PyObject_Print(self, stderr, 0);
     PyObject_Print(para, stderr, 0);
+    PyObject* ret_value;
     //printf("SysCall\n");
     char cmd[20];
     strcpy(cmd, PyString_AsString(PyTuple_GetItem(para, 0)));
@@ -24,9 +29,15 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
     if(strcmp(cmd, "ShowMsg") == 0){
         fprintf(stderr, "Call ShowMsg\n");
         Msg::StartMsg(PyString_AsString(PyTuple_GetItem(para, 1)));
-        while(Msg::IsMsgShow());
+        
+        auto state = PyEval_SaveThread();
+        PyUnlock();
+        while(Msg::IsMsgShow() == false); // TODO: change to cv
+        PyLock();
+        PyEval_RestoreThread(state);
+        
         Py_INCREF(Py_None);
-        return Py_None;
+        ret_value = Py_None;
 
     }else if(strcmp(cmd, "SetValue") == 0){
         fprintf(stderr, "Call SetValue\n");
@@ -35,14 +46,14 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
             (int)PyInt_AsLong(PyTuple_GetItem(para, 2))
         );
         Py_INCREF(Py_None);
-        return Py_None;
+        ret_value = Py_None;
 
     }else if(strcmp(cmd, "GetValue") == 0){
         fprintf(stderr, "Call GetValue\n");
         int retvalue = GlobalVariable::GetValue(
             PyString_AsString(PyTuple_GetItem(para, 1))
         );
-        return Py_BuildValue("i", retvalue);
+        ret_value = Py_BuildValue("i", retvalue);
 
     }else if(strcmp(cmd, "SetFlag") == 0){
         fprintf(stderr, "Call SetFlag\n");
@@ -51,14 +62,14 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
             PyObject_IsTrue((PyTuple_GetItem(para, 2)))
         );
         Py_INCREF(Py_None);
-        return Py_None;
+        ret_value = Py_None;
 
     }else if(strcmp(cmd, "GetFlag") == 0){
         fprintf(stderr, "Call GetFLag\n");
         int retvalue = GlobalVariable::GetFlag(
             PyString_AsString(PyTuple_GetItem(para, 1))
         );
-        return Py_BuildValue("i", retvalue);
+        ret_value = Py_BuildValue("i", retvalue);
 
     }else if(strcmp(cmd, "DoMove") == 0){
         char active_event_name[20];
@@ -70,21 +81,27 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         }
         EnvGetEventPool()->operator[](active_event_name)->SetMovement(arg);
         Py_INCREF(Py_None);
-        return Py_None;
+        ret_value = Py_None;
 
     }else if(strcmp(cmd, "ShowSaveFile") == 0){
         EnvSetCertainScene("scene_save");
         // Wait for saving
         Py_INCREF(Py_None);
-        return Py_None;
+        ret_value = Py_None;
 
     }else if(strcmp(cmd, "WaitForMove") == 0){
         char active_event_name[20];
         strcpy(active_event_name, PyString_AsString(PyTuple_GetItem(para, 1)));
         Event* check_event = EnvGetEventPool()->operator[](active_event_name);
+        
+        auto state = PyEval_SaveThread();
+        PyUnlock();
         while(check_event->Moving()); // TODO: use condition var
+        PyLock();
+        PyEval_RestoreThread(state);
+        
         Py_INCREF(Py_None);
-        return Py_None;
+        ret_value = Py_None;
 
     }else if(strcmp(cmd, "ChangeMap") == 0){
         char map_name[20];
@@ -102,7 +119,7 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         }
         scp->ChangeMap(EnvGetMap(map_name), start_x, start_y, dir);
         Py_INCREF(Py_None);
-        return Py_None;
+        ret_value = Py_None;
     
     }else if(strcmp(cmd, "SetGameObject") == 0){
         fprintf(stderr, "call SetGameObject");
@@ -111,26 +128,28 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
             PyObject_IsTrue((PyTuple_GetItem(para, 2)))
         );
         Py_INCREF(Py_None);
-        return Py_None;
+        ret_value = Py_None;
 
     }else if(strcmp(cmd, "GetGameObject") == 0){
         int retvalue = GameObjectData::GetGameObjectCount(
             PyString_AsString(PyTuple_GetItem(para, 1))
         );
-        return Py_BuildValue("i", retvalue);
+        ret_value = Py_BuildValue("i", retvalue);
 
     }else if(strcmp(cmd, "PlaySE") == 0){
         AudioSystem::PlaySE(PyString_AsString(PyTuple_GetItem(para, 1)));
         Py_INCREF(Py_None);
-        return Py_None;
+        ret_value = Py_None;
 
     }else if(strcmp(cmd, "PlayBGM") == 0){
         AudioSystem::PlayBGM(PyString_AsString(PyTuple_GetItem(para, 1)));
         Py_INCREF(Py_None);
-        return Py_None;
+        ret_value = Py_None;
 
     }else{
         Py_INCREF(Py_None);
-        return Py_None;
+        ret_value = Py_None;
     }
+
+    return ret_value;
 }

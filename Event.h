@@ -2,7 +2,7 @@
 #define EVENT_DEF
 
 #include <Python/Python.h>
-#include <atomic>
+#include <mutex>
 #include <queue>
 #include "Tile.h"
 #include "Type.h"
@@ -38,12 +38,12 @@ public:
     
     int trigger_condition;
     
-    // TODO: check if it is ok
-    std::atomic<bool> running;
+    std::mutex running;
     
     HeroStatus GetStatus();
     void SetStatus(HeroStatus status); 
     void SetPosition(int x, int y);
+    PyObject* p_func;
 
 private:
     void CheckMovement();
@@ -63,9 +63,10 @@ private:
         int limit_value;
     };
     std::vector<cond> display_cond;
+    
+    PyThreadState* save_state;
 
     PyObject* p_class;
-    PyObject* p_func;
     PyObject* p_inst;
     PyObject* p_obj;
     Tile* tile_use;

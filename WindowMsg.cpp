@@ -11,6 +11,8 @@ WindowMsg::WindowMsg(float _left, float _top, float _width, float _height, const
 }
 
 WindowMsg::~WindowMsg(){
+    cv.notify_all();
+    fprintf(stderr, "notify all!\n");
     delete[] msg;
     return;
 }
@@ -30,4 +32,8 @@ void WindowMsg::TickEvent(int a){
 
 bool WindowMsg::IsOk()const{
     return msg[ptr] == 0;
+}
+// Blocking syscall
+std::condition_variable* WindowMsg::GetSignal(){
+    return &(this->cv);
 }

@@ -7,6 +7,7 @@
 #include "SysCall.h"
 #include "Env.h"
 #include "Tool.h"
+#include "PyLock.h"
 
 #include "GlobalVariable.h"
 
@@ -108,8 +109,6 @@ Event::Event(const char* map_name, const char* str){
         fprintf(stderr, "Event: trigger condition not fit\n");
         this->trigger_condition = TRIGGER_CONDITION_NULL;
     }
-
-    this->running = false;
     
     //TODO: basic event setting
     //fprintf(stderr, "Basic setting....\n");
@@ -155,8 +154,12 @@ bool Event::Condition(){
 void Event::Action(HeroStatus hero_status, bool is_enter){
     // TODO: check the incref real implement
     // TODO: torun recycle
-    if(this->running) return;
-    if(this->Condition() == false) return;
+    // Important : unlock the `running` before return
+    if(this->running.try_lock() == false) return;
+    if(this->Condition() == false){
+        this->running.unlock();
+        return;
+    }
     int dir_x[] = {0, -1, 1, 0};
     int dir_y[] = {1, 0, 0, -1};
     bool fit_cond = false;
@@ -184,16 +187,31 @@ void Event::Action(HeroStatus hero_status, bool is_enter){
     }else if(this->trigger_condition == TRIGGER_CONDITION_SYNC){
         // TODO: event_sync
     }
-    if(fit_cond == false) return;
-
-    this->running = true;
+    
+    if(fit_cond == false){
+        this->running.unlock();
+        return;
+    }
     std::thread* torun = new std::thread(
         [this]{
+            printf("....a\n");
+            PyLock();
+            auto state = Py_NewInterpreter(); 
+            PyEval_RestoreThread(state);
             PyObject* pArg = Py_BuildValue("()");
+            printf("....b\n");
             PyObject* ret = PyObject_CallObject(this->p_func, pArg);
-            this->running = false;
+            printf("....c\n");
+            Py_XDECREF(pArg);
+            Py_XDECREF(ret);
+            //PyEval_SaveThread();
+            //Py_EndInterpreter(state);
+            printf("....d\n");
+            PyUnlock();
+            this->running.unlock();
         }
     );
+
     fprintf(stderr, "Event Action\n");
     return;
 }

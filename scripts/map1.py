@@ -43,6 +43,7 @@ class EventTestAuto(Event):
         }
 
     def Action(self):
-        print("askdhkasjdkasjdhkajsd")
+        print("[[askdhkasjdkasjdhkajsd")
         self.gameobject["object1"] = 3
-        self.global_flag["Test2"] = False
+        print("]]askdhkasjdkasjdhkajsd")
+        #self.global_flag["Test2"] = False
