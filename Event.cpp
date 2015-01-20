@@ -216,7 +216,7 @@ void Event::Action(HeroStatus hero_status, bool is_enter){
         return;
     }
 
-    std::thread* torun = new std::thread(
+    std::thread torun(
         [this]{
             PyLock();
             auto state = Py_NewInterpreter(); 
@@ -231,7 +231,7 @@ void Event::Action(HeroStatus hero_status, bool is_enter){
             this->running.unlock();
         }
     );
-
+    torun.detach();
     fprintf(stderr, "Event Action\n");
     return;
 }
