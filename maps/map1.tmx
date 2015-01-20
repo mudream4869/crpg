@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32">
+ <properties>
+  <property name="bgm" value=""/>
+ </properties>
  <tileset firstgid="1" name="beach1" tilewidth="32" tileheight="32">
   <image source="../textures/beach1.bmp" trans="ff0000" width="256" height="768"/>
   <terraintypes>

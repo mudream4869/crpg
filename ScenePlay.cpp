@@ -7,6 +7,7 @@
 #include "WindowGameObject.h"
 #include "SysCall.h"
 #include "Env.h"
+#include "AudioSystem.h"
 
 ScenePlay::ScenePlay(Map* _map, Hero* _hero, int init_x, int init_y){
    
@@ -84,6 +85,9 @@ void ScenePlay::SetMap(Map* _map){
         Event* new_event = new Event(_map->GetName(), event_datas[lx].name);
         new_event->SetPosition(event_datas[lx].x, event_datas[lx].y);   
         events.push_back(new_event);
+    }
+    if(map_use->GetMapBGM()[0] != 0){
+        AudioSystem::PlayBGM(map_use->GetMapBGM());
     }
     return;
 }

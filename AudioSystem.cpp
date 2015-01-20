@@ -23,6 +23,8 @@ bool AudioSystem::is_play_bgm;
 ALuint AudioSystem::bgm_buffer;
 std::vector<ALuint*> AudioSystem::se_buffer;
 
+char AudioSystem::certain_bgm[20];
+
 struct RIFF_Header {
     char chunkID[4];
     int chunkSize;//size not including chunkSize or chunkID
@@ -168,7 +170,8 @@ bool LoadWavFile(const char* filename, ALuint* buffer,
 void AudioSystem::InitAudioSystem(){
     
     is_play_bgm = false;
-    
+    certain_bgm[0] = 0;
+ 
     ALCdevice* dev = alcOpenDevice(NULL);
     ALCcontext* ctx = alcCreateContext(dev, NULL);
     alcMakeContextCurrent(ctx); 
@@ -232,6 +235,9 @@ void AudioSystem::ExitAudioSystem(){
 
 // BGM: Background Music for short
 void AudioSystem::PlayBGM(const char* bgm_name){
+    if(strcmp(bgm_name, certain_bgm) == 0)
+        return;
+    strcpy(certain_bgm, bgm_name);
     if(is_play_bgm){
         alDeleteBuffers(1, &bgm_buffer);
     }

@@ -19,6 +19,7 @@ namespace AudioSystem{
     extern ALuint bgm_buffer;
     extern std::vector<ALuint*> se_buffer;
 
+    extern char certain_bgm[20];
 
     //will check for sounds/BGM/__init__.ini, sounds/SE/__init__.ini
     void InitAudioSystem();

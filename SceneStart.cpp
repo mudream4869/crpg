@@ -11,7 +11,8 @@ SceneStart::SceneStart(){
     select_box = new Window(0.7, 1, 0.6, 0.53);
     select_index = 0;
     bg = new Image(Config::SCENESTART_IMG_NAME);
-    AudioSystem::PlayBGM(Config::SCENESTART_BGM_NAME); 
+    if(Config::SCENESTART_BGM_NAME[0])
+        AudioSystem::PlayBGM(Config::SCENESTART_BGM_NAME); 
     UpdateSelectBox();
     return;
 }

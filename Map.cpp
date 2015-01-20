@@ -51,8 +51,18 @@ void Map::LoadMap(const char* path){
     this->peice_width = std::atoi(root_node->first_attribute("tilewidth")->value());
     this->peice_height = std::atoi(root_node->first_attribute("tileheight")->value());
     
-    // TODO: Multiple Tileset, Terrains, Firstgid
+    map_bgm[0] = 0;
+    rapidxml::xml_node<>* map_property_node = root_node->first_node("properties");
+    if(map_property_node){
+        for(auto property_node = map_property_node->first_node("property");property_node; property_node = property_node->next_sibling("property")){
+            if(strcmp(property_node->first_attribute("name")->value(), "bgm") == 0){
+                strcpy(this->map_bgm, property_node->first_attribute("value")->value());
+            }
+        }
+    }
 
+    // TODO: Multiple Tileset, Terrains, Firstgid
+    
     rapidxml::xml_node<>* tileset_node = root_node->first_node("tileset");
     rapidxml::xml_node<>* tileset_image_node = tileset_node->first_node("image");
     bool img_is_trans = (tileset_image_node->first_attribute("trans") != 0);
@@ -171,6 +181,9 @@ bool Map::CanDo(int xx, int yy, int dir)const{
     return true;
 }
 
+char* Map::GetMapBGM(){
+    return this->map_bgm;
+}
 Vec2i Map::GetMapSize(){
     return {this->map_width, this->map_height};
 }

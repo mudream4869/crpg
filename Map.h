@@ -18,6 +18,7 @@ public:
     bool CanDo(int x, int y, int dir) const ;
     int GetPriority(int x, int y, int l) const ; 
     int GetLevelCount()const;
+    char* GetMapBGM();
     Vec2i GetMapSize();
  
     void RenderATile(float left, float top, float width, float height, int x, int y, int l);
@@ -28,6 +29,7 @@ public:
 
 private:
     char* map_name;
+    char map_bgm[20];
     Tile* tile_use;
     struct point {int x, y;};
     point new_point(int _x, int _y){
