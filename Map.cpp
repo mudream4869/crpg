@@ -171,6 +171,10 @@ bool Map::CanDo(int xx, int yy, int dir)const{
     return true;
 }
 
+Vec2i Map::GetMapSize(){
+    return {this->map_width, this->map_height};
+}
+ 
 int Map::GetPriority(int x, int y, int l)const{
     if(x < 0 or y < 0 or x >= map_width or y >= map_height)
         return 0;  

@@ -269,7 +269,7 @@ void Event::Render(float left, float top){
         float paint_x = ((float)event_status.x + event_status.moving_step*dir_x[event_status.moving_dir]/16.0)/10.0*2 + left;
         float paint_y = ((float)event_status.y + event_status.moving_step*dir_y[event_status.moving_dir]/16.0)/10.0*2 + top;
         Vec2i sz = tile_use->GetSize();
-        paint_y = paint_y - sz.y/(float)32*0.2 + 0.1;
+        paint_y = paint_y + 1/(float)5 - sz.y/(float)32*0.2;
         this->tile_use->Render(
             paint_x, paint_y,
             sz.x/(float)32*0.2,

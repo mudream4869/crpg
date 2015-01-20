@@ -177,42 +177,49 @@ void ScenePlay::Render(){
     float hero_real_x = ((float)(hero_status.x) + 
                 dir_x[hero_status.moving_dir]*hero_status.moving_step/(float)16)*screen_width/10,
           hero_real_y = ((float)(hero_status.y) +
-                dir_y[hero_status.moving_dir]*hero_status.moving_step/(float)16)*screen_height/10;
+                dir_y[hero_status.moving_dir]*hero_status.moving_step/(float)16)*screen_height/10 + 1/(float)5 - 0.3;
     
     float start_x = 1 - hero_real_x;
     float start_y = 1 - hero_real_y;
     
+    auto map_size = map_use->GetMapSize();
+    
     if(start_x > 0) start_x = 0;
-    if(start_x < -2) start_x = -2;
     if(start_y > 0) start_y = 0;
-    if(start_y < -2) start_y = -2;
+    if(map_size.x*0.2 + start_x < 2) start_x = 2 - map_size.x*0.2;
+    if(map_size.y*0.2 + start_y < 2) start_y = 2 - map_size.y*0.2;
     
     // Priority = 0
     map_use->Render(start_x, start_y, screen_width*2, screen_height*2);
     
     // Priority = 1
-    for(int lx = 0;lx < events.size();lx++)
-        if(events[lx]->GetPriority() == 1)
-            events[lx]->Render(start_x, start_y);
-    hero_use->Render(
-        hero_real_x + start_x,
-        hero_real_y-0.2 + start_y,
-        hero_status.moving_dir,
-        (hero_status.moving_step/2)%4
-    );
     map_use->RenderAtPriority(start_x, start_y, screen_width*2, screen_height*2, 1);
+    for(int ly = 0;ly < map_size.y;ly++){
+        for(int lx = 0;lx < events.size();lx++)
+            if(events[lx]->GetPriority() == 1 and events[lx]->Position().y == ly)
+                events[lx]->Render(start_x, start_y);
+        if(ly == hero_status.y)
+            hero_use->Render(
+                hero_real_x + start_x,
+                hero_real_y + start_y,
+                hero_status.moving_dir,
+                (hero_status.moving_step/2)%4
+            );
+    }
 
     // Prioroty > 1
     for(int priority = 2; priority <= 5;priority++){
         map_use->RenderAtPriority(start_x, start_y, screen_width*2, screen_height*2, priority);
-        for(int lx = 0;lx < events.size();lx++)
-            if(events[lx]->GetPriority() == priority)
-                events[lx]->Render(start_x, start_y);
+        for(int ly = 0;ly < map_size.y;ly++){
+            for(int lx = 0;lx < events.size();lx++)
+                if(events[lx]->GetPriority() == priority and events[lx]->Position().y == ly)
+                    events[lx]->Render(start_x, start_y);
+        }
     }
-   
+
     if(is_win_menu_open)
         win_menu->Render();
-    
+
     if(is_main_menu_open)
         main_menu->Render();
     return;

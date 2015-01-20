@@ -18,7 +18,8 @@ public:
     bool CanDo(int x, int y, int dir) const ;
     int GetPriority(int x, int y, int l) const ; 
     int GetLevelCount()const;
-    
+    Vec2i GetMapSize();
+ 
     void RenderATile(float left, float top, float width, float height, int x, int y, int l);
     void Render(float left, float top, float width, float height);
     void RenderAtPriority(float left, float top, float width, float height, int priority);
