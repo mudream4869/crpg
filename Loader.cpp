@@ -73,8 +73,9 @@ void InitResource(){
     hero->SetWalkPiece();
     
     LoadMaps();
-    LoadConfig();
 
+    play_scene = new ScenePlay(EnvGetMap(Config::GAME_START_MAP_NAME), hero, 
+                             Config::GAME_START_POS.x, Config::GAME_START_POS.y);
     start_scene = new SceneStart();
     save_scene = new SceneSave();
     load_scene = new SceneLoad();
@@ -116,37 +117,5 @@ void LoadMaps(){
         EnvAddMap(map_name, read_map);
     }
     fclose(fp);
-    return;
-}
-
-void LoadConfig(){
-    FILE* fp = fopen("configs/init.ini", "r");
-    if(fp == NULL){
-        fprintf(stderr, "Error : Not found configs/init.ini\n");
-        exit(1);
-    }
-    char line[100];
-    char startmap_name[20];
-    Vec2i startpos;
-    while(fscanf(fp, "%s", line) != EOF){
-        int eq_ptr = -1;
-        for(int lx = 0;line[lx] != 0;lx++)
-            if(line[lx] == '=')
-                eq_ptr = lx;
-        if(eq_ptr == -1) // Not setting
-            continue;
-        line[eq_ptr] = 0;
-        if(strcmp(line, "startmap") == 0){
-            strcpy(startmap_name, line+eq_ptr+1);
-        }else if(strcmp(line, "startpos") == 0){
-            startpos = Str2Vec2i(line+eq_ptr+1);
-        }else if(strcmp(line, "startimg") == 0){
-            sprintf(Config::SCENESTART_IMG_NAME, "pictures/%s", line+eq_ptr+1);
-        }else if(strcmp(line, "startbgm") == 0){
-            // 圖片和音樂載入機制不同
-            sprintf(Config::SCENESTART_BGM_NAME, "%s", line+eq_ptr+1);
-        }
-    }
-    play_scene = new ScenePlay(EnvGetMap(startmap_name), hero, startpos.x, startpos.y);
     return;
 }

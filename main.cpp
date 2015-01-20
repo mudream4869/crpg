@@ -4,6 +4,7 @@
 #include <Python/Python.h>
 #include <cstdlib>
 
+#include "Config.h"
 #include "Loader.cpp"
 
 // KeyBroad Cut
@@ -57,9 +58,10 @@ void Display()
 
 int main(int argc, char* argv[])  
 {
+    Config::InitConfig();
     glutInit(&argc, argv);
     glutInitWindowSize(600, 600);
-    glutCreateWindow("Glut Demo");
+    glutCreateWindow(Config::GAME_TITLE);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_ALPHA); 
  
     glutDisplayFunc(Display);

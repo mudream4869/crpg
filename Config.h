@@ -1,12 +1,19 @@
 #ifndef CONFIG_DEF
 #define CONFIG_DEF
 
+#include "Type.h"
+
 namespace Config{
     const char PATH_SAVEFILE[] = "saves/";
     const float WINDOW_WIDTH = 2;
     const float WINDOW_HEIGHT = 2;
+    
     extern char SCENESTART_IMG_NAME[20];
     extern char SCENESTART_BGM_NAME[20];
+    extern char GAME_TITLE[20];
+    extern char GAME_START_MAP_NAME[20];
+    extern Vec2i GAME_START_POS;
+    void InitConfig();
 };
 
 const char CONFIG_PATH_SAVEFILE[] = "saves/";
