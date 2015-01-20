@@ -10,8 +10,10 @@ class Event1(Event):
             "solid" : True,
             "fixed_direction" : False,
             "priority" : 1,
-            "display_cond" : [
-            ]
+            "display_cond" : [],
+            "reject_cond" : [
+                ["flag", "Test2"]
+            ],
         }
 
     def Action(self):
@@ -34,14 +36,15 @@ class EventTestAuto(Event):
         self.config = {
             "event_name" : "event2",
             "image" : "",
-            "trigger_condition" : "auto",
+            "trigger_condition" : "sync",
             "solid" : False,
             "fixed_direction" : False,
             "priority" : 1,
             "display_cond" : [
                 ["flag", "Test2"],
                 ["value", "Test1", 3]
-            ]
+            ],
+            "reject_cond" : []
         }
 
     def Action(self):

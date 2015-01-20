@@ -63,8 +63,7 @@ private:
         int limit_value;
     };
     std::vector<cond> display_cond;
-    
-    PyThreadState* save_state;
+    std::vector<cond> reject_cond;
 
     PyObject* p_class;
     PyObject* p_inst;

@@ -78,6 +78,23 @@ Event::Event(const char* map_name, const char* str){
         display_cond.push_back(new_cond);
     }
 
+    PyObject* p_cond_reje = PyDict_GetItemString(p_config, "reject_cond");
+    int cond_reje_sz = PyList_Size(p_cond_reje);
+    for(int lx = 0;lx < cond_reje_sz;lx++){
+        PyObject* get_cond = PyList_GetItem(p_cond_reje, lx);
+        char* str_type = PyString_AsString(PyList_GetItem(get_cond, 0));
+        char* var_name = PyString_AsString(PyList_GetItem(get_cond, 1));
+        cond new_cond;
+        strcpy(new_cond.var_name, var_name);
+        if(strcmp("flag", str_type) == 0){
+            new_cond.type = COND_TYPE_FLAG;
+        }else if(strcmp("value", str_type) == 0){
+            new_cond.type = COND_TYPE_VALUE;
+            new_cond.limit_value = (int)PyLong_AsLong(PyList_GetItem(get_cond, 2));
+        }
+        reject_cond.push_back(new_cond);
+    }
+
     EnvGetEventPool()->operator[](event_name) = this;
 
     //fprintf(stderr, "set up solid\n");
@@ -96,12 +113,13 @@ Event::Event(const char* map_name, const char* str){
         this->trigger_condition = TRIGGER_CONDITION_ON_CHAT;
     else  if(strcmp(trigger_condition_str, "on stand") == 0)
         this->trigger_condition = TRIGGER_CONDITION_ON_STAND;
-    else if(strcmp(trigger_condition_str, "auto") == 0)
+    else if(strcmp(trigger_condition_str, "auto") == 0){
+        fprintf(stderr, "Event: trigger condition 'auto' is not provided.\n");
         this->trigger_condition = TRIGGER_CONDITION_AUTO;
-    else if(strcmp(trigger_condition_str, "sync") == 0)
+    }else if(strcmp(trigger_condition_str, "sync") == 0)
         this->trigger_condition = TRIGGER_CONDITION_SYNC;
     else{
-        fprintf(stderr, "Event: trigger condition not fit\n");
+        fprintf(stderr, "Event: trigger condition empty or not fit.\n");
         this->trigger_condition = TRIGGER_CONDITION_NULL;
     }
     
@@ -143,6 +161,16 @@ bool Event::Condition(){
                 return false;
         }
     }
+    for(int lx = 0;lx < reject_cond.size(); lx++){
+        cond prc_cond = reject_cond[lx];
+        if(prc_cond.type == COND_TYPE_FLAG){
+            if(GlobalVariable::GetFlag(prc_cond.var_name))
+                return false;
+        }else if(prc_cond.type == COND_TYPE_VALUE){
+            if(GlobalVariable::GetValue(prc_cond.var_name) >= prc_cond.limit_value)
+                return false;
+        }
+    }
     return true;
 }
 
@@ -178,11 +206,11 @@ void Event::Action(HeroStatus hero_status, bool is_enter){
                    event_status.x == hero_status.x and
                    event_status.y == hero_status.y;
     }else if(this->trigger_condition == TRIGGER_CONDITION_AUTO){
-        fit_cond = true;
+        // TODO: event_auto
     }else if(this->trigger_condition == TRIGGER_CONDITION_SYNC){
-        // TODO: event_sync
+        fit_cond = true;
     }
-    
+
     if(fit_cond == false){
         this->running.unlock();
         return;
