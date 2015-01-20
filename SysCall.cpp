@@ -129,7 +129,7 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         fprintf(stderr, "call SetGameObject");
         GameObjectData::SetGameObjectCount(
             PyString_AsString(PyTuple_GetItem(para, 1)),
-            PyObject_IsTrue((PyTuple_GetItem(para, 2)))
+            PyLong_AsLong((PyTuple_GetItem(para, 2)))
         );
         Py_INCREF(Py_None);
         ret_value = Py_None;

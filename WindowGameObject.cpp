@@ -34,12 +34,26 @@ void WindowGameObject::InputEvent(Input inp){
     if(inp.InputType != INPUT_KEYPRESS) return;
     fprintf(stderr, "Enter InputEvent\n");
     bool change = false;
+    
+    if(inp.Key == 13){
+        int ly = 0;
+        for(auto get_data = GameObjectData::gameobject_count.begin();
+                get_data != GameObjectData::gameobject_count.end();
+                get_data++, ly++){
+            if(ly == ptr){
+                GameObjectData::CallGameObject(get_data->first); 
+                return;
+            }
+        }
+        return;
+    }
+    
     if(inp.Key == 'w' and ptr > 0)
         ptr--, change = true;
 
     if(inp.Key == 's' and ptr+1 < GameObjectData::gameobject_count.size())
         ptr++, change = true;
-
+    
     if(change)
         Update();
     return;

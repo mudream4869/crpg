@@ -113,6 +113,8 @@ void ScenePlay::InputEvent(Input inp){
         if(inp.Key == 27){
             is_main_menu_open = false;
         }else{
+            if(inp.Key == 13)
+                is_main_menu_open = false;
             this->main_menu->InputEvent(inp);
         }
         return;
