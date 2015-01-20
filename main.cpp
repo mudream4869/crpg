@@ -36,12 +36,21 @@ void SystemTimer(int value){
     return;
 }
 
+void MaskTimer(int value){
+    Mask::TickEvent(value);
+    glutPostRedisplay();
+    glutTimerFunc(12, MaskTimer, 1);
+    return;
+}
+
 void Display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     now_scene->Render();
     if(Msg::IsMsgShow())
         Msg::msg->Render();
+    if(Mask::IsMasking())
+        Mask::Render();
     glFlush();
     return; 
 }
@@ -55,12 +64,13 @@ int main(int argc, char* argv[])
  
     glutDisplayFunc(Display);
     glutTimerFunc(25, SystemTimer, 1);
+    glutTimerFunc(12, MaskTimer, 1);
     glutKeyboardFunc(KeyBoard);
     glEnable(GL_BLEND);
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     InitResource();
     glutMainLoop();
-    
+
     Py_Finalize();
     return 0;
 }

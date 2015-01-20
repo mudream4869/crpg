@@ -54,7 +54,7 @@ class Event:
             if item[0] == "Left": to_arr.append(1)
             if item[0] == "Right" : to_arr.append(2)
         self.syscall("DoMove", self.config["event_name"], to_arr)
-    
+
     def WaitForMove(self):
         self.syscall("WaitForMove", self.config["event_name"])
 
@@ -66,6 +66,12 @@ class Event:
 
     def PlayBGM(self, bgm_name):
         self.syscall("PlayBGM", bgm_name)
- 
+    
+    def SetMask(self, start_color, end_color, ms):
+        self.syscall("SetMask", start_color, end_color, ms)
+    
+    def Sleep(self, ms):
+        self.syscall("Sleep", ms)
+
     def Action(self):
         return

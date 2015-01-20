@@ -1,4 +1,6 @@
 #include <queue>
+#include <chrono>
+#include <thread>
 #include "Event.h"
 #include "SysCall.h"
 #include "Msg.h"
@@ -7,7 +9,9 @@
 #include "ScenePlay.h"
 #include "GameObject.h"
 #include "AudioSystem.h"
+#include "Mask.h"
 
+#include "Type.h"
 #include "PyLock.h"
 
 std::mutex Sys::syscall_mutex;
@@ -145,6 +149,39 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         AudioSystem::PlayBGM(PyString_AsString(PyTuple_GetItem(para, 1)));
         Py_INCREF(Py_None);
         ret_value = Py_None;
+    
+    }else if(strcmp(cmd, "SetMask") == 0){
+        fprintf(stderr, "Call Set Mask\n");
+        PyObject* col1 = PyTuple_GetItem(para, 1);
+        PyObject* col2 = PyTuple_GetItem(para, 2);
+
+        int ms = (int)PyLong_AsLong(PyTuple_GetItem(para, 3));
+        Color4f st_color, ed_color;
+        
+        st_color.r = PyLong_AsLong((PyTuple_GetItem(col1, 0)))/(float)255;
+        st_color.g = PyLong_AsLong((PyTuple_GetItem(col1, 1)))/(float)255;
+        st_color.b = PyLong_AsLong((PyTuple_GetItem(col1, 2)))/(float)255;
+        st_color.a = PyLong_AsLong((PyTuple_GetItem(col1, 3)))/(float)255;
+        
+        ed_color.r = PyLong_AsLong((PyTuple_GetItem(col2, 0)))/(float)255;
+        ed_color.g = PyLong_AsLong((PyTuple_GetItem(col2, 1)))/(float)255;
+        ed_color.b = PyLong_AsLong((PyTuple_GetItem(col2, 2)))/(float)255;
+        ed_color.a = PyLong_AsLong((PyTuple_GetItem(col2, 3)))/(float)255;
+        
+        Mask::SetMask(st_color, ed_color, ms);
+        
+        Py_INCREF(Py_None);
+        ret_value = Py_None;
+    }else if(strcmp(cmd, "Sleep") == 0){
+        int ms = (int)PyLong_AsLong(PyTuple_GetItem(para, 1));
+        std::chrono::milliseconds dura(ms);
+        
+        auto state = PyEval_SaveThread();
+        PyUnlock();
+        std::this_thread::sleep_for(dura);
+        PyLock();
+        PyEval_RestoreThread(state);
+        Py_INCREF(Py_None);
 
     }else{
         Py_INCREF(Py_None);
