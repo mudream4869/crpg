@@ -144,8 +144,10 @@ Event::Event(const char* map_name, const char* str){
 }
 
 Event::~Event(){
-    delete tile_use->GetImage();
-    delete tile_use;
+    if(tile_use != nullptr){
+        delete tile_use->GetImage();
+        delete tile_use;
+    }
     // TODO: kill p_?
     return;
 }

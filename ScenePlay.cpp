@@ -9,14 +9,9 @@
 #include "Env.h"
 #include "AudioSystem.h"
 
-ScenePlay::ScenePlay(Map* _map, Hero* _hero, int init_x, int init_y){
+ScenePlay::ScenePlay(Hero* _hero){
    
-    fprintf(stderr, "Load map: %s\n", _map->GetName());
-    this->SetMap(_map);
-    
     hero_use = _hero;
-    hero_status.x = init_x;
-    hero_status.y = init_y;
     hero_status.status = 0; // Stop
     hero_status.moving_dir = 0;
     hero_status.moving_step = 0;
@@ -72,15 +67,15 @@ void ScenePlay::ChangeMap(Map* _map, int start_x, int start_y, int dir){
 
 void ScenePlay::SetMap(Map* _map){
     map_use = _map;
-    
     for(int lx = 0;lx < events.size();lx++){
         delete events[lx];
     }
     events.clear();
- 
+    
     auto event_pool = EnvGetEventPool();
     event_pool->clear();
     std::vector<EventData> event_datas = _map->GetEventDatas();
+    
     for(int lx = 0;lx < event_datas.size();lx++){
         Event* new_event = new Event(_map->GetName(), event_datas[lx].name);
         new_event->SetPosition(event_datas[lx].x, event_datas[lx].y);   

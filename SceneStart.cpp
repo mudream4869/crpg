@@ -4,6 +4,7 @@
 #include "Env.h"
 
 #include "AudioSystem.h"
+#include "ScenePlay.h"
 
 #include "Config.h"
 
@@ -40,6 +41,12 @@ void SceneStart::InputEvent(Input inp){
         }else if(inp.Key == 13){
             if(select_index == 0){
                 EnvSetCertainScene("scene_play");
+                (*(ScenePlay**)(env->operator[]("scene_play")))->ChangeMap(
+                    EnvGetMap(Config::GAME_START_MAP_NAME),
+                    Config::GAME_START_POS.x,
+                    Config::GAME_START_POS.y,
+                    0
+                );
             }else if(select_index == 1){
                 EnvSetCertainScene("scene_load");
                 return; 

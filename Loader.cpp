@@ -74,8 +74,7 @@ void InitResource(){
     
     LoadMaps();
 
-    play_scene = new ScenePlay(EnvGetMap(Config::GAME_START_MAP_NAME), hero, 
-                             Config::GAME_START_POS.x, Config::GAME_START_POS.y);
+    play_scene = new ScenePlay(hero);
     start_scene = new SceneStart();
     save_scene = new SceneSave();
     load_scene = new SceneLoad();
