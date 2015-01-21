@@ -15,8 +15,7 @@ Image::Image(const char* path, bool is_trans, Color3i trans_color){
     int sl = strlen(path);
 
     // allocate a texture name
-    glGenTextures( 1, &texture_id);
-
+    glGenTextures( 1, &this->texture_id);
     // select our current texture
     glBindTexture( GL_TEXTURE_2D, texture_id);
 
@@ -35,7 +34,7 @@ Image::Image(const char* path, bool is_trans, Color3i trans_color){
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     // build our texture MIP maps
-
+     
     if(strcmp(path+sl-3, "bmp") == 0)
         this->__LoadBmp(path, is_trans, trans_color);
     else if(strcmp(path+sl-3, "png") == 0)
@@ -50,6 +49,7 @@ void Image::__LoadBmp(const char* path, bool is_trans, Color3i trans_color){
     // open texture data
     if (file == NULL){ 
 	    fprintf(stderr, "Fail to load bmp file!\n");
+        exit(1);
         return;
     }
 
@@ -116,6 +116,7 @@ void Image::__LoadBmp(const char* path, bool is_trans, Color3i trans_color){
 }
 
 void Image::__LoadPng(const char* path){
+    fprintf(stderr, "To Load Png\n");
     std::vector<unsigned char> get_image;
     unsigned int _width, _height;
     unsigned err = lodepng::decode(get_image, _width, _height, path);
@@ -135,6 +136,7 @@ void Image::__LoadPng(const char* path){
 
 Image::~Image(){
     //TODO: recycle the texture_id?
+    glDeleteTextures(1, &this->texture_id);
     return;
 }
 

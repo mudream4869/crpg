@@ -27,6 +27,7 @@
 #include "GameObject.h"
 #include "AudioSystem.h"
 #include "Mask.h"
+#include "ImGCtrl.h"
 
 #include "Config.h"
 
@@ -60,6 +61,7 @@ void InitResource(){
     GlobalVariable::InitGlobalVariable();
     GameObjectData::InitGameObject();
     Mask::InitMask();
+    ImgCtrl::InitImgCtrl();
      
     std::atexit(AudioSystem::ExitAudioSystem);
     AudioSystem::InitAudioSystem();

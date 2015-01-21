@@ -73,9 +73,15 @@ class Event:
     def Sleep(self, ms):
         self.syscall("Sleep", ms)
 
+    def ShowImg(self, index, img_name, pos, rect):
+        self.syscall("ShowImg", index, img_name, pos, rect)
+
+    def KillImg(self, index):
+        self.syscall("KillImg", index)
+
     def Action(self):
         return
-
+    
 class ScriptNone(Event):
     def __init__(self, syscall):
         Event.__init__(self, syscall)

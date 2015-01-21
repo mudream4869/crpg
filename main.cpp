@@ -6,6 +6,7 @@
 
 #include "Config.h"
 #include "Loader.cpp"
+#include "ImgCtrl.h"
 
 // KeyBroad Cut
 void KeyBoard(unsigned char key, int x, int y){
@@ -50,6 +51,7 @@ void Display()
     now_scene->Render();
     if(Msg::IsMsgShow())
         Msg::msg->Render();
+    ImgCtrl::Render(); 
     if(Mask::IsMasking())
         Mask::Render();
     glFlush();

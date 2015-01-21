@@ -25,7 +25,9 @@ class Event1(Event):
                      ["Right"],
                      ["Right"],
                      ["Down"]))
+        self.ShowImg(0, "pictures/haha.png", (1, 1), (1, 1))
         self.WaitForMove()
+        self.KillImg(0) 
         self.gameobject["object2"] = 2
         self.PlaySE("Swoosh.wav")
         self.PlayBGM("Under_Water.wav")

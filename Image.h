@@ -18,7 +18,7 @@ public:
 
     // Rename to Render
     void Render(float x, float y, float draw_width, float draw_height, int level);
-
+    
 private:
 
     void __LoadBmp(const char* path, bool is_trans, Color3i trans_color);

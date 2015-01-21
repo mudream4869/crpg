@@ -13,6 +13,7 @@
 
 #include "Type.h"
 #include "PyLock.h"
+#include "ImgCtrl.h"
 
 std::mutex Sys::syscall_mutex;
 
@@ -181,8 +182,32 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         std::this_thread::sleep_for(dura);
         PyLock();
         PyEval_RestoreThread(state);
+        
         Py_INCREF(Py_None);
+        ret_value = Py_None;
+    }else if(strcmp(cmd, "ShowImg") == 0){
+        int index = (int)PyLong_AsLong(PyTuple_GetItem(para, 1));
+        char img_fn[20]; strcpy(img_fn, PyString_AsString(PyTuple_GetItem(para, 2)));
+        PyObject* p_pos = PyTuple_GetItem(para, 3);
+        PyObject* p_rect = PyTuple_GetItem(para, 4);
+        Vec2f pos = {
+                (float)PyFloat_AsDouble(PyTuple_GetItem(p_pos, 0)),
+                (float)PyFloat_AsDouble(PyTuple_GetItem(p_pos, 1))
+            }, rect = {
+                (float)PyFloat_AsDouble(PyTuple_GetItem(p_rect, 0)),
+                (float)PyFloat_AsDouble(PyTuple_GetItem(p_rect, 1))
+            };
+        ImgCtrl::ShowImg(index, img_fn, pos, rect);
+        
+        Py_INCREF(Py_None);
+        ret_value = Py_None;
+    }else if(strcmp(cmd, "KillImg") == 0){
+        fprintf(stderr, "call kill img");
+        int index = (int)PyLong_AsLong(PyTuple_GetItem(para, 1));
+        ImgCtrl::KillImg(index);
 
+        Py_INCREF(Py_None);
+        ret_value = Py_None;
     }else{
         Py_INCREF(Py_None);
         ret_value = Py_None;
