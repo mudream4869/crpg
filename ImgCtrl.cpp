@@ -27,9 +27,10 @@ void ImgCtrl::ShowImg(int index, const char* img_fn, Vec2f pos, Vec2f rect){
         fprintf(stderr, "ImgCtrl Error=\"index should in [0, 100)\"\n");
         return;
     }
+    fprintf(stderr, "testshow img\n");
     img_table[index].mutlock.lock();
-    if(img_table[index].img != nullptr)
-        delete img_table[index].img;
+    //if(img_table[index].img != nullptr)
+    //    delete img_table[index].img;
     img_table[index].img = nullptr;
     
     strcpy(img_table[index].img_fn, img_fn);

@@ -1,7 +1,10 @@
 #include <cstdio>
 #include <cstdlib>
+#include <thread>
+
 #include "GameObject.h"
 #include "SysCall.h"
+#include "PyLock.h"
 
 std::map<const char*, GameObjectData::GameObject, StrCompare> GameObjectData::gameobject_pool;
 std::map<const char*, int, StrCompare> GameObjectData::gameobject_count;
@@ -58,8 +61,23 @@ void GameObjectData::CallGameObject(const char* str){
     if(gameobject_pool.count(str) == 0)
         return;
     
-    PyObject* pArg = Py_BuildValue("()");
-    PyObject* ret = PyObject_CallObject(gameobject_pool[str].choose_callback, pArg);
+    auto cb = gameobject_pool[str].choose_callback;
+    std::thread torun(
+        [cb]{
+            PyLock();
+            auto state = Py_NewInterpreter(); 
+            PyEval_RestoreThread(state);
+            PyObject* pArg = Py_BuildValue("()");
+            PyObject* ret = PyObject_CallObject(cb, pArg);
+            Py_XDECREF(pArg);
+            Py_XDECREF(ret);
+            PyUnlock();
+        }
+    );
+    torun.detach();
+ 
+    //PyObject* pArg = Py_BuildValue("()");
+    //PyObject* ret = PyObject_CallObject(gameobject_pool[str].choose_callback, pArg);
     return;
 }
 
