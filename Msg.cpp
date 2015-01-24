@@ -1,12 +1,13 @@
 #include "Msg.h"
+#include "WindowMsg.h"
 
 bool Msg::in_msg;
 bool Msg::can_end;
-WindowMsg* Msg::msg;
+WindowBlockType* Msg::msg;
 
-std::condition_variable* Msg::GetMsgSignal(){
+/*std::condition_variable* Msg::GetMsgSignal(){
     return msg->GetSignal();
-}
+}*/
 
 void Msg::InitMsg(){
     in_msg = false;
@@ -16,7 +17,7 @@ void Msg::InitMsg(){
 }
 
 void Msg::StartMsg(const char* str_msg){
-    msg = new WindowMsg(0.1, 1.5, 1.8, 0.4, str_msg);
+    msg = new WindowMsg(str_msg);
     in_msg = true;
     return;
 }

@@ -1,8 +1,8 @@
 #include <cstdlib>
 #include "WindowMsg.h"
 
-WindowMsg::WindowMsg(float _left, float _top, float _width, float _height, const char* str)
-    :Window(_left, _top, _width, _height){
+WindowMsg::WindowMsg(const char* str)
+    :WindowBlockType(0.1, 1.5, 1.8, 0.4){
     printf("Init the msg: [%s]\n", str);
     ptr = 0;
     msg = new char[strlen(str) + 1];
@@ -11,14 +11,13 @@ WindowMsg::WindowMsg(float _left, float _top, float _width, float _height, const
 }
 
 WindowMsg::~WindowMsg(){
-    cv.notify_all();
-    fprintf(stderr, "notify all!\n");
+    //cv.notify_all();
+    //fprintf(stderr, "notify all!\n");
     delete[] msg;
     return;
 }
 
 void WindowMsg::TickEvent(int a){
-    // TODO: clear dirty thing
     if(msg[ptr] == 0){
         return;
     }
@@ -34,6 +33,6 @@ bool WindowMsg::IsOk()const{
     return msg[ptr] == 0;
 }
 // Blocking syscall
-std::condition_variable* WindowMsg::GetSignal(){
+/*std::condition_variable* WindowMsg::GetSignal(){
     return &(this->cv);
-}
+}*/

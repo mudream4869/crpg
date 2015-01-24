@@ -50,4 +50,14 @@ double LenOfColor3i(Color3i in);
 
 Vec2i Str2Vec2i(const char* str);
 
+const int WRITE_NULL = 0;
+const int WRITE_INT = 1;
+const int WRITE_STRING = 2;
+
+struct WriteType{
+    int type;
+    int int_value;
+    char string_value[20];
+};
+
 #endif
