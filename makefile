@@ -5,10 +5,12 @@ OBJECTS = Image.o Tile.o Map.o Hero.o Scene.o Window.o WindowMsg.o ScenePlay.o S
 
 INSTANCE = Mask.o ImgCtrl.o AudioSystem.o
 
+SCENE = SceneGameOver.o
+
 LIBS = lodepng.o
 
-main: $(OBJECTS) $(INSTANCE) *.h
-	g++ $(CFLAGS) $(CFRAME) $(OBJECTS) $(INSTANCE) $(LIBS) -o test main.cpp
+main: $(OBJECTS) $(INSTANCE) $(SCENE) *.h
+	g++ $(CFLAGS) $(CFRAME) $(OBJECTS) $(INSTANCE) $(SCENE) $(LIBS) -o test main.cpp
 
 lodepng.o:
 	g++ LoadPng/lodepng.cpp -c

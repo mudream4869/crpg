@@ -208,6 +208,13 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
 
         Py_INCREF(Py_None);
         ret_value = Py_None;
+    
+    }else if(strcmp(cmd, "GameOver") == 0){
+        fprintf(stderr, "game over\n"); 
+        EnvSetCertainScene("scene_gameover");
+         
+        Py_INCREF(Py_None);
+        ret_value = Py_None;
     }else{
         Py_INCREF(Py_None);
         ret_value = Py_None;

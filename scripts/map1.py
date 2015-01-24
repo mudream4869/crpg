@@ -31,6 +31,7 @@ class Event1(Event):
         self.gameobject["object2"] = 2
         self.PlaySE("Swoosh.wav")
         self.PlayBGM("Under_Water.wav")
+        self.GameOver()
 
 class EventTestAuto(Event):
     def __init__(self, func):
@@ -44,7 +45,6 @@ class EventTestAuto(Event):
             "priority" : 1,
             "display_cond" : [
                 ["flag", "Test2"],
-                ["value", "Test1", 3]
             ],
             "reject_cond" : []
         }

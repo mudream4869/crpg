@@ -3,6 +3,9 @@
 #include <cstdio>
 #include <cstring>
 #include <thread>
+
+#include "Config.h"
+
 #include "Event.h"
 #include "SysCall.h"
 #include "Env.h"
@@ -19,11 +22,16 @@ Event::Event(const char* map_name, const char* str){
 
     // Set up PyObject
     sprintf(tmp, "scripts.%s", map_name);
+    PySys_SetPath(".");
+    
     printf("Event: ready to load %s\n", tmp);
-    PyObject* p_module = PyImport_ImportModule(tmp);
+    p_module = PyImport_ImportModule(tmp);
+    PyObject_Print(p_module, stderr, 0);
+    fprintf(stderr, "1");
     this->p_class = PyObject_GetAttrString(p_module, str);
+    fprintf(stderr, "2");
     //PyObject* p_get_class_func = PyObject_GetAttrString(p_module, "EventTalk");
-    PyObject_Print(this->p_class, stderr, 0);
+    //PyObject_Print(this->p_class, stderr, 0);
 
     PyMethodDef *callback = new PyMethodDef;
 
@@ -148,6 +156,8 @@ Event::~Event(){
         delete tile_use->GetImage();
         delete tile_use;
     }
+    Py_DECREF(this->p_inst);  
+    Py_DECREF(this->p_module);  
     // TODO: kill p_?
     return;
 }
@@ -231,6 +241,7 @@ void Event::Action(HeroStatus hero_status, bool is_enter){
             //Py_EndInterpreter(state);
             PyUnlock();
             this->running.unlock();
+            fprintf(stderr, "EVent end\n");
         }
     );
     torun.detach();

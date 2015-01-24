@@ -12,6 +12,7 @@
 #include "SceneStart.h"
 #include "SceneSave.h"
 #include "SceneLoad.h"
+#include "SceneGameOver.h"
 
 #include "Window.h"
 #include "WindowMsg.h"
@@ -38,7 +39,7 @@ Scene* start_scene;
 Scene* play_scene;
 Scene* save_scene;
 Scene* load_scene;
-
+Scene* gameover_scene;
 Tile* hero_tile;
 Hero* hero;
 
@@ -80,6 +81,7 @@ void InitResource(){
     start_scene = new SceneStart();
     save_scene = new SceneSave();
     load_scene = new SceneLoad();
+    gameover_scene = new SceneGameOver();
 
     now_scene = start_scene;
  
@@ -91,7 +93,8 @@ void InitResource(){
     EnvInsert("scene_start", (void*)(&start_scene));
     EnvInsert("scene_save", (void*)(&save_scene));
     EnvInsert("scene_load", (void*)(&load_scene));
-    
+    EnvInsert("scene_gameover", (void*)(&gameover_scene));
+ 
     // Load Maps
     printf("Init ok.\n");
 

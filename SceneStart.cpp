@@ -1,4 +1,6 @@
 #include <cstdlib>
+
+#include <Python/Python.h>
 #include "SceneStart.h"
 #include "Image.h"
 #include "Env.h"

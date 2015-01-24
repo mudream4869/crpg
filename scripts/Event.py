@@ -78,6 +78,9 @@ class Event:
 
     def KillImg(self, index):
         self.syscall("KillImg", index)
+    
+    def GameOver(self):
+        self.syscall("GameOver")
 
     def Action(self):
         return

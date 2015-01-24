@@ -64,7 +64,8 @@ private:
     };
     std::vector<cond> display_cond;
     std::vector<cond> reject_cond;
-
+    
+    PyObject* p_module;
     PyObject* p_class;
     PyObject* p_inst;
     PyObject* p_obj;
