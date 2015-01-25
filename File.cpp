@@ -9,6 +9,8 @@
 #include "Config.h"
 #include "ScenePlay.h"
 
+#include "GameObject.h"
+
 // TODO: where is event's status
 // TODO: script's status?
 // TODO: certain scene
@@ -61,6 +63,13 @@ void File::LoadFile(const char* filename){
         fprintf(stderr, "load %s -> %d\n", name, value);
     }
 
+    int g_obj_count;
+    fscanf(fp, "%d", &g_obj_count);
+    for(int lx = 0;lx < g_obj_count;lx++){
+        fscanf(fp, "%s %d\n", name, &value);
+        GameObjectData::SetGameObjectCount(name, value);
+    }
+
     // Map 
     ScenePlay* scene_play = ScenePlay::scene_play;
     HeroStatus hero_status;
@@ -99,6 +108,13 @@ void File::SaveFile(const char* filename){
     for(auto it = g_flag.begin(); it != g_flag.end(); it++){
         fprintf(fp, "%s %d\n", it->first, it->second);
     }
+
+    auto& g_object = GameObjectData::gameobject_count;
+    fprintf(fp, "%d\n", (int)g_object.size());
+    for(auto it = g_object.begin(); it != g_object.end(); it++){
+        fprintf(fp, "%s %d\n", it->first, it->second);
+    }
+
     // Map 
     ScenePlay* scene_play = ScenePlay::scene_play;
     HeroStatus hero_status = scene_play->GetHeroStatus();
