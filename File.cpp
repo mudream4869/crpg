@@ -58,6 +58,7 @@ void File::LoadFile(const char* filename){
     for(int lx = 0;lx < g_flag_count;lx++){
         fscanf(fp, "%s %d", name, &value);
         GlobalVariable::SetFlag(name, value);
+        fprintf(stderr, "load %s -> %d\n", name, value);
     }
 
     // Map 
@@ -79,7 +80,6 @@ void File::LoadFile(const char* filename){
             &get_event_status.moving_dir, &get_event_status.moving_step);
         event_pool->operator[](event_name)->SetStatus(get_event_status);
     }
-
     return;
 }
 

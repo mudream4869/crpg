@@ -9,6 +9,8 @@
 
 #include "ScenePlay.h"
 
+#include "GlobalVariable.h"
+
 Scene* SceneLoad::scene_load = nullptr;
 
 SceneLoad::SceneLoad(){

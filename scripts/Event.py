@@ -88,6 +88,9 @@ class Event:
     def GameOver(self):
         self.syscall("GameOver")
 
+    def ReturnStart(self):
+        self.syscall("ReturnStart")
+
     def Action(self):
         return
     

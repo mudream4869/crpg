@@ -12,6 +12,8 @@
 #include "SceneLoad.h"
 #include "SceneStart.h"
 
+#include "GlobalVariable.h"
+
 ScenePlay* ScenePlay::scene_play = nullptr;
 
 ScenePlay::ScenePlay(){
@@ -110,6 +112,7 @@ void ScenePlay::SetMap(Map* _map){
     if(map_use->GetMapBGM()[0] != 0){
         AudioSystem::PlayBGM(map_use->GetMapBGM());
     }
+    fprintf(stderr, "=====: %d\n", GlobalVariable::GetFlag("main_ok"));
     fprintf(stderr, "ScenePlay Set map ok\n");
     return;
 }

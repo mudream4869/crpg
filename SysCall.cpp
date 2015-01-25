@@ -7,6 +7,7 @@
 #include "GlobalVariable.h"
 #include "Env.h"
 
+#include "SceneStart.h"
 #include "ScenePlay.h"
 #include "SceneSave.h"
 #include "SceneLoad.h"
@@ -234,6 +235,10 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
     }else if(strcmp(cmd, "GameOver") == 0){
         fprintf(stderr, "game over\n"); 
         SceneGameOver::Call(); 
+        Py_INCREF(Py_None);
+        ret_value = Py_None;
+    }else if(strcmp(cmd, "ReturnStart") == 0){
+        SceneStart::Call();
         Py_INCREF(Py_None);
         ret_value = Py_None;
 
