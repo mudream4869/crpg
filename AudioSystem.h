@@ -26,6 +26,7 @@ namespace AudioSystem{
     void ExitAudioSystem();
     // BGM: Background Music for short
     void PlayBGM(const char*);
+    void StopBGM();
 
     // SE: Sound Effect for short
     void PlaySE(const char*);

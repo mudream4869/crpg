@@ -20,13 +20,14 @@ SceneStart::SceneStart(){
     select_box = new Window(0.7, 1, 0.6, 0.53);
     select_index = 0;
     bg = new Image(Config::SCENESTART_IMG_NAME);
-    if(Config::SCENESTART_BGM_NAME[0])
-        AudioSystem::PlayBGM(Config::SCENESTART_BGM_NAME); 
     UpdateSelectBox();
     return;
 }
 
 void SceneStart::Call(){
+    AudioSystem::StopBGM();
+    if(Config::SCENESTART_BGM_NAME[0])
+        AudioSystem::PlayBGM(Config::SCENESTART_BGM_NAME); 
     Scene::scene_certain = SceneStart::scene_start;
     return;
 }

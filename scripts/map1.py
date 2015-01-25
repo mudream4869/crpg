@@ -32,6 +32,8 @@ class Event1(Event):
         self.PlaySE("Swoosh.wav")
         self.PlayBGM("Under_Water.wav")
         self.ShowMsg(self.ShowMsgSelect(["Yes", "No"]))
+        self.GameOver()
+
 
 class EventTestAuto(Event):
     def __init__(self, func):

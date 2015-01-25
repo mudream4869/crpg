@@ -7,7 +7,6 @@
 class SceneGameOver: public Scene{
 public:
     SceneGameOver();
-    void CallScene();
     void InputEvent(Input inp);
     void Render();
 

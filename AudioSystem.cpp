@@ -253,6 +253,14 @@ void AudioSystem::PlayBGM(const char* bgm_name){
     return;
 }
 
+void AudioSystem::StopBGM(){
+    if(is_play_bgm){
+        alDeleteBuffers(1, &bgm_buffer);
+    }
+    alSourceStop(bgm_source);
+    return;
+}
+
 // SE: Sound Effect for short
 void AudioSystem::PlaySE(const char* se_name){
     auto se_buffer_index = *(se_buffer[se_sound[se_name]]);

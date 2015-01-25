@@ -13,12 +13,8 @@ SceneGameOver::SceneGameOver(){
 }
 
 void SceneGameOver::Call(){
-    Scene::scene_certain = SceneGameOver::scene_gameover;
-    return;
-}
-
-void SceneGameOver::CallScene(){
     AudioSystem::PlayBGM("Reflection_Pool.wav") ;
+    Scene::scene_certain = SceneGameOver::scene_gameover;
     return;
 }
 
