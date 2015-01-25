@@ -16,6 +16,7 @@
 #include "ImgCtrl.h"
 
 #include "WindowMsg.h"
+#include "WindowInputNumber.h"
 
 std::mutex Sys::syscall_mutex;
 
@@ -217,6 +218,19 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
          
         Py_INCREF(Py_None);
         ret_value = Py_None;
+
+    }else if(strcmp(cmd, "ShowInputNumber") == 0){
+        fprintf(stderr, "Show Inut Number");
+        WindowBlockType::msg = new WindowInputNumber();
+        auto state = PyEval_SaveThread();
+        PyUnlock();
+        while(WindowBlockType::msg != nullptr); // TODO: change to cv
+        PyLock();
+        PyEval_RestoreThread(state);
+        
+        fprintf(stderr, "%d\n", WindowBlockType::ret_value.int_value); 
+        ret_value = Py_BuildValue("i", WindowBlockType::ret_value.int_value);
+    
     }else{
         Py_INCREF(Py_None);
         ret_value = Py_None;

@@ -41,8 +41,11 @@ class Event:
         self.gameobject = GameObject(syscall)
 
     def ShowMsg(self, msg):
-        self.syscall("ShowMsg", msg)
+        self.syscall("ShowMsg", str(msg))
     
+    def ShowInputNumber(self):
+        return self.syscall("ShowInputNumber")
+
     def ShowSaveFile(self):
         self.syscall("ShowSaveFile")
 
