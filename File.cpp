@@ -61,7 +61,7 @@ void File::LoadFile(const char* filename){
     }
 
     // Map 
-    ScenePlay* scene_play = (*((ScenePlay**)env->operator[]("scene_play")));
+    ScenePlay* scene_play = ScenePlay::scene_play;
     HeroStatus hero_status;
     char get_map_name[20];
     fscanf(fp, "%s", get_map_name);
@@ -100,7 +100,7 @@ void File::SaveFile(const char* filename){
         fprintf(fp, "%s %d\n", it->first, it->second);
     }
     // Map 
-    ScenePlay* scene_play = (*((ScenePlay**)env->operator[]("scene_play")));
+    ScenePlay* scene_play = ScenePlay::scene_play;
     HeroStatus hero_status = scene_play->GetHeroStatus();
     fprintf(fp, "%s ", scene_play->GetMapName());
     fprintf(fp, "%d %d %d\n", hero_status.x, hero_status.y, hero_status.moving_dir);

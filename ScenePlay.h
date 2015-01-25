@@ -11,7 +11,7 @@
 
 class ScenePlay: public Scene{
 public:
-    ScenePlay(Hero* hero);
+    ScenePlay();
     void InputEvent(Input inp);
     
     void ChangeMap(Map* _map, int start_x, int start_y, int dir);
@@ -23,9 +23,12 @@ public:
     void Render();
      
     bool CanDo(int x, int y, int dir)const;
-    
+     
     HeroStatus GetHeroStatus()const;
 
+    static void Call();
+    static void Call(Map*, int, int, int);
+    static ScenePlay* scene_play;
 private:
 
     void SetMap(Map* _map);

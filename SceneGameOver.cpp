@@ -2,8 +2,18 @@
 #include "AudioSystem.h"
 #include "Env.h"
 
+#include "SceneStart.h"
+
+Scene* SceneGameOver::scene_gameover;
+
 SceneGameOver::SceneGameOver(){
+    SceneGameOver::scene_gameover = this;
     this->gameover_img = new Image("pictures/gameover.png");
+    return;
+}
+
+void SceneGameOver::Call(){
+    Scene::scene_certain = SceneGameOver::scene_gameover;
     return;
 }
 
@@ -14,7 +24,8 @@ void SceneGameOver::CallScene(){
 
 void SceneGameOver::InputEvent(Input inp){
     if(inp.InputType != INPUT_KEYPRESS) return;
-    EnvSetCertainScene("scene_start");
+    SceneStart::Call();
+    
     // TODO: Call SceneStart
     return;
 }

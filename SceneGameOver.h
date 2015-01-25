@@ -10,6 +10,10 @@ public:
     void CallScene();
     void InputEvent(Input inp);
     void Render();
+
+    static void Call();
+    static Scene* scene_gameover;
+
 private:
     Image* gameover_img;
 };

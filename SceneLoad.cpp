@@ -7,8 +7,15 @@
 #include "Env.h"
 #include "Config.h"
 
+#include "ScenePlay.h"
+
+Scene* SceneLoad::scene_load = nullptr;
+
 SceneLoad::SceneLoad(){
     static const int SaveFileCount = 12;
+    
+    SceneLoad::scene_load = this;
+
     char* save_name[SaveFileCount];
     for(int lx = 0;lx < SaveFileCount;lx++){
         save_name[lx] = new char[20];
@@ -17,7 +24,7 @@ SceneLoad::SceneLoad(){
     win_select = new WindowSelect(0, 0, 1, 2,
         [this](int index){
             if(index == -1){
-               EnvSetCertainScene("scene_play");
+                ScenePlay::Call();
                 return;
             }
             // TODO:choose
@@ -25,7 +32,7 @@ SceneLoad::SceneLoad(){
             char tmp[20];
             sprintf(tmp, "file%d", index);
             File::LoadFile(tmp);
-            EnvSetCertainScene("scene_play");
+            ScenePlay::Call();
             // TODO: Reload 
             return;
         },
@@ -40,6 +47,11 @@ SceneLoad::SceneLoad(){
         save_name, SaveFileCount
     );
     win_show = new Window(1, 0, 1, 2);
+    return;
+}
+
+void SceneLoad::Call(){
+    Scene::scene_certain = SceneLoad::scene_load;
     return;
 }
 

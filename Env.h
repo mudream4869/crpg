@@ -25,7 +25,6 @@ int EnvCount(const char* str);
 
 std::map<const char*, Event*, StrCompare>* EnvGetEventPool();
 std::map<const char*, Map*, StrCompare>* EnvGetMapPool();
-void EnvSetCertainScene(const char* scene_name);
 Event* EnvGetEvent(const char* event_file);
 
 Map* EnvGetMap(const char* map_name);

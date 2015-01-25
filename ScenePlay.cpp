@@ -9,9 +9,23 @@
 #include "Env.h"
 #include "AudioSystem.h"
 
-ScenePlay::ScenePlay(Hero* _hero){
-   
-    hero_use = _hero;
+#include "SceneLoad.h"
+#include "SceneStart.h"
+
+ScenePlay* ScenePlay::scene_play = nullptr;
+
+ScenePlay::ScenePlay(){
+    
+    ScenePlay::scene_play = this;
+    
+    auto img1 = new Image("textures/hero.bmp");
+    auto hero_tile = new Tile();
+    hero_use = new Hero();
+    hero_tile->SetImage(img1);
+    hero_tile->SetSize(32, 48);
+    hero_use->SetTile(hero_tile);
+    hero_use->SetWalkPiece();
+
     hero_status.status = 0; // Stop
     hero_status.moving_dir = 0;
     hero_status.moving_step = 0;
@@ -30,11 +44,11 @@ ScenePlay::ScenePlay(Hero* _hero){
         [this](int index){
             if(index == -1) this->is_main_menu_open = false;
             if(index == 0){
-                EnvSetCertainScene("scene_load");
+                SceneLoad::Call();
                 this->is_main_menu_open = false;
                 return;
             }else if(index == 1){
-                EnvSetCertainScene("scene_start");
+                SceneStart::Call();
                 this->is_main_menu_open = false;
                 return;
             }else if(index == 2){
@@ -53,6 +67,18 @@ ScenePlay::ScenePlay(Hero* _hero){
     main_menu = obj_menu;
     return;
 }
+
+void ScenePlay::Call(Map* _map, int start_x, int start_y, int dir){
+    Scene::scene_certain = (Scene*) ScenePlay::scene_play;
+    fprintf(stderr, "here\n");
+    ScenePlay::scene_play->ChangeMap(_map, start_x, start_y, dir);
+    return;
+}
+
+void ScenePlay::Call(){
+    Scene::scene_certain = (Scene*) ScenePlay::scene_play;
+    return;
+} 
 
 void ScenePlay::ChangeMap(Map* _map, int start_x, int start_y, int dir){
     // Set up event
@@ -84,6 +110,7 @@ void ScenePlay::SetMap(Map* _map){
     if(map_use->GetMapBGM()[0] != 0){
         AudioSystem::PlayBGM(map_use->GetMapBGM());
     }
+    fprintf(stderr, "ScenePlay Set map ok\n");
     return;
 }
 

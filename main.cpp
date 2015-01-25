@@ -9,6 +9,7 @@
 #include "ImgCtrl.h"
 
 #include "WindowBlockType.h"
+#include "Scene.h"
 
 // KeyBroad Cut
 void KeyBoard(unsigned char key, int x, int y){
@@ -19,7 +20,7 @@ void KeyBoard(unsigned char key, int x, int y){
     if(WindowBlockType::msg != nullptr){
         WindowBlockType::msg->InputEvent(inp);
     }else{
-        now_scene->InputEvent(inp);
+        Scene::scene_certain->InputEvent(inp);
     }
     glutPostRedisplay();
     return;
@@ -29,7 +30,7 @@ void SystemTimer(int value){
     if(WindowBlockType::msg != nullptr){
         WindowBlockType::msg->TickEvent(1);
     }else{
-        now_scene->TickEvent(1);
+        Scene::scene_certain->TickEvent(1);
     }
     glutPostRedisplay();
     glutTimerFunc(25, SystemTimer, 1);
@@ -46,7 +47,7 @@ void MaskTimer(int value){
 void Display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    now_scene->Render();
+    Scene::scene_certain->Render();
     if(WindowBlockType::msg != nullptr)
         WindowBlockType::msg->Render();
     ImgCtrl::Render(); 

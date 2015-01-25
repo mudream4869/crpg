@@ -50,12 +50,6 @@ Map* EnvGetMap(const char* map_name){
         return nullptr;
 }
 
-void EnvSetCertainScene(const char* scene_name){
-    Scene** now_scene = (Scene**) EnvGet("scene_certain");
-    (*now_scene) = *((Scene**) EnvGet(scene_name));
-    return;
-}
-
 void EnvAddMap(const char* map_name, Map* map_pointer){
     std::map<const char*, Map*, StrCompare>& get = *EnvGetMapPool();
     char* new_str = new char[strlen(map_name) + 2];

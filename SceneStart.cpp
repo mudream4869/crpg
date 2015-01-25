@@ -7,16 +7,27 @@
 
 #include "AudioSystem.h"
 #include "ScenePlay.h"
+#include "SceneLoad.h"
 
 #include "Config.h"
 
-SceneStart::SceneStart(){ 
+Scene* SceneStart::scene_start = nullptr;
+
+SceneStart::SceneStart(){
+
+    SceneStart::scene_start = this;
+
     select_box = new Window(0.7, 1, 0.6, 0.53);
     select_index = 0;
     bg = new Image(Config::SCENESTART_IMG_NAME);
     if(Config::SCENESTART_BGM_NAME[0])
         AudioSystem::PlayBGM(Config::SCENESTART_BGM_NAME); 
     UpdateSelectBox();
+    return;
+}
+
+void SceneStart::Call(){
+    Scene::scene_certain = SceneStart::scene_start;
     return;
 }
 
@@ -42,15 +53,16 @@ void SceneStart::InputEvent(Input inp){
                 select_index++, change = true;
         }else if(inp.Key == 13){
             if(select_index == 0){
-                EnvSetCertainScene("scene_play");
-                (*(ScenePlay**)(env->operator[]("scene_play")))->ChangeMap(
+                ScenePlay::Call(
                     EnvGetMap(Config::GAME_START_MAP_NAME),
                     Config::GAME_START_POS.x,
                     Config::GAME_START_POS.y,
                     0
                 );
+                fprintf(stderr, "hi here\n");
+                return;
             }else if(select_index == 1){
-                EnvSetCertainScene("scene_load");
+                SceneLoad::Call();
                 return; 
             }else if(select_index == 2){
                 exit(0);

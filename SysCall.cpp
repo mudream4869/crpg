@@ -6,7 +6,12 @@
 #include "WindowBlockType.h"
 #include "GlobalVariable.h"
 #include "Env.h"
+
 #include "ScenePlay.h"
+#include "SceneSave.h"
+#include "SceneLoad.h"
+#include "SceneGameOver.h"
+
 #include "GameObject.h"
 #include "AudioSystem.h"
 #include "Mask.h"
@@ -110,7 +115,7 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         ret_value = Py_None;
 
     }else if(strcmp(cmd, "ShowSaveFile") == 0){
-        EnvSetCertainScene("scene_save");
+        SceneSave::Call();
         // Wait for saving
         Py_INCREF(Py_None);
         ret_value = Py_None;
@@ -139,11 +144,7 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         /*if(env->count("scene_play") == 0){
             fprintf(stderr, "akjsfhkaj\n");
         }*/
-        ScenePlay* scp = (ScenePlay*)(*((Scene**)(*env)["scene_play"]));
-        if(scp == nullptr){
-            fprintf(stderr, "nullptr HAHA\n");
-        }
-        scp->ChangeMap(EnvGetMap(map_name), start_x, start_y, dir);
+        ScenePlay::scene_play->ChangeMap(EnvGetMap(map_name), start_x, start_y, dir);
         Py_INCREF(Py_None);
         ret_value = Py_None;
     
@@ -232,8 +233,7 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
     
     }else if(strcmp(cmd, "GameOver") == 0){
         fprintf(stderr, "game over\n"); 
-        EnvSetCertainScene("scene_gameover");
-         
+        SceneGameOver::Call(); 
         Py_INCREF(Py_None);
         ret_value = Py_None;
 

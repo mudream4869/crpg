@@ -31,18 +31,6 @@
 
 #include "Config.h"
 
-Image* img1;
-
-Scene* now_scene;
-Scene* start_scene;
-Scene* play_scene;
-Scene* save_scene;
-Scene* load_scene;
-Scene* gameover_scene;
-Tile* hero_tile;
-Hero* hero;
-
-
 void LoadMaps();
 void LoadConfig();
 
@@ -66,34 +54,17 @@ void InitResource(){
     std::atexit(AudioSystem::ExitAudioSystem);
     AudioSystem::InitAudioSystem();
 
-    img1 = new Image("textures/hero.bmp");
-    hero = new Hero();
-    hero_tile = new Tile();
-    hero_tile->SetImage(img1);
-    hero_tile->SetSize(32, 48);
-    hero->SetTile(hero_tile);
-    hero->SetWalkPiece();
-    
     LoadMaps();
+    
+    fprintf(stderr, "Ready to load scenes\n");
 
-    play_scene = new ScenePlay(hero);
-    start_scene = new SceneStart();
-    save_scene = new SceneSave();
-    load_scene = new SceneLoad();
-    gameover_scene = new SceneGameOver();
+    Scene::scene_certain = new SceneStart();
+    new ScenePlay();
+    new SceneSave();
+    new SceneLoad();
+    new SceneGameOver();
 
-    now_scene = start_scene;
- 
-    fprintf(stderr, "Scene set up.\n");
-
-    // Load Scenes
-    EnvInsert("scene_certain", (void*)(&now_scene));
-    EnvInsert("scene_play", (void*)(&play_scene));
-    EnvInsert("scene_start", (void*)(&start_scene));
-    EnvInsert("scene_save", (void*)(&save_scene));
-    EnvInsert("scene_load", (void*)(&load_scene));
-    EnvInsert("scene_gameover", (void*)(&gameover_scene));
- 
+    fprintf(stderr, "load scenes ok\n");
     // Load Maps
     printf("Init ok.\n");
 
