@@ -11,7 +11,6 @@ public:
     ~WindowMsg();
     void TickEvent(int a);
     void InputEvent(Input inp);
-    bool IsOk() const;
     //std::condition_variable* GetSignal();
 
 private:

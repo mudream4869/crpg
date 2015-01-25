@@ -37,9 +37,6 @@ void WindowMsg::TickEvent(int a){
     return;
 }
 
-bool WindowMsg::IsOk()const{
-    return msg[ptr] == 0;
-}
 // Blocking syscall
 /*std::condition_variable* WindowMsg::GetSignal(){
     return &(this->cv);

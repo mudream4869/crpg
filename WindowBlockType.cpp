@@ -1,6 +1,7 @@
 #include "WindowBlockType.h"
 
 WindowBlockType* WindowBlockType::msg = nullptr;
+WriteType WindowBlockType::ret_value = {0, 0, ""};
 
 WindowBlockType::WindowBlockType(float _left, float _top, float _width, float _height)
                 :Window(_left, _top, _width, _height){}
@@ -8,13 +9,3 @@ WindowBlockType::WindowBlockType(float _left, float _top, float _width, float _h
 WindowBlockType::~WindowBlockType(){
     WindowBlockType::msg = nullptr;
 }
-
-bool WindowBlockType::IsOk() const{
-    return true;
-}
-
-WriteType WindowBlockType::GetValue(){
-    return {0, 0, ""};
-};
-
-
