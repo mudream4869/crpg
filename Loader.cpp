@@ -15,7 +15,7 @@
 #include "SceneGameOver.h"
 
 #include "Window.h"
-#include "WindowMsg.h"
+#include "WindowBlockType.h"
 
 #include "Env.h"
 
@@ -23,7 +23,6 @@
 
 // INSTANCE
 #include "SysCall.h"
-#include "Msg.h"
 #include "GlobalVariable.h"
 #include "GameObject.h"
 #include "AudioSystem.h"
@@ -58,7 +57,7 @@ void InitResource(){
     EnvInsert("map_pool", (void*)(new std::map<const char*, Map*, StrCompare>));
     
     Sys::InitSys();
-    Msg::InitMsg();
+
     GlobalVariable::InitGlobalVariable();
     GameObjectData::InitGameObject();
     Mask::InitMask();

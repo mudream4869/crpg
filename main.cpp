@@ -8,18 +8,16 @@
 #include "Loader.cpp"
 #include "ImgCtrl.h"
 
+#include "WindowBlockType.h"
+
 // KeyBroad Cut
 void KeyBoard(unsigned char key, int x, int y){
     printf("Press[%d]\n", key);
     Input inp;
     inp.InputType = INPUT_KEYPRESS;
     inp.Key = key;
-    if(Msg::IsMsgShow()){
-        if(Msg::IsMsgEnd()){
-            Msg::CloseMsg();
-        }else{
-            Msg::msg->InputEvent(inp);
-        }
+    if(WindowBlockType::msg != nullptr){
+        WindowBlockType::msg->InputEvent(inp);
     }else{
         now_scene->InputEvent(inp);
     }
@@ -28,8 +26,8 @@ void KeyBoard(unsigned char key, int x, int y){
 }
 
 void SystemTimer(int value){
-    if(Msg::IsMsgShow()){
-        Msg::msg->TickEvent(1);
+    if(WindowBlockType::msg != nullptr){
+        WindowBlockType::msg->TickEvent(1);
     }else{
         now_scene->TickEvent(1);
     }
@@ -49,8 +47,8 @@ void Display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     now_scene->Render();
-    if(Msg::IsMsgShow())
-        Msg::msg->Render();
+    if(WindowBlockType::msg != nullptr)
+        WindowBlockType::msg->Render();
     ImgCtrl::Render(); 
     if(Mask::IsMasking())
         Mask::Render();

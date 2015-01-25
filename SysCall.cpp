@@ -3,7 +3,7 @@
 #include <thread>
 #include "Event.h"
 #include "SysCall.h"
-#include "Msg.h"
+#include "WindowBlockType.h"
 #include "GlobalVariable.h"
 #include "Env.h"
 #include "ScenePlay.h"
@@ -14,6 +14,8 @@
 #include "Type.h"
 #include "PyLock.h"
 #include "ImgCtrl.h"
+
+#include "WindowMsg.h"
 
 std::mutex Sys::syscall_mutex;
 
@@ -33,11 +35,11 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
     // TODO:ENTERPRETER
     if(strcmp(cmd, "ShowMsg") == 0){
         fprintf(stderr, "Call ShowMsg\n");
-        Msg::StartMsg(PyString_AsString(PyTuple_GetItem(para, 1)));
+        WindowBlockType::msg = new WindowMsg(PyString_AsString(PyTuple_GetItem(para, 1)));
         
         auto state = PyEval_SaveThread();
         PyUnlock();
-        while(Msg::IsMsgShow() == false); // TODO: change to cv
+        while(WindowBlockType::msg != nullptr); // TODO: change to cv
         PyLock();
         PyEval_RestoreThread(state);
         

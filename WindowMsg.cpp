@@ -17,6 +17,14 @@ WindowMsg::~WindowMsg(){
     return;
 }
 
+void WindowMsg::InputEvent(Input inp){
+    if(inp.InputType != INPUT_KEYPRESS) return;
+    if(inp.Key != 13) return;
+    if(msg[ptr] == 0)
+        delete this;
+    return;
+}
+
 void WindowMsg::TickEvent(int a){
     if(msg[ptr] == 0){
         return;

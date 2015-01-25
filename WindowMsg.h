@@ -10,6 +10,7 @@ public:
     WindowMsg(const char* str); 
     ~WindowMsg();
     void TickEvent(int a);
+    void InputEvent(Input inp);
     bool IsOk() const;
     //std::condition_variable* GetSignal();
 

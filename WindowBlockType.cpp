@@ -1,9 +1,15 @@
 #include "WindowBlockType.h"
 
+WindowBlockType* WindowBlockType::msg = nullptr;
+
 WindowBlockType::WindowBlockType(float _left, float _top, float _width, float _height)
                 :Window(_left, _top, _width, _height){}
 
-bool WindowBlockType::IsOk() const {
+WindowBlockType::~WindowBlockType(){
+    WindowBlockType::msg = nullptr;
+}
+
+bool WindowBlockType::IsOk() const{
     return true;
 }
 
