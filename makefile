@@ -7,7 +7,7 @@ INSTANCE = Mask.o ImgCtrl.o AudioSystem.o GlobalVariable.o Msg.o GameObject.o Py
 
 SCENE = Scene.o ScenePlay.o SceneGameOver.o SceneStart.o SceneSave.o SceneLoad.o
 
-WINDOW = Window.o WindowBlockType.o WindowMsg.o WindowSelect.o WindowGameObject.o WindowInputNumber.o
+WINDOW = Window.o WindowBlockType.o WindowMsg.o WindowSelect.o WindowGameObject.o WindowInputNumber.o WindowMsgSelect.o
 
 LIBS = lodepng.o
 

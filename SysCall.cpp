@@ -17,6 +17,7 @@
 
 #include "WindowMsg.h"
 #include "WindowInputNumber.h"
+#include "WindowMsgSelect.h"
 
 std::mutex Sys::syscall_mutex;
 
@@ -46,7 +47,24 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         
         Py_INCREF(Py_None);
         ret_value = Py_None;
+    }else if(strcmp(cmd, "ShowMsgSelect") == 0){
+        PyObject* opt_list = PyTuple_GetItem(para, 1);
+        int sz = PyList_Size(opt_list);
+        char** options = new char*[sz];
+        for(int lx = 0;lx < (int)PyList_Size(opt_list);lx++){
+            char* tmp_str = PyString_AsString(PyList_GetItem(opt_list, lx));
+            options[lx] = new char[strlen(tmp_str) + 2];
+            strcpy(options[lx], tmp_str);
+        }
+        WindowBlockType::msg = new WindowMsgSelect(options, sz);
 
+        auto state = PyEval_SaveThread();
+        PyUnlock();
+        while(WindowBlockType::msg != nullptr); // TODO: change to cv
+        PyLock();
+        PyEval_RestoreThread(state);
+
+        ret_value = Py_BuildValue("i", WindowBlockType::ret_value.int_value);
     }else if(strcmp(cmd, "SetValue") == 0){
         fprintf(stderr, "Call SetValue\n");
         GlobalVariable::SetValue(

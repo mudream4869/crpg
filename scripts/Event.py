@@ -45,6 +45,9 @@ class Event:
     
     def ShowInputNumber(self):
         return self.syscall("ShowInputNumber")
+    
+    def ShowMsgSelect(self, arr):
+        return self.syscall("ShowMsgSelect", arr)
 
     def ShowSaveFile(self):
         self.syscall("ShowSaveFile")
