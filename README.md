@@ -17,6 +17,7 @@ C++ 和 Python 愛好者
 
 * [Kaizer RTP](http://s8.photobucket.com/user/zanyzora/library/Kaizer%20RTP?sort=3&page=1)
 * RpgmakerRTP 默認主角
+* Youtube 音樂庫 [Audio Library](https://www.youtube.com/audiolibrary/music) 
 
 ## Coding Style
 
