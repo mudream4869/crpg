@@ -13,7 +13,7 @@
 
 // KeyBroad Cut
 void KeyBoard(unsigned char key, int x, int y){
-    printf("Press[%d]\n", key);
+    //printf("Press[%d]\n", key);
     Input inp;
     inp.InputType = INPUT_KEYPRESS;
     inp.Key = key;
@@ -59,6 +59,11 @@ void Display()
 
 int main(int argc, char* argv[])  
 {
+
+#ifdef DEBUG
+    fprintf(stderr, "Enter debug mod\n");
+#endif
+
     Config::InitConfig();
     glutInit(&argc, argv);
     glutInitWindowSize(600, 600);

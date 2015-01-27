@@ -41,7 +41,11 @@ void Config::InitConfig(){
         }else if(strcmp(line, "gametitle") == 0){
             strcpy(GAME_TITLE, line+eq_ptr+1);
         }else{
+
+#ifdef DEBUG
             fprintf(stderr, "Config: [Warning] unknow setting name: %s\n", line);
+#endif
+        
         }
     }
     fclose(fp);

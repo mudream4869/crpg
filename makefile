@@ -1,5 +1,6 @@
 CFRAME = -framework OpenGL -framework GLUT -framework Foundation -framework Python -framework OpenAL 
-CFLAGS = -Wno-deprecated-declarations -std=c++11 
+CFLAGS = $(CFLAG)
+CFLAGS += -Wno-deprecated-declarations -std=c++11
 
 OBJECTS = Image.o Tile.o Map.o Hero.o Event.o Type.o Tool.o File.o Config.o
 

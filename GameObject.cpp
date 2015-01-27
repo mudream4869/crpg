@@ -11,17 +11,26 @@ std::map<const char*, int, StrCompare> GameObjectData::gameobject_count;
 
 void GameObjectData::InitGameObject(){
     PyObject* p_module = PyImport_ImportModule("scripts.objects");
+    
     if(p_module == NULL){
+
+#ifdef DEBUG
         fprintf(stderr, "Fail to load scripts.objects\n");
         PyErr_Print();
         fprintf(stderr, "[Warning] no gameobject initial.\n");
+#endif
+
         return;
     }
 
     FILE* finit = fopen("objects/__init__.ini", "r") ;
     if(finit == NULL){
+
+#ifdef DEBUG
         fprintf(stderr, "GameObjectData: Fail to open objects/__init__.ini");
         fprintf(stderr, "[Warning] no gameobject initial.\n");
+#endif
+
         return;
     }
 
@@ -32,11 +41,14 @@ void GameObjectData::InitGameObject(){
         Image* new_img = new Image(full_img_path);
         
         PyObject* p_class = PyObject_GetAttrString(p_module, script_name);
+
+#ifdef DEBUG
         if(p_class == NULL){
             fprintf(stderr, "Fail load 'class' %s from objects\n", script_name);
             PyErr_Print();
             exit(1);
         } 
+#endif
 
         PyMethodDef *callback = new PyMethodDef;
 
@@ -48,18 +60,24 @@ void GameObjectData::InitGameObject(){
         PyObject* pArg = Py_BuildValue("(O)", pcb);
 
         PyObject* p_inst = PyObject_CallObject(p_class, pArg);
+
+#ifdef DEBUG
         if(p_inst == NULL){
             fprintf(stderr, "Fail to get instance of gameobject %s\n", script_name);
             PyErr_Print();
             exit(1);
         }
+#endif
 
         PyObject* p_func = PyObject_GetAttrString(p_inst, "Action");
+
+#ifdef DEBUG
         if(p_inst == NULL){
             fprintf(stderr, "Fail to get gameobject %s 's Action function.\n", script_name);
             PyErr_Print();
             exit(1);
         }
+#endif
 
         GameObject new_obj;
         strcpy(new_obj.name, name);
@@ -96,13 +114,20 @@ void GameObjectData::CallGameObject(const char* str){
             auto state = Py_NewInterpreter(); 
             PyEval_RestoreThread(state);
             PyObject* pArg = Py_BuildValue("()");
+
+#ifdef DEBUG
             PyErr_Clear();
+#endif
+
             PyObject* ret = PyObject_CallObject(cb, pArg);
+
+#ifdef DEBUG
             if(PyErr_Occurred() != NULL){
                 fprintf(stderr, "gameobject script error\n");
                 PyErr_Print();
                 exit(1);
             }
+#endif
 
             Py_XDECREF(pArg);
             Py_XDECREF(ret);

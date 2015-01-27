@@ -25,21 +25,29 @@ Event::Event(const char* map_name, const char* str){
     sprintf(tmp, "scripts.%s", map_name);
     PySys_SetPath(".");
     
+#ifdef DEBUG 
     fprintf(stderr, "Loading from %s....\n", tmp);
+#endif
 
     this->p_module = PyImport_ImportModule(tmp);
+
+#ifdef DEBUG
     if(this->p_module == NULL){
         fprintf(stderr, "Fail to import %s.\n", tmp);
         PyErr_Print();
         exit(1);
     }
-    
+#endif
+
     this->p_class = PyObject_GetAttrString(p_module, str);
+
+#ifdef DEBUG
     if(this->p_class == NULL){
         fprintf(stderr, "Fail to get class '%s'.\n", str);
         PyErr_Print();
         exit(1);
     }
+#endif
 
     PyMethodDef *callback = new PyMethodDef;
 
@@ -50,27 +58,36 @@ Event::Event(const char* map_name, const char* str){
     PyObject* pcb = PyCFunction_New(callback, NULL);
     PyObject* pArg = Py_BuildValue("(O)", pcb);
     this->p_inst = PyObject_CallObject(this->p_class, pArg);
+
+#ifdef DEBUG
     if(this->p_inst == NULL){
         fprintf(stderr, "Fail to get new instance of %s\n", str);
         PyErr_Print();
         exit(1);
     }
-    
+#endif
+
     //TODO: kill pArg;
     this->p_func = PyObject_GetAttrString(this->p_inst, "Action");
+
+#ifdef DEBUG
     if(this->p_func == NULL){
         fprintf(stderr, "Fail to get 'Action' function from %s\n", str);
         PyErr_Print();
         exit(1);
-    } 
+    }
+#endif
 
     // Set up event config
     PyObject* p_config = PyObject_GetAttrString(this->p_inst, "config");
+
+#ifdef DEBUG
     if(p_config == NULL){
         fprintf(stderr, "Fail to get 'config' dictionary from %s\n", str);
         PyErr_Print();
         exit(1);
     }
+#endif
 
     char img_path[20];
     char trigger_condition_str[20];
@@ -93,10 +110,14 @@ Event::Event(const char* map_name, const char* str){
     this->fixed_direction = Py_True == PyDict_GetItemString(p_config, "fixed_direction");
      
     // To load event name, event shouldn;t be empty
+
+#ifdef DEBUG
     if(PyDict_GetItemString(p_config, "event_name") == NULL){
         fprintf(stderr, "Event name of %s should not be empty\n", str);
         exit(1);
     }
+#endif
+
     strcpy(this->event_name, PyString_AsString(PyDict_GetItemString(p_config, "event_name")));
     
     if(PyDict_GetItemString(p_config, "priority") == NULL)
@@ -163,13 +184,21 @@ Event::Event(const char* map_name, const char* str){
     else  if(strcmp(trigger_condition_str, "on stand") == 0)
         this->trigger_condition = TRIGGER_CONDITION_ON_STAND;
     else if(strcmp(trigger_condition_str, "auto") == 0){
+
+#ifdef DEBUG
         fprintf(stderr, "Event: trigger condition 'auto' is not provided.\n");
+#endif
+
         this->trigger_condition = TRIGGER_CONDITION_AUTO;
     }else if(strcmp(trigger_condition_str, "sync") == 0)
         this->trigger_condition = TRIGGER_CONDITION_SYNC;
     else{
+
+#ifdef DEBUG
         fprintf(stderr, "Event: trigger condition empty or not fit.\n");
         fprintf(stderr, "Warning : this event (%s) will sleep forever.\n", str);
+#endif
+
         this->trigger_condition = TRIGGER_CONDITION_NULL;
     }
     
@@ -188,8 +217,11 @@ Event::Event(const char* map_name, const char* str){
     // TODO: maybe read from config
     event_status.x = 7;
     event_status.y = 5;
-    
+
+#ifdef DEBUG    
     fprintf(stderr, "Event loads from %s ok\n", tmp);
+#endif
+
     return;
 }
 
@@ -274,14 +306,22 @@ void Event::Action(HeroStatus hero_status, bool is_enter){
             PyLock();
             auto state = Py_NewInterpreter(); 
             PyEval_RestoreThread(state);
+
+#ifdef DEBUG
             PyErr_Clear();
+#endif
+
             PyObject* pArg = Py_BuildValue("()");
             PyObject* ret = PyObject_CallObject(this->p_func, pArg);
+
+#ifdef DEBUG
             if(PyErr_Occurred() != NULL){
                 fprintf(stderr, "Error occur at calling event %s\n", event_name);
                 PyErr_Print();
                 exit(1);
             }
+#endif
+
             Py_XDECREF(pArg);
             Py_XDECREF(ret);
             //PyEval_SaveThread();
