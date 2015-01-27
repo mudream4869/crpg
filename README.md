@@ -8,6 +8,20 @@ C++ 和 Python 愛好者
 
 * Mac
 
+## 如何編譯
+
+* 一般編譯
+
+```
+$ make
+```
+
+* 假如需要除錯，請把`DEBUG`定義打開
+
+```
+$ make CFLAG=-DDEBUG
+```
+
 ## Some Special File Type 
 
 * tmx 檔案:
@@ -26,5 +40,4 @@ C++ 和 Python 愛好者
 
 ## TODO
 
-* 使用中文
 * 說明文件: ([WIKI](https://github.com/mudream4869/crpg/wiki/CRPG介紹))
