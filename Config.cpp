@@ -40,6 +40,8 @@ void Config::InitConfig(){
             sprintf(SCENESTART_BGM_NAME, "%s", line+eq_ptr+1);
         }else if(strcmp(line, "gametitle") == 0){
             strcpy(GAME_TITLE, line+eq_ptr+1);
+        }else{
+            fprintf(stderr, "Config: [Warning] unknow setting name: %s\n", line);
         }
     }
     fclose(fp);

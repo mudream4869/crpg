@@ -76,7 +76,7 @@ void Map::LoadMap(const char* path){
     char full_img_name[40];
     sprintf(full_img_name, "textures/%s", GetFileName(img_name));
      
-    fprintf(stderr, "[%s]\n", full_img_name);
+    //fprintf(stderr, "[%s]\n", full_img_name);
     Image* img = new Image(
         full_img_name,
         img_is_trans,
@@ -152,7 +152,6 @@ void Map::LoadMap(const char* path){
             strcpy(new_event_data.name ,event_node->first_attribute("name")->value());
             new_event_data.x = std::atoi(event_node->first_attribute("x")->value())/img_pw;
             new_event_data.y = std::atoi(event_node->first_attribute("y")->value())/img_ph;
-            printf("Get Event x, y = %d, %d\n", new_event_data.x, new_event_data.y);
             event_datas.push_back(new_event_data);
         }
     }
