@@ -21,17 +21,25 @@ Event::Event(const char* map_name, const char* str){
     // TODO: error handling
 
     // Set up PyObject
+    
     sprintf(tmp, "scripts.%s", map_name);
     PySys_SetPath(".");
     
-    printf("Event: ready to load %s\n", tmp);
-    p_module = PyImport_ImportModule(tmp);
-    PyObject_Print(p_module, stderr, 0);
-    fprintf(stderr, "1");
+    fprintf(stderr, "Loading from %s....\n", tmp);
+
+    this->p_module = PyImport_ImportModule(tmp);
+    if(this->p_module == NULL){
+        fprintf(stderr, "Fail to import %s.\n", tmp);
+        PyErr_Print();
+        exit(1);
+    }
+    
     this->p_class = PyObject_GetAttrString(p_module, str);
-    fprintf(stderr, "2");
-    //PyObject* p_get_class_func = PyObject_GetAttrString(p_module, "EventTalk");
-    //PyObject_Print(this->p_class, stderr, 0);
+    if(this->p_class == NULL){
+        fprintf(stderr, "Fail to get class '%s'.\n", str);
+        PyErr_Print();
+        exit(1);
+    }
 
     PyMethodDef *callback = new PyMethodDef;
 
@@ -42,70 +50,102 @@ Event::Event(const char* map_name, const char* str){
     PyObject* pcb = PyCFunction_New(callback, NULL);
     PyObject* pArg = Py_BuildValue("(O)", pcb);
     this->p_inst = PyObject_CallObject(this->p_class, pArg);
-    Py_XDECREF(pArg);
+    if(this->p_inst == NULL){
+        fprintf(stderr, "Fail to get new instance of %s\n", str);
+        PyErr_Print();
+        exit(1);
+    }
     
     //TODO: kill pArg;
     this->p_func = PyObject_GetAttrString(this->p_inst, "Action");
-    PyObject_Print(this->p_func, stderr, 0);
+    if(this->p_func == NULL){
+        fprintf(stderr, "Fail to get 'Action' function from %s\n", str);
+        PyErr_Print();
+        exit(1);
+    } 
 
     // Set up event config
     PyObject* p_config = PyObject_GetAttrString(this->p_inst, "config");
+    if(p_config == NULL){
+        fprintf(stderr, "Fail to get 'config' dictionary from %s\n", str);
+        PyErr_Print();
+        exit(1);
+    }
 
     char img_path[20];
     char trigger_condition_str[20];
     PyObject* p_img_path_str = PyDict_GetItemString(p_config, "image");
-    PyObject_Print(p_img_path_str, stderr, 0);
+    //PyObject_Print(p_img_path_str, stderr, 0);
     PyObject* p_trig_cond_str = PyDict_GetItemString(p_config, "trigger_condition");
-    PyObject_Print(p_trig_cond_str, stderr, 0);
+    //PyObject_Print(p_trig_cond_str, stderr, 0);
+    
+    if(p_img_path_str == NULL)
+        img_path[0] = '\0';
+    else
+        strcpy(img_path, PyString_AsString(p_img_path_str));
+    
+    if(p_trig_cond_str == NULL)
+        trigger_condition_str[0] = '\0';
+    else
+        strcpy(trigger_condition_str, PyString_AsString(p_trig_cond_str));
 
-    strcpy(img_path, PyString_AsString(p_img_path_str));
-    strcpy(trigger_condition_str, PyString_AsString(p_trig_cond_str));
-
-    //fprintf(stderr, "Ready to load solid setting\n");
     this->is_solid = Py_True == PyDict_GetItemString(p_config, "solid");
     this->fixed_direction = Py_True == PyDict_GetItemString(p_config, "fixed_direction");
      
+    // To load event name, event shouldn;t be empty
+    if(PyDict_GetItemString(p_config, "event_name") == NULL){
+        fprintf(stderr, "Event name of %s should not be empty\n", str);
+        exit(1);
+    }
     strcpy(this->event_name, PyString_AsString(PyDict_GetItemString(p_config, "event_name")));
-    this->priority = (int)PyLong_AsLong(PyDict_GetItemString(p_config, "priority"));
+    
+    if(PyDict_GetItemString(p_config, "priority") == NULL)
+        this->priority = 0;
+    else
+        this->priority = (int)PyLong_AsLong(PyDict_GetItemString(p_config, "priority"));
     
     // display condititon 
     PyObject* p_cond_show = PyDict_GetItemString(p_config, "display_cond");
-    int cond_show_sz = PyList_Size(p_cond_show);
-    for(int lx = 0;lx < cond_show_sz;lx++){
-        PyObject* get_cond = PyList_GetItem(p_cond_show, lx);
-        char* str_type = PyString_AsString(PyList_GetItem(get_cond, 0));
-        char* var_name = PyString_AsString(PyList_GetItem(get_cond, 1));
-        cond new_cond;
-        strcpy(new_cond.var_name, var_name);
-        if(strcmp("flag", str_type) == 0){
-            new_cond.type = COND_TYPE_FLAG;
-        }else if(strcmp("value", str_type) == 0){
-            new_cond.type = COND_TYPE_VALUE;
-            new_cond.limit_value = (int)PyLong_AsLong(PyList_GetItem(get_cond, 2));
+    if(p_cond_show != NULL){
+        int cond_show_sz = PyList_Size(p_cond_show);
+        for(int lx = 0;lx < cond_show_sz;lx++){
+            PyObject* get_cond = PyList_GetItem(p_cond_show, lx);
+            char* str_type = PyString_AsString(PyList_GetItem(get_cond, 0));
+            char* var_name = PyString_AsString(PyList_GetItem(get_cond, 1));
+            cond new_cond;
+            strcpy(new_cond.var_name, var_name);
+            if(strcmp("flag", str_type) == 0){
+                new_cond.type = COND_TYPE_FLAG;
+            }else if(strcmp("value", str_type) == 0){
+                new_cond.type = COND_TYPE_VALUE;
+                new_cond.limit_value = (int)PyLong_AsLong(PyList_GetItem(get_cond, 2));
+            }
+            display_cond.push_back(new_cond);
         }
-        display_cond.push_back(new_cond);
     }
 
     PyObject* p_cond_reje = PyDict_GetItemString(p_config, "reject_cond");
-    int cond_reje_sz = PyList_Size(p_cond_reje);
-    for(int lx = 0;lx < cond_reje_sz;lx++){
-        PyObject* get_cond = PyList_GetItem(p_cond_reje, lx);
-        char* str_type = PyString_AsString(PyList_GetItem(get_cond, 0));
-        char* var_name = PyString_AsString(PyList_GetItem(get_cond, 1));
-        cond new_cond;
-        strcpy(new_cond.var_name, var_name);
-        if(strcmp("flag", str_type) == 0){
-            new_cond.type = COND_TYPE_FLAG;
-        }else if(strcmp("value", str_type) == 0){
-            new_cond.type = COND_TYPE_VALUE;
-            new_cond.limit_value = (int)PyLong_AsLong(PyList_GetItem(get_cond, 2));
+    if(p_cond_reje != NULL){
+        int cond_reje_sz = PyList_Size(p_cond_reje);
+        for(int lx = 0;lx < cond_reje_sz;lx++){
+            PyObject* get_cond = PyList_GetItem(p_cond_reje, lx);
+            char* str_type = PyString_AsString(PyList_GetItem(get_cond, 0));
+            char* var_name = PyString_AsString(PyList_GetItem(get_cond, 1));
+            cond new_cond;
+            strcpy(new_cond.var_name, var_name);
+            if(strcmp("flag", str_type) == 0){
+                new_cond.type = COND_TYPE_FLAG;
+            }else if(strcmp("value", str_type) == 0){
+                new_cond.type = COND_TYPE_VALUE;
+                new_cond.limit_value = (int)PyLong_AsLong(PyList_GetItem(get_cond, 2));
+            }
+            reject_cond.push_back(new_cond);
         }
-        reject_cond.push_back(new_cond);
     }
-
+    
+    // TODO: clear this dirty thing
     EnvGetEventPool()->operator[](event_name) = this;
 
-    //fprintf(stderr, "set up solid\n");
     if(img_path[0] != 0){
         this->tile_use = new Tile;
         char full_img_name[40];
@@ -116,6 +156,7 @@ Event::Event(const char* map_name, const char* str){
     }else{
         this->tile_use = nullptr;
     }
+
     // Init the trigger condition
     if(strcmp(trigger_condition_str, "on chat") == 0)
         this->trigger_condition = TRIGGER_CONDITION_ON_CHAT;
@@ -128,6 +169,7 @@ Event::Event(const char* map_name, const char* str){
         this->trigger_condition = TRIGGER_CONDITION_SYNC;
     else{
         fprintf(stderr, "Event: trigger condition empty or not fit.\n");
+        fprintf(stderr, "Warning : this event (%s) will sleep forever.\n", str);
         this->trigger_condition = TRIGGER_CONDITION_NULL;
     }
     
@@ -147,7 +189,7 @@ Event::Event(const char* map_name, const char* str){
     event_status.x = 7;
     event_status.y = 5;
     
-    fprintf(stderr, "Event: Event load %s ok\n", tmp);
+    fprintf(stderr, "Event loads from %s ok\n", tmp);
     return;
 }
 
@@ -188,7 +230,6 @@ bool Event::Condition(){
 
 void Event::Action(HeroStatus hero_status, bool is_enter){
     // TODO: check the incref real implement
-    // TODO: torun recycle
     // Important : unlock the `running` before return
     if(this->running.try_lock() == false) return;
     if(this->Condition() == false){
@@ -233,19 +274,23 @@ void Event::Action(HeroStatus hero_status, bool is_enter){
             PyLock();
             auto state = Py_NewInterpreter(); 
             PyEval_RestoreThread(state);
+            PyErr_Clear();
             PyObject* pArg = Py_BuildValue("()");
             PyObject* ret = PyObject_CallObject(this->p_func, pArg);
+            if(PyErr_Occurred() != NULL){
+                fprintf(stderr, "Error occur at calling event %s\n", event_name);
+                PyErr_Print();
+                exit(1);
+            }
             Py_XDECREF(pArg);
             Py_XDECREF(ret);
             //PyEval_SaveThread();
             //Py_EndInterpreter(state);
             PyUnlock();
             this->running.unlock();
-            fprintf(stderr, "EVent end\n");
         }
     );
     torun.detach();
-    fprintf(stderr, "Event Action\n");
     return;
 }
 
