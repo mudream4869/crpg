@@ -14,6 +14,8 @@
 
 #include "GlobalVariable.h"
 
+#include "InputCtrl.h"
+
 ScenePlay* ScenePlay::scene_play = nullptr;
 
 ScenePlay::ScenePlay(){
@@ -112,8 +114,6 @@ void ScenePlay::SetMap(Map* _map){
     if(map_use->GetMapBGM()[0] != 0){
         AudioSystem::PlayBGM(map_use->GetMapBGM());
     }
-    fprintf(stderr, "=====: %d\n", GlobalVariable::GetFlag("main_ok"));
-    fprintf(stderr, "ScenePlay Set map ok\n");
     return;
 }
 
@@ -124,7 +124,7 @@ char* ScenePlay::GetMapName(){
 bool ScenePlay::CanDo(int x, int y, int dir)const{
     static int dir_x[] = {0, -1, 1, 0};
     static int dir_y[] = {1, 0, 0, -1};
-    printf("Vis ScenePlay : x, y = %d, %d\n", x, y);
+    //printf("Vis ScenePlay : x, y = %d, %d\n", x, y);
     for(int lx = 0;lx < events.size();lx++){
         if(events[lx]->IsSolid() == false) continue;
         Vec2i pos = events[lx]->Position();
@@ -135,9 +135,6 @@ bool ScenePlay::CanDo(int x, int y, int dir)const{
 }
 
 void ScenePlay::InputEvent(Input inp){
-    if(inp.Key == 'q'){
-        exit(0);
-    }
     if(is_main_menu_open){
         if(inp.Key == 27){
             is_main_menu_open = false;
@@ -148,28 +145,12 @@ void ScenePlay::InputEvent(Input inp){
         }
         return;
     }
-    static int dir_x[] = {0, -1, 1, 0};
-    static int dir_y[] = {1, 0, 0, -1};
-    std::map<unsigned char, int> ch_dir_map;
-    ch_dir_map['a'] = 1; ch_dir_map['s'] = 0;
-    ch_dir_map['w'] = 3; ch_dir_map['d'] = 2;
+
     if(inp.InputType == INPUT_KEYPRESS){
         if(inp.Key == 27){
             is_main_menu_open = true; 
             this->obj_menu->Update();
             return;
-        }else if(ch_dir_map.count(inp.Key)){
-            // Moving on the map
-            if(not is_win_menu_open){
-                if(hero_status.status == 0){
-                    int dir_index = ch_dir_map[inp.Key];
-                    if(CanDo(hero_status.x, hero_status.y, dir_index)){
-                        hero_status.status = 1;
-                        hero_status.moving_step = 0;
-                    }
-                    hero_status.moving_dir = dir_index;
-                }
-            }
         }
         for(int lx = 0;lx < events.size();lx++){
             events[lx]->Action(hero_status, inp.Key == 13);
@@ -180,17 +161,28 @@ void ScenePlay::InputEvent(Input inp){
 
 void ScenePlay::TickEvent(int delta_time){
     if(this->is_main_menu_open){
+        // block
         this->main_menu->TickEvent(delta_time);
+        return;
     }
-    static int dir_x[] = {0, -1, 1, 0};
-    static int dir_y[] = {1, 0, 0, -1};
     if(hero_status.status == 1){
         hero_status.moving_step = std::min(hero_status.moving_step + delta_time, 16);
         if(hero_status.moving_step == 16){ // TODO: make this constant
+            int dir_x[] = {0, -1, 1, 0};
+            int dir_y[] = {1, 0, 0, -1};
             hero_status.x += dir_x[hero_status.moving_dir];
             hero_status.y += dir_y[hero_status.moving_dir];
             hero_status.status = 0;
             hero_status.moving_step = 0;
+        }
+    }else if(hero_status.status == 0){
+        int arr_index = InputCtrl::GetArrowCommand();
+        if(arr_index != -1){
+            if(CanDo(hero_status.x, hero_status.y, arr_index)){
+                hero_status.status = 1;
+                hero_status.moving_step = 0;
+            }
+            hero_status.moving_dir = arr_index;
         }
     }
     for(int lx = 0;lx < events.size();lx++){
