@@ -4,7 +4,7 @@ CFLAGS += -Wno-deprecated-declarations -std=c++11
 
 OBJECTS = Image.o Tile.o Map.o Hero.o Event.o Type.o Tool.o File.o Config.o
 
-INSTANCE = Mask.o ImgCtrl.o AudioSystem.o GlobalVariable.o Msg.o GameObject.o PyLock.o SysCall.o Env.o
+INSTANCE = Mask.o ImgCtrl.o AudioSystem.o GlobalVariable.o Msg.o GameObject.o PyLock.o SysCall.o Env.o InputCtrl.o
 
 SCENE = Scene.o ScenePlay.o SceneGameOver.o SceneStart.o SceneSave.o SceneLoad.o
 

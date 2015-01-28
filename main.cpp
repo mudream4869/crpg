@@ -7,13 +7,16 @@
 #include "Config.h"
 #include "Loader.cpp"
 #include "ImgCtrl.h"
+#include "InputCtrl.h"
 
 #include "WindowBlockType.h"
 #include "Scene.h"
 
 // KeyBroad Cut
-void KeyBoard(unsigned char key, int x, int y){
+void NormalKeyDown(unsigned char key, int x, int y){
     //printf("Press[%d]\n", key);
+    InputCtrl::PressNormalKey(key);
+
     Input inp;
     inp.InputType = INPUT_KEYPRESS;
     inp.Key = key;
@@ -26,6 +29,23 @@ void KeyBoard(unsigned char key, int x, int y){
     return;
 }
 
+void NormalKeyUp(unsigned char key, int x, int y){
+    InputCtrl::FreeNormalKey(key);
+    glutPostRedisplay();
+    return;
+}
+
+void SpecialKeyDown(int key, int x, int y){
+    InputCtrl::PressSpecialKey(key);
+    glutPostRedisplay();
+    return;
+}
+
+void SpecialKeyUp(int key, int x, int y){
+    InputCtrl::FreeSpecialKey(key);
+    glutPostRedisplay();
+    return;
+}
 void SystemTimer(int value){
     if(WindowBlockType::msg != nullptr){
         WindowBlockType::msg->TickEvent(1);
@@ -75,10 +95,15 @@ int main(int argc, char* argv[])
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_ALPHA); 
  
     glutDisplayFunc(Display);
+    glutWMCloseFunc(CloseFunc);
     glutTimerFunc(25, SystemTimer, 1);
     glutTimerFunc(12, MaskTimer, 1);
-    glutKeyboardFunc(KeyBoard);
-    glutWMCloseFunc(CloseFunc);
+    
+    glutKeyboardFunc(NormalKeyDown);
+    glutKeyboardUpFunc(NormalKeyUp);
+    glutSpecialFunc(SpecialKeyDown);
+    glutSpecialUpFunc(SpecialKeyUp);
+
     glEnable(GL_BLEND);
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     InitResource();
