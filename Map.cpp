@@ -164,6 +164,9 @@ bool Map::CanDo(int xx, int yy, int dir)const{
     static int dir_x[] = {0, -1, 1, 0};
     static int dir_y[] = {1, 0, 0, -1};
     int nxx = xx + dir_x[dir], nyy = yy + dir_y[dir];
+    if(xx < 0 or xx >= map_width or yy < 0 or yy >= map_height or 
+       nxx < 0 or nxx >= map_width or nyy < 0 or nyy >= map_height)
+        return false;
     for(int lc = 0;lc < map_load.size();lc++){
         int terrain_now = 0;
         int x = map_load[lc][xx][yy].x , y = map_load[lc][xx][yy].y;
