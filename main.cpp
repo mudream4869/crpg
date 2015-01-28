@@ -57,6 +57,10 @@ void Display()
     return; 
 }
 
+void CloseFunc(){
+    exit(0);
+}
+
 int main(int argc, char* argv[])  
 {
 
@@ -74,6 +78,7 @@ int main(int argc, char* argv[])
     glutTimerFunc(25, SystemTimer, 1);
     glutTimerFunc(12, MaskTimer, 1);
     glutKeyboardFunc(KeyBoard);
+    glutWMCloseFunc(CloseFunc);
     glEnable(GL_BLEND);
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     InitResource();
