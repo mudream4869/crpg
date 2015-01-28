@@ -34,8 +34,7 @@ ScenePlay::ScenePlay(){
     hero_status.moving_dir = 0;
     hero_status.moving_step = 0;
 
-    win_menu = new Window(0.1, 0.1, 1.8, 1.8);
-    is_win_menu_open = false;
+    is_obj_menu_open = false;
     is_main_menu_open = false;
     
     char* main_menu_string[3] = {new char[20], new char[20], new char[20]};
@@ -48,11 +47,9 @@ ScenePlay::ScenePlay(){
             if(index == -1) this->is_main_menu_open = false;
             if(index == 0){
                 SceneLoad::Call();
-                this->is_main_menu_open = false;
                 return;
             }else if(index == 1){
                 SceneStart::Call();
-                this->is_main_menu_open = false;
                 return;
             }else if(index == 2){
                 //TODO:Exit Game
@@ -67,18 +64,21 @@ ScenePlay::ScenePlay(){
     delete[] main_menu_string[2];
 
     obj_menu = new WindowGameObject(0.1, 0.1);
-    main_menu = obj_menu;
     return;
 }
 
 void ScenePlay::Call(Map* _map, int start_x, int start_y, int dir){
     Scene::scene_certain = (Scene*) ScenePlay::scene_play;
     ScenePlay::scene_play->ChangeMap(_map, start_x, start_y, dir);
+    ScenePlay::scene_play->is_main_menu_open = false;
+    ScenePlay::scene_play->is_obj_menu_open = false;
     return;
 }
 
 void ScenePlay::Call(){
     Scene::scene_certain = (Scene*) ScenePlay::scene_play;
+    ScenePlay::scene_play->is_main_menu_open = false;
+    ScenePlay::scene_play->is_obj_menu_open = false;
     return;
 } 
 
@@ -133,6 +133,17 @@ bool ScenePlay::CanDo(int x, int y, int dir)const{
 }
 
 void ScenePlay::InputEvent(Input inp){
+    if(inp.type == INPUT_SPECIAL_KEY_DOWN and inp.special_key == GLUT_KEY_F7){
+        SceneStart::Call();
+        return;
+    }
+
+    if(inp.type == INPUT_SPECIAL_KEY_DOWN and inp.special_key == GLUT_KEY_F8){
+        if(this->is_main_menu_open == false)
+            this->is_main_menu_open = true;
+        return;
+    }
+
     if(is_main_menu_open){
         if(inp.type == INPUT_NORMAL_KEY_DOWN and inp.normal_key == 27){
             is_main_menu_open = false;
@@ -143,10 +154,21 @@ void ScenePlay::InputEvent(Input inp){
         this->main_menu->InputEvent(inp);
         return;
     }
+    
+    if(is_obj_menu_open){
+        if(inp.type == INPUT_NORMAL_KEY_DOWN and inp.normal_key == 27){
+            is_obj_menu_open = false;
+            return;
+        }
+        if(inp.type == INPUT_NORMAL_KEY_DOWN and  inp.normal_key == 13)
+            is_obj_menu_open = false;
+        this->obj_menu->InputEvent(inp);
+        return;
+    }
 
     if(inp.type == INPUT_NORMAL_KEY_DOWN){
         if(inp.normal_key == 27){
-            is_main_menu_open = true; 
+            is_obj_menu_open = true; 
             this->obj_menu->Update();
             return;
         }
@@ -161,6 +183,10 @@ void ScenePlay::TickEvent(int delta_time){
     if(this->is_main_menu_open){
         // block
         this->main_menu->TickEvent(delta_time);
+        return;
+    }
+    if(this->is_obj_menu_open){
+        this->obj_menu->TickEvent(delta_time);
         return;
     }
     if(hero_status.status == 1){
@@ -238,8 +264,8 @@ void ScenePlay::Render(){
         }
     }
 
-    if(is_win_menu_open)
-        win_menu->Render();
+    if(is_obj_menu_open)
+        obj_menu->Render();
 
     if(is_main_menu_open)
         main_menu->Render();

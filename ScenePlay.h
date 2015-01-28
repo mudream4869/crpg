@@ -36,12 +36,12 @@ private:
     Map* map_use;
     Hero* hero_use;
     HeroStatus hero_status;
-    Window* win_menu;
+    
     Window* main_menu;
     Window* obj_menu;
 
-    bool is_win_menu_open;
     bool is_main_menu_open;
+    bool is_obj_menu_open; 
     
     std::vector<Event*> events;
 };
