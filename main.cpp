@@ -12,14 +12,9 @@
 #include "WindowBlockType.h"
 #include "Scene.h"
 
-// KeyBroad Cut
 void NormalKeyDown(unsigned char key, int x, int y){
-    //printf("Press[%d]\n", key);
     InputCtrl::PressNormalKey(key);
-
-    Input inp;
-    inp.InputType = INPUT_KEYPRESS;
-    inp.Key = key;
+    Input inp = {INPUT_NORMAL_KEY_DOWN, x, y, key, 0};
     if(WindowBlockType::msg != nullptr){
         WindowBlockType::msg->InputEvent(inp);
     }else{
@@ -31,18 +26,36 @@ void NormalKeyDown(unsigned char key, int x, int y){
 
 void NormalKeyUp(unsigned char key, int x, int y){
     InputCtrl::FreeNormalKey(key);
+    Input inp = {INPUT_NORMAL_KEY_UP, x, y, key, 0};
+    if(WindowBlockType::msg != nullptr){
+        WindowBlockType::msg->InputEvent(inp);
+    }else{
+        Scene::scene_certain->InputEvent(inp);
+    }
     glutPostRedisplay();
     return;
 }
 
 void SpecialKeyDown(int key, int x, int y){
     InputCtrl::PressSpecialKey(key);
+    Input inp = {INPUT_SPECIAL_KEY_DOWN, x, y, 0, key};
+    if(WindowBlockType::msg != nullptr){
+        WindowBlockType::msg->InputEvent(inp);
+    }else{
+        Scene::scene_certain->InputEvent(inp);
+    }
     glutPostRedisplay();
     return;
 }
 
 void SpecialKeyUp(int key, int x, int y){
     InputCtrl::FreeSpecialKey(key);
+    Input inp = {INPUT_SPECIAL_KEY_UP, x, y, 0, key};
+    if(WindowBlockType::msg != nullptr){
+        WindowBlockType::msg->InputEvent(inp);
+    }else{
+        Scene::scene_certain->InputEvent(inp);
+    }
     glutPostRedisplay();
     return;
 }

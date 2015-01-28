@@ -11,6 +11,8 @@
 
 #include "Config.h"
 
+#include "Constant.h"
+
 Scene* SceneStart::scene_start = nullptr;
 
 SceneStart::SceneStart(){
@@ -44,15 +46,8 @@ void SceneStart::UpdateSelectBox(){
 }
 
 void SceneStart::InputEvent(Input inp){
-    bool change = false;
-    if(inp.InputType == INPUT_KEYPRESS){
-        if(inp.Key == 'w'){
-            if(select_index > 0)
-                select_index--, change = true;
-        }else if(inp.Key == 's'){
-            if(select_index < 2)
-                select_index++, change = true;
-        }else if(inp.Key == 13){
+    if(inp.type == INPUT_NORMAL_KEY_DOWN){
+        if(inp.normal_key == 13){
             if(select_index == 0){
                 ScenePlay::Call(
                     EnvGetMap(Config::GAME_START_MAP_NAME),
@@ -60,7 +55,6 @@ void SceneStart::InputEvent(Input inp){
                     Config::GAME_START_POS.y,
                     0
                 );
-                fprintf(stderr, "hi here\n");
                 return;
             }else if(select_index == 1){
                 SceneLoad::Call();
@@ -70,6 +64,12 @@ void SceneStart::InputEvent(Input inp){
             }
         }
     }
+    int dir = Input2Dir(inp);
+    bool change = false;
+    if(dir == DIR_UP and select_index > 0)
+        select_index--, change = true;
+    else if(dir == DIR_DOWN and select_index < 2)
+        select_index++, change = true;
     if(change)
         UpdateSelectBox();
     return;

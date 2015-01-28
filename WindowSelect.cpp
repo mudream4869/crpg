@@ -1,5 +1,7 @@
 #include "WindowSelect.h"
 
+#include "Constant.h"
+
 WindowSelect::WindowSelect(float _left, float _top, float _width, float _height,
             std::function<void(int)>cb,
             std::function<void(int)>ch,
@@ -12,7 +14,6 @@ WindowSelect::WindowSelect(float _left, float _top, float _width, float _height,
         items.push_back(new_str);
     }
     select_index = 0;
-    fprintf(stderr, "ready to update\n");
     this->Update();
     return;
 }
@@ -25,20 +26,26 @@ WindowSelect::~WindowSelect(){
 }
 
 void WindowSelect::InputEvent(Input inp){
-    if(inp.InputType != INPUT_KEYPRESS) return;
-    if(inp.Key == 27)
-        choose_callback(-1);
-    if(inp.Key == 'w' and select_index > 0){
+    bool up = false, down = false;
+    if(inp.type == INPUT_NORMAL_KEY_DOWN){
+        if(inp.normal_key == 27){
+            choose_callback(-1);
+            return;
+        }else if(inp.normal_key == 13){
+            choose_callback(select_index);
+            return;
+        }
+    }
+    int dir = Input2Dir(inp);
+            
+    if(dir == DIR_UP and select_index > 0){
         select_index--;
         this->Update();
     }
-    if(inp.Key == 's' and select_index+1 < items.size()){
+    if(dir == DIR_DOWN and select_index+1 < items.size()){
         select_index++;
         this->Update();
     }
-    if(inp.Key == 13)
-        choose_callback(select_index);
-        
     return;
 }
 

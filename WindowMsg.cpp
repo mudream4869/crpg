@@ -18,8 +18,8 @@ WindowMsg::~WindowMsg(){
 }
 
 void WindowMsg::InputEvent(Input inp){
-    if(inp.InputType != INPUT_KEYPRESS) return;
-    if(inp.Key != 13) return;
+    if(inp.type != INPUT_NORMAL_KEY_DOWN) return;
+    if(inp.normal_key != 13) return;
     if(msg[ptr] == 0)
         delete this;
     return;

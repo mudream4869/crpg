@@ -1,6 +1,8 @@
 #include "WindowGameObject.h"
 #include "GameObject.h"
 
+#include "Constant.h"
+
 WindowGameObject::WindowGameObject(float _left, float _top):
     Window(_left, _top, 0.58, 0.6){
     this->ptr = 0;
@@ -31,27 +33,28 @@ void WindowGameObject::Update(){
 } 
 
 void WindowGameObject::InputEvent(Input inp){
-    if(inp.InputType != INPUT_KEYPRESS) return;
-    fprintf(stderr, "Enter InputEvent\n");
-    bool change = false;
+    bool up = false, down = false;
+    if(inp.type == INPUT_NORMAL_KEY_DOWN){
     
-    if(inp.Key == 13){
-        int ly = 0;
-        for(auto get_data = GameObjectData::gameobject_count.begin();
-                get_data != GameObjectData::gameobject_count.end();
-                get_data++, ly++){
-            if(ly == ptr){
-                GameObjectData::CallGameObject(get_data->first); 
-                return;
+        if(inp.normal_key == 13){
+            int ly = 0;
+            for(auto get_data = GameObjectData::gameobject_count.begin();
+                    get_data != GameObjectData::gameobject_count.end();
+                    get_data++, ly++){
+                if(ly == ptr){
+                    GameObjectData::CallGameObject(get_data->first); 
+                    return;
+                }
             }
+            return;
         }
-        return;
     }
-    
-    if(inp.Key == 'w' and ptr > 0)
+    int dir = Input2Dir(inp);
+    bool change = false;
+    if(dir == DIR_UP and ptr > 0)
         ptr--, change = true;
 
-    if(inp.Key == 's' and ptr+1 < GameObjectData::gameobject_count.size())
+    if(dir == DIR_DOWN and ptr+1 < GameObjectData::gameobject_count.size())
         ptr++, change = true;
     
     if(change)

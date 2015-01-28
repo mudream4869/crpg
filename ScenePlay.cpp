@@ -38,7 +38,6 @@ ScenePlay::ScenePlay(){
     is_win_menu_open = false;
     is_main_menu_open = false;
     
-    fprintf(stderr, "start to set up main menu\n");
     char* main_menu_string[3] = {new char[20], new char[20], new char[20]};
     strcpy(main_menu_string[0], "Load File");
     strcpy(main_menu_string[1], "Return Menu"); 
@@ -74,7 +73,6 @@ ScenePlay::ScenePlay(){
 
 void ScenePlay::Call(Map* _map, int start_x, int start_y, int dir){
     Scene::scene_certain = (Scene*) ScenePlay::scene_play;
-    fprintf(stderr, "here\n");
     ScenePlay::scene_play->ChangeMap(_map, start_x, start_y, dir);
     return;
 }
@@ -136,24 +134,24 @@ bool ScenePlay::CanDo(int x, int y, int dir)const{
 
 void ScenePlay::InputEvent(Input inp){
     if(is_main_menu_open){
-        if(inp.Key == 27){
+        if(inp.type == INPUT_NORMAL_KEY_DOWN and inp.normal_key == 27){
             is_main_menu_open = false;
-        }else{
-            if(inp.Key == 13)
-                is_main_menu_open = false;
-            this->main_menu->InputEvent(inp);
+            return;
         }
+        if(inp.type == INPUT_NORMAL_KEY_DOWN and  inp.normal_key == 13)
+            is_main_menu_open = false;
+        this->main_menu->InputEvent(inp);
         return;
     }
 
-    if(inp.InputType == INPUT_KEYPRESS){
-        if(inp.Key == 27){
+    if(inp.type == INPUT_NORMAL_KEY_DOWN){
+        if(inp.normal_key == 27){
             is_main_menu_open = true; 
             this->obj_menu->Update();
             return;
         }
         for(int lx = 0;lx < events.size();lx++){
-            events[lx]->Action(hero_status, inp.Key == 13);
+            events[lx]->Action(hero_status, inp.normal_key == 13);
         }
     }
     return;

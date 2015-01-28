@@ -3,6 +3,8 @@
 #include <cstring>
 #include "WindowMsgSelect.h"
 
+#include "Constant.h"
+
 WindowMsgSelect::WindowMsgSelect(char* _options[], int count)
     : WindowBlockType(0.7, 0.8, 0.6, 0.4){
     for(int lx = 0;lx < count;lx++){
@@ -22,16 +24,16 @@ WindowMsgSelect::~WindowMsgSelect(){
 }
 
 void WindowMsgSelect::InputEvent(Input inp){
-    if(inp.InputType != INPUT_KEYPRESS) return;
-    if(inp.Key == 13){
+    if(inp.type == INPUT_NORMAL_KEY_DOWN and inp.normal_key == 13){
         WindowBlockType::ret_value = {WRITE_INT, ptr, ""};
         delete this;
         return;
     }
+    int dir = Input2Dir(inp);
     bool update = false;
-    if(inp.Key == 'w' and ptr)
+    if(dir == DIR_UP and ptr)
         ptr--, update = true;
-    else if(inp.Key == 's' and ptr + 1 < options.size())
+    else if(dir == DIR_DOWN and ptr + 1 < options.size())
         ptr++, update = true;
     if(update)
         this->Update();

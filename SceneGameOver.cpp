@@ -19,10 +19,8 @@ void SceneGameOver::Call(){
 }
 
 void SceneGameOver::InputEvent(Input inp){
-    if(inp.InputType != INPUT_KEYPRESS) return;
+    if(inp.type != INPUT_NORMAL_KEY_DOWN) return;
     SceneStart::Call();
-    
-    // TODO: Call SceneStart
     return;
 }
 

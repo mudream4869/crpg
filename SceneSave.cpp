@@ -28,7 +28,6 @@ SceneSave::SceneSave(){
                 return;
             }
             // TODO:choose
-            fprintf(stderr, "%d\n", index);
             char tmp[20];
             sprintf(tmp, "file%d", index);
             File::SaveFile(tmp);
@@ -39,7 +38,6 @@ SceneSave::SceneSave(){
             // TODO: change
             char tmp[20];
             sprintf(tmp, "file%d", index);
-            fprintf(stderr, "%d\n", index);
             //File::File* ret = File::PreloadFile(tmp);
             return;
         },

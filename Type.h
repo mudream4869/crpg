@@ -5,15 +5,19 @@
 
 const int INPUT_NULL = 0;
 const int INPUT_MOUSE = 1;
-const int INPUT_KEYDOWN = 2;
-const int INPUT_KEYPRESS = 3;
-const int INPUT_KEYUP = 4;
+const int INPUT_NORMAL_KEY_DOWN = 2;
+const int INPUT_NORMAL_KEY_UP = 3;
+const int INPUT_SPECIAL_KEY_DOWN = 4;
+const int INPUT_SPECIAL_KEY_UP = 5;
 
 typedef struct _input{
-    int InputType;
-    int MouseX, MouseY;
-    unsigned char Key;
+    int type;
+    int mouse_x, mouse_y;
+    unsigned char normal_key;
+    int special_key;
 }Input;
+
+int Input2Dir(Input inp);
 
 typedef struct _eventdata{
     char name[20];

@@ -1,5 +1,7 @@
 #include "WindowInputNumber.h"
 
+#include "Constant.h"
+
 WindowInputNumber::WindowInputNumber()
     :WindowBlockType(0.75, 0.91, 0.5, 0.18){
     ptr = 0;
@@ -22,25 +24,30 @@ void WindowInputNumber::Update(){
 }
          
 void WindowInputNumber::InputEvent(Input inp){
-    if(inp.InputType != INPUT_KEYPRESS) return;
-    if(inp.Key == 13){
-        WindowBlockType::ret_value = {WRITE_INT, arr[0]*1000 + arr[1]*100 + arr[2]*10 + arr[3], ""};
-        delete this;
-        return;
+    bool up = false, down = false, left = false, right = false;
+    
+    if(inp.type == INPUT_NORMAL_KEY_DOWN){
+        if(inp.normal_key == 13){
+            WindowBlockType::ret_value = {WRITE_INT, arr[0]*1000 + arr[1]*100 + arr[2]*10 + arr[3], ""};
+            delete this;
+            return;
+        }
     }
-    if(inp.Key == 'a'){
+    int dir = Input2Dir(inp); 
+
+    if(dir == DIR_LEFT){
         ptr--;
         if(ptr == -1)
             ptr = 3;
-    }else if(inp.Key == 'd'){
+    }else if(dir == DIR_RIGHT){
         ptr++;
         if(ptr == 4)
             ptr = 0;
-    }else if(inp.Key == 'w'){
+    }else if(dir == DIR_UP){
         arr[ptr]++;
         if(arr[ptr] == 10)
             arr[ptr] = 0;
-    }else if(inp.Key == 's'){
+    }else if(dir == DIR_DOWN){
         arr[ptr]--;
         if(arr[ptr] == -1)
             arr[ptr] = 9;
