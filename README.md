@@ -6,6 +6,19 @@ C++ 和 Python 愛好者
 
 ## Dependency
 
+* Windows測試背景
+
+    * mingw32-make + mingw32
+    * opengl 3.7.2
+    * openal 1.1 SDK
+    * python 2.7.9
+
+```
+$ mingw32-make os_switch
+$ mingw32-make main
+```
+
+
 * Mac
 
 ## 如何編譯
@@ -13,13 +26,15 @@ C++ 和 Python 愛好者
 * 一般編譯
 
 ```
-$ make
+$ make os_switch
+$ make main
 ```
 
 * 假如需要除錯，請把`DEBUG`定義打開
 
 ```
-$ make CFLAG=-DDEBUG
+$ make os_switch
+$ make CFLAG=-DDEBUG main
 ```
 
 ## Some Special File Type 
