@@ -1,7 +1,7 @@
 #ifndef EVENT_DEF
 #define EVENT_DEF
 
-#include <Python/Python.h>
+#include "inc_py.h"
 #include <mutex>
 #include <queue>
 #include "Tile.h"

@@ -1,9 +1,7 @@
 #ifndef INPUTCTRL_DEF
 #define INPUTCTRL_DEF
 
-#include <OpenGL/gl.h> 
-#include <OpenGL/glu.h> 
-#include <GLUT/glut.h>
+#include "inc_gl.h"
 #include <set>
 
 namespace InputCtrl{

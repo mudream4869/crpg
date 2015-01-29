@@ -1,6 +1,4 @@
-#include <OpenGL/gl.h> 
-#include <OpenGL/glu.h> 
-#include <GLUT/glut.h>
+#include "inc_gl.h"
 #include <cstdio>
 #include "Tile.h"
 

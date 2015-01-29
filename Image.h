@@ -1,9 +1,7 @@
 #ifndef IMAGE_DEF
 #define IMAGE_DEF
 
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#include <GLUT/glut.h>
+#include "inc_gl.h"
 #include "Type.h"
 
 class Image{

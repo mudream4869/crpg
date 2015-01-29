@@ -1,5 +1,3 @@
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
 #include <cstdio>
 #include <cstdlib>
 #include <string>

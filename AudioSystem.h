@@ -1,8 +1,7 @@
 #ifndef AUDIO_DEF
 #define AUDIO_DEF
 
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
+#include "inc_al.h"
 #include <vector>
 #include "Env.h"
 
