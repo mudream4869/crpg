@@ -1,4 +1,16 @@
+os_switch: os_switch.cpp
+	g++ os_switch.cpp -o os_switch
+
+OS = $(shell ./os_switch)
+
+ifeq ($(OS), apple)
 CFRAME = -framework OpenGL -framework GLUT -framework Foundation -framework Python -framework OpenAL 
+endif
+
+ifeq ($(OS), win32)
+CFRAME = -lopengl32 -lglut32 -lglu32
+endif
+
 CFLAGS = $(CFLAG)
 CFLAGS += -Wno-deprecated-declarations -std=c++11
 

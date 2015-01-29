@@ -1,7 +1,7 @@
 #ifndef SYSCALL_DEF
 #define SYSCALL_DEF
 
-#include <Python/Python.h>
+#include "inc_py.h"
 #include <mutex>
 #include "Env.h"
 

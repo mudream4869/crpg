@@ -1,7 +1,5 @@
-#include <OpenGL/gl.h> 
-#include <OpenGL/glu.h> 
-#include <GLUT/glut.h>
-#include <Python/Python.h>
+#include "inc_gl.h"
+#include "inc_py.h"
 #include <cstdlib>
 
 #include "Config.h"

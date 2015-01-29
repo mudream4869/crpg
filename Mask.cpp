@@ -1,8 +1,8 @@
+#include "inc_gl.h"
+
 #include <cstdio>
 #include <cstdlib>
-#include <OpenGL/gl.h> 
-#include <OpenGL/glu.h> 
-#include <GLUT/glut.h>
+
 #include "Mask.h"
 
 static Color4f start_color, end_color;

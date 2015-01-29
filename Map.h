@@ -1,9 +1,9 @@
 #ifndef MAP_DEF
 #define MAP_DEF
 
-#include<vector>
-#include<utility>
-#include<map>
+#include <vector>
+#include <utility>
+#include <map>
 #include "Tile.h"
 #include "Type.h"
 

@@ -3,7 +3,6 @@
 
 #include "Env.h"
 #include "Image.h"
-#include "Python/Python.h"
 
 namespace GameObjectData{
     struct GameObject{
