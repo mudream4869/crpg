@@ -4,5 +4,4 @@
 #elif _WIN32
 #include <AL/al.h> 
 #include <AL/alc.h>
-#include <AL/alut.h>
 #endif

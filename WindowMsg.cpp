@@ -3,7 +3,7 @@
 
 WindowMsg::WindowMsg(const char* str)
     :WindowBlockType(0.1, 1.5, 1.8, 0.4){
-    printf("Init the msg: [%s]\n", str);
+    //printf("Init the msg: [%s]\n", str);
     ptr = 0;
     msg = new char[strlen(str) + 1];
     strcpy(msg, str);

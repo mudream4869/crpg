@@ -4,7 +4,7 @@
 #define TYPE_DEF
 
 const int INPUT_NULL = 0;
-const int INPUT_MOUSE = 1;
+const int _INPUT_MOUSE = 1;
 const int INPUT_NORMAL_KEY_DOWN = 2;
 const int INPUT_NORMAL_KEY_UP = 3;
 const int INPUT_SPECIAL_KEY_DOWN = 4;
@@ -63,5 +63,7 @@ struct WriteType{
     int int_value;
     char string_value[20];
 };
+
+WriteType NewWriteType(int type, int int_value, const char* string_value);
 
 #endif

@@ -1,3 +1,6 @@
+#include <cstdio>
+#include <cstdlib>
+
 #include "WindowInputNumber.h"
 
 #include "Constant.h"
@@ -28,7 +31,8 @@ void WindowInputNumber::InputEvent(Input inp){
     
     if(inp.type == INPUT_NORMAL_KEY_DOWN){
         if(inp.normal_key == 13){
-            WindowBlockType::ret_value = {WRITE_INT, arr[0]*1000 + arr[1]*100 + arr[2]*10 + arr[3], ""};
+            WindowBlockType::ret_value = 
+                NewWriteType(WRITE_INT, arr[0]*1000 + arr[1]*100 + arr[2]*10 + arr[3], "");
             delete this;
             return;
         }

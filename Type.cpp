@@ -1,6 +1,7 @@
 #include "inc_gl.h"
 
 #include <cstdio>
+#include <cstring>
 #include <cmath>
 
 #include "Type.h"
@@ -53,4 +54,12 @@ Vec2i Str2Vec2i(const char* str){
     int x, y;
     sscanf(str, "(%d,%d)", &x, &y);
     return {x, y};
+}
+
+WriteType NewWriteType(int type, int int_value, const char* string_value){
+    WriteType ret;
+    ret.type = type;
+    ret.int_value = int_value;
+    strcpy(ret.string_value, string_value);
+    return ret;
 }

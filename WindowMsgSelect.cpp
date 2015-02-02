@@ -25,7 +25,7 @@ WindowMsgSelect::~WindowMsgSelect(){
 
 void WindowMsgSelect::InputEvent(Input inp){
     if(inp.type == INPUT_NORMAL_KEY_DOWN and inp.normal_key == 13){
-        WindowBlockType::ret_value = {WRITE_INT, ptr, ""};
+        WindowBlockType::ret_value = NewWriteType(WRITE_INT, ptr, "");
         delete this;
         return;
     }

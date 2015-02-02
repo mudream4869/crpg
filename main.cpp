@@ -106,7 +106,11 @@ int main(int argc, char* argv[])
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_ALPHA); 
  
     glutDisplayFunc(Display);
+
+#ifdef __APPLE__
     glutWMCloseFunc(CloseFunc);
+#endif
+
     glutTimerFunc(25, SystemTimer, 1);
     glutTimerFunc(12, MaskTimer, 1);
     
