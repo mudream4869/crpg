@@ -2,7 +2,7 @@
 #include <OpenGL/gl.h> 
 #include <OpenGL/glu.h> 
 #include <GLUT/glut.h>
-#elif __FreeBSD__
+#elif __FreeBSD__ || __linux
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>

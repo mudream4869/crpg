@@ -10,7 +10,7 @@ ifeq ($(OS), apple)
 CFRAME = -framework OpenGL -framework GLUT -framework Foundation -framework Python -framework OpenAL 
 endif
 
-ifeq ($(OS), freebsd)
+ifeq ($(OS), $(filter $(OS), freebsd linux))
 CFLAGS += -pthread
 CFRAME = $(shell pkg-config --libs gl glu python-2.7 openal) -lglut
 endif

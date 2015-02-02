@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <cstring>
 #include "WindowMsg.h"
 
 WindowMsg::WindowMsg(const char* str)

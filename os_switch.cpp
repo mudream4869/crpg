@@ -5,6 +5,8 @@ int main() {
     printf("apple");
 #elif __FreeBSD__
     printf("freebsd");
+#elif __linux
+    printf("linux");
 #elif _WIN32
     printf("win32");
 #else
