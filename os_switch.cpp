@@ -3,6 +3,8 @@
 int main() {
 #ifdef __APPLE__
     printf("apple");
+#elif __FreeBSD__
+    printf("freebsd");
 #elif _WIN32
     printf("win32");
 #else

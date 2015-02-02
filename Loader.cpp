@@ -27,7 +27,7 @@
 #include "GameObject.h"
 #include "AudioSystem.h"
 #include "Mask.h"
-#include "ImGCtrl.h"
+#include "ImgCtrl.h"
 
 #include "Config.h"
 

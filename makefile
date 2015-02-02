@@ -1,5 +1,5 @@
 os_switch: os_switch.cpp
-	g++ os_switch.cpp -o os_switch
+	$(CXX) os_switch.cpp -o os_switch
 
 OS = $(shell ./os_switch)
 
@@ -8,6 +8,11 @@ CFLAGS += -Wno-deprecated-declarations -std=c++11
 
 ifeq ($(OS), apple)
 CFRAME = -framework OpenGL -framework GLUT -framework Foundation -framework Python -framework OpenAL 
+endif
+
+ifeq ($(OS), freebsd)
+CFLAGS += -pthread
+CFRAME = $(shell pkg-config --libs gl glu python-2.7 openal) -lglut
 endif
 
 ifeq ($(OS), win32)
@@ -27,14 +32,14 @@ WINDOW = Window.o WindowBlockType.o WindowMsg.o WindowSelect.o WindowGameObject.
 
 LIBS = lodepng.o
 
-main: $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) *.h
-	g++ main.cpp $(CFLAGS) $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) $(LIBS)  $(CFRAME) -o test
+main: $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) *.h $(LIBS)
+	$(CXX) main.cpp $(CFLAGS) $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) $(LIBS)  $(CFRAME) -o test
 
 lodepng.o:
-	g++ LoadPng/lodepng.cpp -c
+	$(CXX) loadpng/lodepng.cpp -c $(CFLAGS)
 
 %.o: %.cpp *.h
-	g++ $< $(CFLAGS) -c
+	$(CXX) $< $(CFLAGS) -c
 
 clear:
 	rm *.o
