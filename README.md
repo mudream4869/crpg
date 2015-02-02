@@ -6,6 +6,8 @@ C++ 和 Python 愛好者
 
 ## Dependency
 
+目前在`Mac OS` `Windows8` 上測試成功，`BSD`仍有[問題](https://github.com/mudream4869/crpg/issues/14)待解決．
+
 * Windows測試背景
 
     * msys2 + mingw64-x86_64
@@ -19,8 +21,6 @@ $ make os_switch
 $ make main
 ```
 
-* Mac
-
 ## 如何編譯
 
 * 一般編譯
@@ -30,11 +30,18 @@ $ make os_switch
 $ make main
 ```
 
-* 假如需要除錯，請把`DEBUG`定義打開
+* 假如要顯示除錯訊息，請把`DEBUG`定義打開
 
 ```
 $ make os_switch
 $ make CFLAG=-DDEBUG main
+```
+
+* 指定編譯器或引用路徑
+
+```
+$ make os_switch CXX=(指定編譯器)
+$ make main CXX=(指定編譯器) CPLUS_INCLUDE_PATH=(這裡替代成引用的路徑)
 ```
 
 ## Some Special File Type 
