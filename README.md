@@ -8,16 +8,16 @@ C++ 和 Python 愛好者
 
 * Windows測試背景
 
-    * mingw32-make + mingw32
-    * opengl 3.7.2
-    * openal 1.1 SDK
-    * python 2.7.9
+    * msys2 + mingw64-x86_64
+    * make
+    * mingw64-glut
+    * mingw64-openal
+    * mingw64-python2.7
 
 ```
-$ mingw32-make os_switch
-$ mingw32-make main
+$ make os_switch
+$ make main
 ```
-
 
 * Mac
 
