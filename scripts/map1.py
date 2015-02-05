@@ -19,7 +19,6 @@ class Event1(Event):
     def Action(self):
         print("Enter Script's Action")
         self.global_value["Test1"] += 1
-        self.global_flag["Test2"] = True
         self.ShowMsg("Hello~" + str(self.global_value["Test1"]))
         self.DoMove((["Right"],
                      ["Right"],

@@ -11,11 +11,12 @@
 
 #include "GameObject.h"
 
-// TODO: where is event's status
+#include "loadpng/lodepng.h"
+
 // TODO: script's status?
 // TODO: certain scene
 
-bool __FileCheckExist(const char* filename){
+static bool __FileCheckExist(const char* filename){
     std::ifstream ifile(filename);
     return ifile.fail() == false;
 }
@@ -92,7 +93,7 @@ void File::LoadFile(const char* filename){
     return;
 }
 
-void File::SaveFile(const char* filename){
+void File::SaveFile(const char* filename, std::vector<unsigned char>& enc_png){
     char path_fn[20];
     sprintf(path_fn, "%s%s", CONFIG_PATH_SAVEFILE, filename);
     FILE* fp = fopen(path_fn, "w");
@@ -132,6 +133,10 @@ void File::SaveFile(const char* filename){
         // the moving queue
     }
     fclose(fp);
+    
+    char png_filename[20];
+    sprintf(png_filename, "%s.png", path_fn); 
+    lodepng::save_file(enc_png, png_filename);
     return; 
 }
 

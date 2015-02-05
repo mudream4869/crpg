@@ -14,6 +14,8 @@
 
 #include "GlobalVariable.h"
 
+#include "SceneSave.h"
+
 Event::Event(const char* map_name, const char* str){
     char tmp[20];
     
@@ -300,7 +302,8 @@ void Event::Action(HeroStatus hero_status, bool is_enter){
         this->running.unlock();
         return;
     }
-
+    
+    SceneSave::scene_save->Snap();
     std::thread torun(
         [this]{
             PyLock();
