@@ -27,11 +27,11 @@ File::File* File::PreloadFile(const char* filename){
     
     // chekc if file exists
     // TODO: may use stat under mac?
-    if(__FileCheckExist(full_filename))
+    if(__FileCheckExist(full_filename) == false)
         return nullptr;
-    
+
     char img_filename[20];
-    sprintf(img_filename, "%s.bmp", full_filename);
+    sprintf(img_filename, "%s.png", full_filename);
 
     Image* img = nullptr;
     if(__FileCheckExist(img_filename))
@@ -137,7 +137,7 @@ void File::SaveFile(const char* filename, std::vector<unsigned char>& enc_png){
     char png_filename[20];
     sprintf(png_filename, "%s.png", path_fn); 
     lodepng::save_file(enc_png, png_filename);
-    return; 
+    return;
 }
 
 //File::File class

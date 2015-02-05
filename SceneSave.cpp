@@ -54,10 +54,15 @@ SceneSave::SceneSave(){
             return;
         },
         [this](int index){
-            // TODO: change
             char tmp[20];
             sprintf(tmp, "file%d", index);
-            //File::File* ret = File::PreloadFile(tmp);
+            File::File* get_file_preload = File::PreloadFile(tmp);
+            if(get_file_preload != nullptr){
+                win_show->Clear();
+                win_show->DrawImage(0, 0, 0.9, 0.9, get_file_preload->GetImage());
+            }else{
+                win_show->Clear();
+            }
             return;
         },
         save_name, SaveFileCount
@@ -67,6 +72,7 @@ SceneSave::SceneSave(){
 }
 
 void SceneSave::Snap(){
+    win_select->Update(); // TODO: fix strange problem
     glPixelStorei(GL_PACK_ALIGNMENT, 1);
     glReadPixels(0, 0, 600, 600, GL_RGBA, GL_UNSIGNED_BYTE, snap_img);
     return;
