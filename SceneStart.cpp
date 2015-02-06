@@ -2,7 +2,6 @@
 
 #include "SceneStart.h"
 #include "Image.h"
-#include "Env.h"
 
 #include "AudioSystem.h"
 #include "ScenePlay.h"

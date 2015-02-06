@@ -8,7 +8,6 @@
 
 #include "Event.h"
 #include "SysCall.h"
-#include "Env.h"
 #include "Tool.h"
 #include "PyLock.h"
 

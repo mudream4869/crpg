@@ -3,10 +3,12 @@
 
 #include "inc_al.h"
 #include <vector>
-#include "Env.h"
+#include <map>
+
+#include "Tool.h"
 
 namespace AudioSystem{
-    extern std::map<const char*, int, StrCompare> se_sound;
+    extern std::map<const char*, int, StrComp> se_sound;
     extern ALCdevice* dev;
     extern ALCcontext* ctx;
 

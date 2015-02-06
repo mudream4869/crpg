@@ -9,17 +9,13 @@
 #include "Tile.h"
 #include "Type.h"
 
-struct StrComp1{
-    bool operator()(const char* str1, const char* str2) const{
-        return strcmp(str1, str2) < 0;
-    }
-};
+#include "Tool.h"
 
 class Map{
 public:
     Map(const char*);
     
-    static std::map<const char*, Map*, StrComp1> map_pool;
+    static std::map<const char*, Map*, StrComp> map_pool;
 
     char* GetName();
 

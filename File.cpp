@@ -4,7 +4,6 @@
 #include "File.h"
 
 #include "SysCall.h"
-#include "Env.h"
 #include "GlobalVariable.h"
 #include "Config.h"
 #include "ScenePlay.h"

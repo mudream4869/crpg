@@ -1,8 +1,10 @@
 #ifndef GAMEOBJECTDATA_DEF
 #define GAMEOBJECTDATA_DEF
 
-#include "Env.h"
+#include "inc_py.h"
+#include <map>
 #include "Image.h"
+#include "Tool.h"
 
 namespace GameObjectData{
     struct GameObject{
@@ -10,8 +12,8 @@ namespace GameObjectData{
         char name[20];
         PyObject* choose_callback;
     };
-    extern std::map<const char*, GameObject, StrCompare> gameobject_pool;
-    extern std::map<const char*, int, StrCompare> gameobject_count;
+    extern std::map<const char*, GameObject, StrComp> gameobject_pool;
+    extern std::map<const char*, int, StrComp> gameobject_count;
     
     void InitGameObject();
 

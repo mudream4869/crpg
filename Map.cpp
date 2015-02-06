@@ -10,7 +10,7 @@
 #include "rapidxml/rapidxml.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
 
-std::map<const char*, Map*, StrComp1> Map::map_pool;
+std::map<const char*, Map*, StrComp> Map::map_pool;
 
 char* Map::GetName(){
     return map_name;

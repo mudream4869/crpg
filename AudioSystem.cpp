@@ -5,7 +5,7 @@
 #include <vector>
 #include "AudioSystem.h"
 
-std::map<const char*, int, StrCompare> AudioSystem::se_sound;
+std::map<const char*, int, StrComp> AudioSystem::se_sound;
 
 // device init
 // will check for sounds/SE/__init__.ini

@@ -5,7 +5,6 @@
 #include "SysCall.h"
 #include "WindowBlockType.h"
 #include "GlobalVariable.h"
-#include "Env.h"
 
 #include "SceneStart.h"
 #include "ScenePlay.h"

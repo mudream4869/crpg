@@ -8,8 +8,8 @@
 #include "SysCall.h"
 #include "PyLock.h"
 
-std::map<const char*, GameObjectData::GameObject, StrCompare> GameObjectData::gameobject_pool;
-std::map<const char*, int, StrCompare> GameObjectData::gameobject_count;
+std::map<const char*, GameObjectData::GameObject, StrComp> GameObjectData::gameobject_pool;
+std::map<const char*, int, StrComp> GameObjectData::gameobject_count;
 
 void GameObjectData::InitGameObject(){
     PyObject* p_module = PyImport_ImportModule("scripts.objects");

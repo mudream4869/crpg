@@ -24,7 +24,7 @@ endif
 
 OBJECTS = Image.o Tile.o Map.o Hero.o Event.o Type.o Tool.o File.o Config.o
 
-INSTANCE = Mask.o ImgCtrl.o AudioSystem.o GlobalVariable.o GameObject.o PyLock.o SysCall.o Env.o InputCtrl.o
+INSTANCE = Mask.o ImgCtrl.o AudioSystem.o GlobalVariable.o GameObject.o PyLock.o SysCall.o InputCtrl.o
 
 SCENE = Scene.o ScenePlay.o SceneGameOver.o SceneStart.o SceneSave.o SceneLoad.o
 

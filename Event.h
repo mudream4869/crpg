@@ -11,6 +11,8 @@
 #include "Tile.h"
 #include "Type.h"
 
+#include "Tool.h"
+
 const int TRIGGER_CONDITION_NULL = 0;
 const int TRIGGER_CONDITION_ON_CHAT = 1;
 const int TRIGGER_CONDITION_ON_STAND= 2;
@@ -20,12 +22,6 @@ const int TRIGGER_CONDITION_SYNC = 4;
 const int COND_TYPE_FLAG = 0;
 const int COND_TYPE_VALUE = 1;
 const int COND_TYPE_PRIVATE_FLAG = 2; // TODO
-
-struct StrComp{
-    bool operator()(const char* str1, const char* str2)const{
-        return strcmp(str1, str2) < 0;
-    }
-};
 
 class Event{
 public:

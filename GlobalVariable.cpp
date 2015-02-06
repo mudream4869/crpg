@@ -2,8 +2,8 @@
 #include <cstring>
 #include "GlobalVariable.h"
 
-std::map<const char*, int, StrCompare> GlobalVariable::global_value;
-std::map<const char*, bool, StrCompare> GlobalVariable::global_flag;
+std::map<const char*, int, StrComp> GlobalVariable::global_value;
+std::map<const char*, bool, StrComp> GlobalVariable::global_flag;
 
 std::mutex GlobalVariable::lock;
 

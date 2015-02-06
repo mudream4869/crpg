@@ -17,8 +17,6 @@
 #include "Window.h"
 #include "WindowBlockType.h"
 
-#include "Env.h"
-
 #include "Event.h"
 
 // INSTANCE
@@ -39,10 +37,6 @@ void InitResource(){
     //PyEval_InitThreads();
     //PyEval_ReleaseLock();
     PySys_SetPath(".");
-    EnvInit();
- 
-    EnvInsert("event_pool", (void*)(new std::map<const char*, Event*, StrCompare>));
-    EnvInsert("map_pool", (void*)(new std::map<const char*, Map*, StrCompare>));
     
     Sys::InitSys();
 

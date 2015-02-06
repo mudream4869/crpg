@@ -2,11 +2,12 @@
 #define GLOBAL_VARIABLE_DEF
 
 #include <mutex>
-#include "Env.h"
+#include <map>
+#include "Tool.h"
 
 namespace GlobalVariable{
-    extern std::map<const char*, int, StrCompare> global_value;
-    extern std::map<const char*, bool, StrCompare> global_flag;
+    extern std::map<const char*, int, StrComp> global_value;
+    extern std::map<const char*, bool, StrComp> global_flag;
     
     extern std::mutex lock;
 
