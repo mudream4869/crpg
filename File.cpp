@@ -78,7 +78,7 @@ void File::LoadFile(const char* filename){
     fscanf(fp, "%s", get_map_name);
     fscanf(fp, "%d %d %d", &hero_status.x, &hero_status.y, &hero_status.moving_dir);
     scene_play->ChangeMap(EnvGetMap(get_map_name), hero_status.x, hero_status.y, hero_status.moving_dir);
-    auto event_pool = EnvGetEventPool();
+    
     int event_size;
     fscanf(fp, "%d", &event_size);
     for(int lx = 0;lx < event_size;lx++){
@@ -88,7 +88,7 @@ void File::LoadFile(const char* filename){
         fscanf(fp, "%d %d %d %d %d", &get_event_status.status, 
             &get_event_status.x, &get_event_status.y, 
             &get_event_status.moving_dir, &get_event_status.moving_step);
-        event_pool->operator[](event_name)->SetStatus(get_event_status);
+        Event::event_pool[event_name]->SetStatus(get_event_status);
     }
     return;
 }
@@ -121,9 +121,8 @@ void File::SaveFile(const char* filename, std::vector<unsigned char>& enc_png){
     HeroStatus hero_status = scene_play->GetHeroStatus();
     fprintf(fp, "%s ", scene_play->GetMapName());
     fprintf(fp, "%d %d %d\n", hero_status.x, hero_status.y, hero_status.moving_dir);
-    auto event_pool = EnvGetEventPool();
-    fprintf(fp, "%d\n", (int) event_pool->size());
-    for(auto it = event_pool->begin(); it != event_pool->end(); it++){
+    fprintf(fp, "%d\n", (int) Event::event_pool.size());
+    for(auto it = Event::event_pool.begin(); it != Event::event_pool.end(); it++){
         Event* get_event = it->second;
         HeroStatus get_event_status = get_event->GetStatus();
         fprintf(fp, "%s ", it->first);

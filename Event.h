@@ -4,6 +4,10 @@
 #include "inc_py.h"
 #include <mutex>
 #include <queue>
+#include <map>
+#include <cstdlib>
+#include <cstring>
+
 #include "Tile.h"
 #include "Type.h"
 
@@ -17,11 +21,19 @@ const int COND_TYPE_FLAG = 0;
 const int COND_TYPE_VALUE = 1;
 const int COND_TYPE_PRIVATE_FLAG = 2; // TODO
 
+struct StrComp{
+    bool operator()(const char* str1, const char* str2)const{
+        return strcmp(str1, str2) < 0;
+    }
+};
+
 class Event{
 public:
     Event(const char* map_name, const char* str);
     ~Event();
     
+    static std::map<const char*, Event*, StrComp> event_pool;  
+     
     void Action(HeroStatus hero_status, bool is_enter);
     bool Condition();
     

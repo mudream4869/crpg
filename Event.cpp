@@ -16,6 +16,8 @@
 
 #include "SceneSave.h"
 
+std::map<const char*, Event*, StrComp> Event::event_pool;  
+
 Event::Event(const char* map_name, const char* str){
     char tmp[20];
     
@@ -166,8 +168,7 @@ Event::Event(const char* map_name, const char* str){
         }
     }
     
-    // TODO: clear this dirty thing
-    EnvGetEventPool()->operator[](event_name) = this;
+    Event::event_pool[event_name] = this;
 
     if(img_path[0] != 0){
         this->tile_use = new Tile;
@@ -228,6 +229,8 @@ Event::Event(const char* map_name, const char* str){
 }
 
 Event::~Event(){
+    Event::event_pool.erase(event_name);
+
     if(tile_use != nullptr){
         delete tile_use->GetImage();
         delete tile_use;

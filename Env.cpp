@@ -26,20 +26,8 @@ int EnvCount(const char* str){
     return env->count(str);
 }
 
-std::map<const char*, Event*, StrCompare>* EnvGetEventPool(){
-    return (std::map<const char*, Event*, StrCompare>*)(EnvGet("event_pool")) ;
-}
-
 std::map<const char*, Map*, StrCompare>* EnvGetMapPool(){
     return (std::map<const char*, Map*, StrCompare>*)(EnvGet("map_pool"));
-}
-
-Event* EnvGetEvent(const char* event_file){
-    std::map<const char*, Event*, StrCompare>& get = *EnvGetEventPool();
-    if(get.count(event_file))
-        return get[event_file];
-    else
-        return nullptr;
 }
 
 Map* EnvGetMap(const char* map_name){

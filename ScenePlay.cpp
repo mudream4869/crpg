@@ -100,8 +100,6 @@ void ScenePlay::SetMap(Map* _map){
     }
     events.clear();
     
-    auto event_pool = EnvGetEventPool();
-    event_pool->clear();
     std::vector<EventData> event_datas = _map->GetEventDatas();
     
     for(int lx = 0;lx < event_datas.size();lx++){

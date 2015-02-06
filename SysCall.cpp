@@ -111,7 +111,7 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         for(int lx = 0;lx < (int)PyList_Size(moving_list);lx++){
             arg.push((int)PyInt_AsLong(PyList_GetItem(moving_list, lx)));
         }
-        EnvGetEventPool()->operator[](active_event_name)->SetMovement(arg);
+        Event::event_pool[active_event_name]->SetMovement(arg);
         Py_INCREF(Py_None);
         ret_value = Py_None;
 
@@ -124,7 +124,7 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
     }else if(strcmp(cmd, "WaitForMove") == 0){
         char active_event_name[20];
         strcpy(active_event_name, PyString_AsString(PyTuple_GetItem(para, 1)));
-        Event* check_event = EnvGetEventPool()->operator[](active_event_name);
+        Event* check_event = Event::event_pool[active_event_name];
         
         auto state = PyEval_SaveThread();
         PyUnlock();
