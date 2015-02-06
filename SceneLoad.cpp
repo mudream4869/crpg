@@ -35,26 +35,29 @@ SceneLoad::SceneLoad(){
                 ScenePlay::Call();
                 return;
             }
-            fprintf(stderr, "%d\n", index);
             char tmp[20];
             sprintf(tmp, "file%d", index);
+            
+            File::File* get_file_preload  = File::PreloadFile(tmp);
+            if(get_file_preload == nullptr)
+                return;
+
             File::LoadFile(tmp);
             ScenePlay::Call();
             return;
         },
         [this](int index){
-            // TODO: change
+            // function change
             char tmp[20];
             sprintf(tmp, "file%d", index);
-            fprintf(stderr, "%d\n", index);
             File::File* get_file_preload = File::PreloadFile(tmp);
             if(get_file_preload != nullptr){
                 win_show->Clear();
                 win_show->DrawImage(0, 0.1, 1.3, 1.3, get_file_preload->GetImage());
             }else{
                 win_show->Clear();
+                win_show->DrawText(0.5, 0.3, "No file ._.");
             }
-            //File::File* ret = File::PreloadFile(tmp);
             return;
         },
         save_name, SaveFileCount

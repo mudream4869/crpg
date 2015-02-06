@@ -65,6 +65,7 @@ SceneSave::SceneSave(){
                 win_show->DrawImage(0, 0.1, 1.3, 1.3, get_file_preload->GetImage());
             }else{
                 win_show->Clear();
+                win_show->DrawText(0.5, 0.3, "No file ._.");
             }
             return;
         },
