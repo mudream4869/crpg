@@ -16,7 +16,7 @@ SceneSave* SceneSave::scene_save = nullptr;
 unsigned char* SceneSave::snap_img;
 
 SceneSave::SceneSave(){
-    static const int SaveFileCount = 9;
+    static const int SaveFileCount = 10;
     char* save_name[SaveFileCount];
 
     SceneSave::scene_save = this;
@@ -29,9 +29,11 @@ SceneSave::SceneSave(){
     
     win_title = new Window(0, 0, 2, 0.3);
     win_title->DrawText(0.2, 0.15, "Where to save your file?");
+    win_show = new Window(0.6, 0.3, 1.4, 1.7);
 
-    win_select = new WindowSelect(0, 0.3, 1, 1.7,
+    win_select = new WindowSelect(0, 0.3, 0.6, 1.7,
         [this](int index){
+            // choose function
             if(index == -1){
                 ScenePlay::Call();
                 return;
@@ -54,12 +56,13 @@ SceneSave::SceneSave(){
             return;
         },
         [this](int index){
+            // select function
             char tmp[20];
             sprintf(tmp, "file%d", index);
             File::File* get_file_preload = File::PreloadFile(tmp);
             if(get_file_preload != nullptr){
                 win_show->Clear();
-                win_show->DrawImage(0, 0, 0.9, 0.9, get_file_preload->GetImage());
+                win_show->DrawImage(0, 0.1, 1.3, 1.3, get_file_preload->GetImage());
             }else{
                 win_show->Clear();
             }
@@ -67,12 +70,10 @@ SceneSave::SceneSave(){
         },
         save_name, SaveFileCount
     );
-    win_show = new Window(1, 0.3, 1, 1.7);
     return;
 }
 
 void SceneSave::Snap(){
-    win_select->Update(); // TODO: fix strange problem
     glPixelStorei(GL_PACK_ALIGNMENT, 1);
     glReadPixels(0, 0, 600, 600, GL_RGBA, GL_UNSIGNED_BYTE, snap_img);
     return;

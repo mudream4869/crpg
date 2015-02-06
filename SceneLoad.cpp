@@ -14,7 +14,7 @@
 Scene* SceneLoad::scene_load = nullptr;
 
 SceneLoad::SceneLoad(){
-    static const int SaveFileCount = 12;
+    static const int SaveFileCount = 10;
     
     SceneLoad::scene_load = this;
 
@@ -23,19 +23,23 @@ SceneLoad::SceneLoad(){
         save_name[lx] = new char[20];
         sprintf(save_name[lx], "SaveFile%d\n", lx+1);
     }
-    win_select = new WindowSelect(0, 0, 1, 2,
+
+    win_title = new Window(0, 0, 2, 0.3);
+    win_title->DrawText(0.2, 0.15, "Where to load your file?");
+    win_show = new Window(0.6, 0.3, 1.4, 1.7);
+    
+    win_select = new WindowSelect(0, 0.3, 0.6, 1.7,
         [this](int index){
             if(index == -1){
+                // TODO: Scene Stack
                 ScenePlay::Call();
                 return;
             }
-            // TODO:choose
             fprintf(stderr, "%d\n", index);
             char tmp[20];
             sprintf(tmp, "file%d", index);
             File::LoadFile(tmp);
             ScenePlay::Call();
-            // TODO: Reload 
             return;
         },
         [this](int index){
@@ -43,12 +47,18 @@ SceneLoad::SceneLoad(){
             char tmp[20];
             sprintf(tmp, "file%d", index);
             fprintf(stderr, "%d\n", index);
+            File::File* get_file_preload = File::PreloadFile(tmp);
+            if(get_file_preload != nullptr){
+                win_show->Clear();
+                win_show->DrawImage(0, 0.1, 1.3, 1.3, get_file_preload->GetImage());
+            }else{
+                win_show->Clear();
+            }
             //File::File* ret = File::PreloadFile(tmp);
             return;
         },
         save_name, SaveFileCount
     );
-    win_show = new Window(1, 0, 1, 2);
     return;
 }
 
@@ -66,5 +76,6 @@ void SceneLoad::InputEvent(Input inp){
 void SceneLoad::Render(){
     win_select->Render();
     win_show->Render();
+    win_title->Render();
     return;
 }

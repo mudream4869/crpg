@@ -16,6 +16,7 @@ public:
 private:
     Window* win_select;
     Window* win_show;
+    Window* win_title;
 };
 
 
