@@ -25,23 +25,3 @@ void* EnvGet(const char* str){
 int EnvCount(const char* str){
     return env->count(str);
 }
-
-std::map<const char*, Map*, StrCompare>* EnvGetMapPool(){
-    return (std::map<const char*, Map*, StrCompare>*)(EnvGet("map_pool"));
-}
-
-Map* EnvGetMap(const char* map_name){
-    std::map<const char*, Map*, StrCompare>& get = *EnvGetMapPool();
-    if(get.count(map_name))
-        return get[map_name];
-    else
-        return nullptr;
-}
-
-void EnvAddMap(const char* map_name, Map* map_pointer){
-    std::map<const char*, Map*, StrCompare>& get = *EnvGetMapPool();
-    char* new_str = new char[strlen(map_name) + 2];
-    strcpy(new_str, map_name);
-    get[new_str] = map_pointer;
-    return;
-}

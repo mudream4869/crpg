@@ -5,6 +5,7 @@
 
 namespace Config{
     const char PATH_SAVEFILE[] = "saves/";
+    const char PATH_MAPFILE[] =  "maps/";
     const float WINDOW_WIDTH = 2;
     const float WINDOW_HEIGHT = 2;
 

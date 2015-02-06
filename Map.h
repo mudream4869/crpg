@@ -4,16 +4,24 @@
 #include <vector>
 #include <utility>
 #include <map>
+#include <cstdio>
+#include <cstring>
 #include "Tile.h"
 #include "Type.h"
 
+struct StrComp1{
+    bool operator()(const char* str1, const char* str2) const{
+        return strcmp(str1, str2) < 0;
+    }
+};
+
 class Map{
 public:
-    Map();
-    void SetTile(Tile* tile);
-    void SetName(const char* name);
+    Map(const char*);
+    
+    static std::map<const char*, Map*, StrComp1> map_pool;
+
     char* GetName();
-    void LoadMap(const char* path);
 
     bool CanDo(int x, int y, int dir) const ;
     int GetPriority(int x, int y, int l) const ; 
@@ -28,7 +36,7 @@ public:
     std::vector<EventData> GetEventDatas();
 
 private:
-    char* map_name;
+    char map_name[20];
     char map_bgm[20];
     Tile* tile_use;
     struct point {int x, y;};

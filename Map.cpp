@@ -10,27 +10,20 @@
 #include "rapidxml/rapidxml.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
 
-Map::Map(){
-    tile_use = nullptr;
-    return;
-}
-
-void Map::SetTile(Tile* tile){
-    tile_use = tile;
-    return;
-}
-
-void Map::SetName(const char* name){
-    map_name = new char[strlen(name) + 2];
-    strcpy(map_name, name);
-    return;
-}
+std::map<const char*, Map*, StrComp1> Map::map_pool;
 
 char* Map::GetName(){
     return map_name;
 }
 
-void Map::LoadMap(const char* path){
+Map::Map(const char* _map_name){ 
+    
+    strcpy(map_name, _map_name);
+    map_name[strlen(_map_name)-4] = 0;
+    Map::map_pool[map_name] = this;
+    
+    char path[20];
+    sprintf(path, "%s%s.tmx", Config::PATH_MAPFILE, map_name);
 
     fprintf(stderr, "Map:ready to load %s\n", path);
     // Read map by rapidxml

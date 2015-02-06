@@ -18,14 +18,8 @@ typedef std::map<const char*, void* , StrCompare> Env;
 extern Env* env;
 void EnvInit();
 
-
 void EnvInsert(const char* str, void* inp);
 void* EnvGet(const char* str);
 int EnvCount(const char* str);
-
-std::map<const char*, Map*, StrCompare>* EnvGetMapPool();
-
-Map* EnvGetMap(const char* map_name);
-void EnvAddMap(const char* map_name, Map* map_pointer);
 
 #endif

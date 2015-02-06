@@ -80,15 +80,9 @@ void LoadMaps(){
     char map_name[20];
     while(fscanf(fp, "%s", map_name) != EOF){
         char full_map_name[20];
-        Map* read_map;
         sprintf(full_map_name, "maps/%s", map_name);
-        read_map = new Map();
-        read_map->LoadMap(full_map_name);
-        // [File].tmx -> [File]
-        map_name[strlen(map_name) - 4] = 0;
-        read_map->SetName(map_name);
+        new Map(map_name);
         fprintf(stderr, "add map %s\n", map_name);
-        EnvAddMap(map_name, read_map);
     }
     fclose(fp);
     return;

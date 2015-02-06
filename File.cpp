@@ -77,7 +77,7 @@ void File::LoadFile(const char* filename){
     char get_map_name[20];
     fscanf(fp, "%s", get_map_name);
     fscanf(fp, "%d %d %d", &hero_status.x, &hero_status.y, &hero_status.moving_dir);
-    scene_play->ChangeMap(EnvGetMap(get_map_name), hero_status.x, hero_status.y, hero_status.moving_dir);
+    scene_play->ChangeMap(Map::map_pool[get_map_name], hero_status.x, hero_status.y, hero_status.moving_dir);
     
     int event_size;
     fscanf(fp, "%d", &event_size);

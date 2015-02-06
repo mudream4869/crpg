@@ -49,7 +49,7 @@ void SceneStart::InputEvent(Input inp){
         if(inp.normal_key == 13){
             if(select_index == 0){
                 ScenePlay::Call(
-                    EnvGetMap(Config::GAME_START_MAP_NAME),
+                    Map::map_pool[Config::GAME_START_MAP_NAME],
                     Config::GAME_START_POS.x,
                     Config::GAME_START_POS.y,
                     0
