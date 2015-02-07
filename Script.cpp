@@ -78,7 +78,7 @@ void Script::Load(const char* class_name){
 
 }
 
-PyObject* Script::GetAttribute(const char* attr_name){
+PyObject* Script::GetAttr(const char* attr_name){
     return PyObject_GetAttrString(this->p_inst, attr_name);
 }
 

@@ -9,7 +9,7 @@ public:
     Script(const char* filename, const char* class_name);
     Script(PyObject* module, const char* class_name);
     
-    PyObject* GetAttribute(const char* name);
+    PyObject* GetAttr(const char* name);
     void Shell();
 
 private:

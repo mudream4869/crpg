@@ -9,7 +9,6 @@
 #include "Event.h"
 #include "SysCall.h"
 #include "Tool.h"
-#include "PyLock.h"
 
 #include "GlobalVariable.h"
 
@@ -20,69 +19,9 @@ std::map<const char*, Event*, StrComp> Event::event_pool;
 Event::Event(const char* map_name, const char* str){
     char tmp[20];
     
-    // TODO: garbage recycle
-    // TODO: error handling
+    script = new Script(map_name, str);     
 
-    // Set up PyObject
-    
-    sprintf(tmp, "scripts.%s", map_name);
-    PySys_SetPath(".");
-    
-#ifdef DEBUG 
-    fprintf(stderr, "Loading from %s....\n", tmp);
-#endif
-
-    this->p_module = PyImport_ImportModule(tmp);
-
-#ifdef DEBUG
-    if(this->p_module == NULL){
-        fprintf(stderr, "Fail to import %s.\n", tmp);
-        PyErr_Print();
-        exit(1);
-    }
-#endif
-
-    this->p_class = PyObject_GetAttrString(p_module, str);
-
-#ifdef DEBUG
-    if(this->p_class == NULL){
-        fprintf(stderr, "Fail to get class '%s'.\n", str);
-        PyErr_Print();
-        exit(1);
-    }
-#endif
-
-    PyMethodDef *callback = new PyMethodDef;
-
-    callback->ml_name = "func";
-    callback->ml_meth = Sys::SysCall;
-    callback->ml_flags = 1;
-
-    PyObject* pcb = PyCFunction_New(callback, NULL);
-    PyObject* pArg = Py_BuildValue("(O)", pcb);
-    this->p_inst = PyObject_CallObject(this->p_class, pArg);
-
-#ifdef DEBUG
-    if(this->p_inst == NULL){
-        fprintf(stderr, "Fail to get new instance of %s\n", str);
-        PyErr_Print();
-        exit(1);
-    }
-#endif
-
-    //TODO: kill pArg;
-    this->p_func = PyObject_GetAttrString(this->p_inst, "Action");
-
-#ifdef DEBUG
-    if(this->p_func == NULL){
-        fprintf(stderr, "Fail to get 'Action' function from %s\n", str);
-        PyErr_Print();
-        exit(1);
-    }
-#endif
-
-    // Set up event config
-    PyObject* p_config = PyObject_GetAttrString(this->p_inst, "config");
+    PyObject* p_config = script->GetAttr("config");
 
 #ifdef DEBUG
     if(p_config == NULL){
@@ -229,13 +168,12 @@ Event::Event(const char* map_name, const char* str){
 
 Event::~Event(){
     Event::event_pool.erase(event_name);
+    delete script;
 
     if(tile_use != nullptr){
         delete tile_use->GetImage();
         delete tile_use;
     }
-    Py_DECREF(this->p_inst);  
-    Py_DECREF(this->p_module);  
     // TODO: kill p_?
     return;
 }
@@ -266,10 +204,7 @@ bool Event::Condition(){
 
 void Event::Action(HeroStatus hero_status, bool is_enter){
     // TODO: check the incref real implement
-    // Important : unlock the `running` before return
-    if(this->running.try_lock() == false) return;
     if(this->Condition() == false){
-        this->running.unlock();
         return;
     }
     int dir_x[] = {0, -1, 1, 0};
@@ -301,41 +236,11 @@ void Event::Action(HeroStatus hero_status, bool is_enter){
     }
 
     if(fit_cond == false){
-        this->running.unlock();
         return;
     }
     
     SceneSave::scene_save->Snap();
-    std::thread torun(
-        [this]{
-            PyLock();
-            auto state = Py_NewInterpreter(); 
-            PyEval_RestoreThread(state);
-
-#ifdef DEBUG
-            PyErr_Clear();
-#endif
-
-            PyObject* pArg = Py_BuildValue("()");
-            PyObject* ret = PyObject_CallObject(this->p_func, pArg);
-
-#ifdef DEBUG
-            if(PyErr_Occurred() != NULL){
-                fprintf(stderr, "Error occur at calling event %s\n", event_name);
-                PyErr_Print();
-                exit(1);
-            }
-#endif
-
-            Py_XDECREF(pArg);
-            Py_XDECREF(ret);
-            //PyEval_SaveThread();
-            //Py_EndInterpreter(state);
-            PyUnlock();
-            this->running.unlock();
-        }
-    );
-    torun.detach();
+    script->Shell();
     return;
 }
 

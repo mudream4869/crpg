@@ -9,6 +9,7 @@
 #include <cstring>
 
 #include "Tile.h"
+#include "Script.h"
 #include "Type.h"
 
 #include "Tool.h"
@@ -46,12 +47,9 @@ public:
     
     int trigger_condition;
     
-    std::mutex running;
-    
     HeroStatus GetStatus();
     void SetStatus(HeroStatus status); 
     void SetPosition(int x, int y);
-    PyObject* p_func;
 
 private:
     void CheckMovement();
@@ -73,10 +71,7 @@ private:
     std::vector<cond> display_cond;
     std::vector<cond> reject_cond;
     
-    PyObject* p_module;
-    PyObject* p_class;
-    PyObject* p_inst;
-    PyObject* p_obj;
+    Script* script;
     Tile* tile_use;
 };
 
