@@ -5,12 +5,13 @@
 #include <map>
 #include "Image.h"
 #include "Tool.h"
+#include "Script.h"
 
 namespace GameObjectData{
     struct GameObject{
         Image* img;
         char name[20];
-        PyObject* choose_callback;
+        Script* script;
     };
     extern std::map<const char*, GameObject, StrComp> gameobject_pool;
     extern std::map<const char*, int, StrComp> gameobject_count;

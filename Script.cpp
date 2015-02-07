@@ -23,6 +23,19 @@ Script::Script(const char* file_name, const char* class_name){
     }
 #endif
 
+    Load(class_name);
+    return;
+}
+
+Script::Script(PyObject* module, const char* class_name){
+    this->p_module = module;
+    Load(class_name);
+    return;
+}
+
+void Script::Load(const char* class_name){
+
+
     this->p_class = PyObject_GetAttrString(p_module, class_name);
 
 #ifdef DEBUG
@@ -62,6 +75,7 @@ Script::Script(const char* file_name, const char* class_name){
 #endif
 
     return;
+
 }
 
 PyObject* Script::GetAttribute(const char* attr_name){

@@ -7,10 +7,13 @@
 class Script{
 public:
     Script(const char* filename, const char* class_name);
+    Script(PyObject* module, const char* class_name);
+    
     PyObject* GetAttribute(const char* name);
     void Shell();
 
 private:
+    void Load(const char* class_name);
 
     std::mutex run_lock;
 
