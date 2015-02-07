@@ -2,6 +2,7 @@
 #define SCENESAVE_DEF
 
 #include <vector>
+#include <mutex>
 
 #include "Scene.h"
 #include "Window.h"
@@ -23,6 +24,7 @@ private:
     Window* win_select;
     Window* win_show;
     Window* win_title;
+    std::mutex snap_lock;
 };
 
 

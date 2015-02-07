@@ -39,12 +39,15 @@ SceneSave::SceneSave(){
             }
             char tmp[20];
             sprintf(tmp, "file%d", index);
-            
             unsigned char* rev_img = new unsigned char[600*600*4];
+           
+            snap_lock.lock(); 
             for(int ly = 0;ly < 600;ly++)
                 for(int lx = 0;lx < 600;lx++)
                     for(int i = 0;i < 4;i++)
-                        rev_img[((600-ly)*600 + lx)*4 + i] = snap_img[(ly*600 + lx)*4 + i];
+                        rev_img[((599-ly)*600 + lx)*4 + i] = snap_img[(ly*600 + lx)*4 + i];
+            snap_lock.unlock();
+            
             std::vector<unsigned char> vec_raw_img(rev_img, rev_img + 600*600*4);
             delete rev_img;
 
@@ -74,8 +77,10 @@ SceneSave::SceneSave(){
 }
 
 void SceneSave::Snap(){
+    if(snap_lock.try_lock() == false) return;
     glPixelStorei(GL_PACK_ALIGNMENT, 1);
     glReadPixels(0, 0, 600, 600, GL_RGBA, GL_UNSIGNED_BYTE, snap_img);
+    snap_lock.unlock();
     return;
 }
 
