@@ -18,7 +18,6 @@ std::map<const char*, Event*, StrComp> Event::event_pool;
 
 Event::Event(const char* map_name, const char* str){
     char tmp[20];
-    
     script = new Script(map_name, str);     
 
     PyObject* p_config = script->GetAttr("config");
@@ -158,6 +157,8 @@ Event::Event(const char* map_name, const char* str){
     // TODO: maybe read from config
     event_status.x = 7;
     event_status.y = 5;
+    
+    mover_component = new MoverComponent(this);
 
 #ifdef DEBUG    
     fprintf(stderr, "Event loads from %s ok\n", tmp);
@@ -169,6 +170,7 @@ Event::Event(const char* map_name, const char* str){
 Event::~Event(){
     Event::event_pool.erase(event_name);
     delete script;
+    delete mover_component;
 
     if(tile_use != nullptr){
         delete tile_use->GetImage();
@@ -221,7 +223,7 @@ void Event::Action(HeroStatus hero_status, bool is_enter){
                     hero_status.moving_step == 0 and
                     event_status.x == hero_status.x + dir_x[hero_status.moving_dir] and
                     event_status.y == hero_status.y + dir_y[hero_status.moving_dir];
-
+        /* weird */
         if(fit_cond and this->fixed_direction == false){
             event_status.moving_dir = 3 - hero_status.moving_dir; 
         }
@@ -256,41 +258,8 @@ int Event::GetPriority(){
     return this->priority;
 }
 
-void Event::SetMovement(std::queue<int> _move_queue){
-    this->move_queue = _move_queue;
-    CheckMovement();
-    return;
-}
-
-void Event::CheckMovement(){
-    if(this->move_queue.size()){
-        event_status.status = 1;
-        event_status.moving_step = 0;
-        event_status.moving_dir = this->move_queue.front();
-        move_queue.pop();
-    }
-    return;
-}
-
-bool Event::Moving()const{
-    if(move_queue.size())
-        return true;
-    return event_status.status == 1;
-}
-
 void Event::TickEvent(int delta_time){
-    int dir_x[] = {0, -1, 1, 0};
-    int dir_y[] = {1, 0, 0, -1};
-    if(event_status.status == 1){
-        event_status.moving_step = std::min(event_status.moving_step + delta_time, 16);
-        if(event_status.moving_step == 16){ // TODO: make this constant
-            event_status.x += dir_x[event_status.moving_dir];
-            event_status.y += dir_y[event_status.moving_dir];
-            event_status.status = 0;
-            event_status.moving_step = 0;
-            CheckMovement();
-        }
-    }
+    mover_component->TickEvent(delta_time);
     return;
 }
 
@@ -324,7 +293,8 @@ HeroStatus Event::GetStatus(){
 void Event::SetStatus(HeroStatus status){
     event_status = status;
     return;
-} 
+}
+ 
 void Event::SetPosition(int x, int y){
     event_status.x = x;
     event_status.y = y;

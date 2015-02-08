@@ -1,9 +1,6 @@
 #ifndef EVENT_DEF
 #define EVENT_DEF
 
-#include "inc_py.h"
-#include <mutex>
-#include <queue>
 #include <map>
 #include <cstdlib>
 #include <cstring>
@@ -14,6 +11,8 @@
 
 #include "Tool.h"
 
+#include "MoverComponent.h"
+
 const int TRIGGER_CONDITION_NULL = 0;
 const int TRIGGER_CONDITION_ON_CHAT = 1;
 const int TRIGGER_CONDITION_ON_STAND= 2;
@@ -23,6 +22,8 @@ const int TRIGGER_CONDITION_SYNC = 4;
 const int COND_TYPE_FLAG = 0;
 const int COND_TYPE_VALUE = 1;
 const int COND_TYPE_PRIVATE_FLAG = 2; // TODO
+
+class MoverComponent;
 
 class Event{
 public:
@@ -39,30 +40,27 @@ public:
     void Render(float left, float top);
     int GetPriority();
 
-    bool IsSolid()const;
+    bool IsSolid() const;
     
-    Vec2i Position()const;
-    void SetMovement(std::queue<int> _move_queue);
-    bool Moving()const;
+    Vec2i Position() const;
+    void SetPosition(int x, int y);
     
     int trigger_condition;
     
     HeroStatus GetStatus();
-    void SetStatus(HeroStatus status); 
-    void SetPosition(int x, int y);
+    void SetStatus(HeroStatus status);
+    HeroStatus event_status;
+    
+    MoverComponent* mover_component; 
 
 private:
-    void CheckMovement();
     bool is_solid;
     bool fixed_direction;
-    HeroStatus event_status;
     Vec2i walk_pos[4][4]; 
     char event_name[20];
    
     int priority;
      
-    std::queue<int> move_queue;
-    
     struct cond{
         int type;
         char var_name[20];

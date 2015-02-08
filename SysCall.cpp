@@ -110,7 +110,7 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         for(int lx = 0;lx < (int)PyList_Size(moving_list);lx++){
             arg.push((int)PyInt_AsLong(PyList_GetItem(moving_list, lx)));
         }
-        Event::event_pool[active_event_name]->SetMovement(arg);
+        Event::event_pool[active_event_name]->mover_component->SetMoveQueue(arg);
         Py_INCREF(Py_None);
         ret_value = Py_None;
 
@@ -127,7 +127,7 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         
         auto state = PyEval_SaveThread();
         PyUnlock();
-        while(check_event->Moving()); // TODO: use condition var
+        while(check_event->mover_component->IsMoving()); // TODO: use condition var
         PyLock();
         PyEval_RestoreThread(state);
         

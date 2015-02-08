@@ -48,6 +48,13 @@ typedef struct _hero_status{
     int x, y;
 }HeroStatus;
 
+typedef struct _mover_status{
+    int status;
+    int moving_dir;
+    int moving_step;
+    int x, y;
+}MoverStatus;
+
 Color3i HexToColor3i(const char* str);
 Color3i operator-(const Color3i& a, const Color3i& b);
 double LenOfColor3i(Color3i in);
