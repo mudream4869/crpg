@@ -1,6 +1,5 @@
 #include "GraphicComponent.h"
 
-
 GraphicComponent::GraphicComponent(Object* _obj){
     obj = _obj;
     for(int lx = 0;lx < 4;lx++){

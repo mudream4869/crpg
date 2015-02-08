@@ -55,7 +55,6 @@ public:
 
 private:
     char event_name[20];
-   
 
     struct cond{
         int type;
