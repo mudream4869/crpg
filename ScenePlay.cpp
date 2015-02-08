@@ -187,15 +187,7 @@ void ScenePlay::TickEvent(int delta_time){
         return;
     }
     if(hero_use->status.status == 1){
-        hero_use->status.moving_step = std::min(hero_use->status.moving_step + delta_time, 16);
-        if(hero_use->status.moving_step == 16){ // TODO: make this constant
-            int dir_x[] = {0, -1, 1, 0};
-            int dir_y[] = {1, 0, 0, -1};
-            hero_use->status.x += dir_x[hero_use->status.moving_dir];
-            hero_use->status.y += dir_y[hero_use->status.moving_dir];
-            hero_use->status.status = 0;
-            hero_use->status.moving_step = 0;
-        }
+        hero_use->mover_component->TickEvent(delta_time);
     }else if(hero_use->status.status == 0){
         int arr_index = InputCtrl::GetArrowCommand();
         if(arr_index != -1){
