@@ -151,12 +151,12 @@ Event::Event(const char* map_name, const char* str){
         }
     }
 
-    event_status.status = 0;
-    event_status.moving_dir = 0;
-    event_status.moving_step = 0;
+    status.status = 0;
+    status.moving_dir = 0;
+    status.moving_step = 0;
     // TODO: maybe read from config
-    event_status.x = 7;
-    event_status.y = 5;
+    status.x = 7;
+    status.y = 5;
     
     mover_component = new MoverComponent(this);
 
@@ -216,21 +216,21 @@ void Event::Action(HeroStatus hero_status, bool is_enter){
         if(this->is_solid == false)
             fit_cond = is_enter and 
                     hero_status.moving_step == 0 and
-                    event_status.x == hero_status.x and
-                    event_status.y == hero_status.y;
+                    status.x == hero_status.x and
+                    status.y == hero_status.y;
         else
             fit_cond = is_enter and 
                     hero_status.moving_step == 0 and
-                    event_status.x == hero_status.x + dir_x[hero_status.moving_dir] and
-                    event_status.y == hero_status.y + dir_y[hero_status.moving_dir];
+                    status.x == hero_status.x + dir_x[hero_status.moving_dir] and
+                    status.y == hero_status.y + dir_y[hero_status.moving_dir];
         /* weird */
         if(fit_cond and this->fixed_direction == false){
-            event_status.moving_dir = 3 - hero_status.moving_dir; 
+            status.moving_dir = 3 - hero_status.moving_dir; 
         }
     }else if(this->trigger_condition == TRIGGER_CONDITION_ON_STAND){
         fit_cond = hero_status.moving_step == 0 and
-                   event_status.x == hero_status.x and
-                   event_status.y == hero_status.y;
+                   status.x == hero_status.x and
+                   status.y == hero_status.y;
     }else if(this->trigger_condition == TRIGGER_CONDITION_AUTO){
         // TODO: event_auto
     }else if(this->trigger_condition == TRIGGER_CONDITION_SYNC){
@@ -251,7 +251,7 @@ bool Event::IsSolid()const{
 }
 
 Vec2i Event::Position()const{
-    return {event_status.x, event_status.y};
+    return {status.x, status.y};
 }
 
 int Event::GetPriority(){
@@ -271,32 +271,32 @@ void Event::Render(float left, float top){
     if(this->Condition() == false) return;
     
     if(tile_use != nullptr){
-        float paint_x = ((float)event_status.x + event_status.moving_step*dir_x[event_status.moving_dir]/16.0)/10.0*2 + left;
-        float paint_y = ((float)event_status.y + event_status.moving_step*dir_y[event_status.moving_dir]/16.0)/10.0*2 + top;
+        float paint_x = ((float)status.x + status.moving_step*dir_x[status.moving_dir]/16.0)/10.0*2 + left;
+        float paint_y = ((float)status.y + status.moving_step*dir_y[status.moving_dir]/16.0)/10.0*2 + top;
         Vec2i sz = tile_use->GetSize();
         paint_y = paint_y + 1/(float)5 - sz.y/(float)32*0.2;
         this->tile_use->Render(
             paint_x, paint_y,
             sz.x/(float)32*0.2,
             sz.y/(float)32*0.2, 
-            this->walk_pos[event_status.moving_dir][(event_status.moving_step/2)%4].x,
-            this->walk_pos[event_status.moving_dir][(event_status.moving_step/2)%4].y,
+            this->walk_pos[status.moving_dir][(status.moving_step/2)%4].x,
+            this->walk_pos[status.moving_dir][(status.moving_step/2)%4].y,
         2);
     }
     return;
 }
 
 HeroStatus Event::GetStatus(){
-    return event_status;
+    return status;
 }
 
-void Event::SetStatus(HeroStatus status){
-    event_status = status;
+void Event::SetStatus(HeroStatus _status){
+    status = _status;
     return;
 }
  
 void Event::SetPosition(int x, int y){
-    event_status.x = x;
-    event_status.y = y;
+    status.x = x;
+    status.y = y;
     return;
 }

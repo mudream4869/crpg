@@ -49,9 +49,9 @@ public:
     
     HeroStatus GetStatus();
     void SetStatus(HeroStatus status);
-    HeroStatus event_status;
     
-    MoverComponent* mover_component; 
+    HeroStatus status;
+    MoverComponent* mover_component;
 
 private:
     bool is_solid;
@@ -60,7 +60,7 @@ private:
     char event_name[20];
    
     int priority;
-     
+
     struct cond{
         int type;
         char var_name[20];
@@ -68,7 +68,7 @@ private:
     };
     std::vector<cond> display_cond;
     std::vector<cond> reject_cond;
-    
+
     Script* script;
     Tile* tile_use;
 };
