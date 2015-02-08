@@ -3,6 +3,7 @@
 
 Hero::Hero(){
     tile_use = nullptr;
+    mover_component = new MoverComponent(this);
     return;
 }
 
@@ -10,7 +11,6 @@ void Hero::SetTile(Tile* tile){
     tile_use = tile;
     return;
 }
-
 
 void Hero::SetWalkPiece(){
     // Default setting
@@ -33,12 +33,13 @@ void Hero::SetWalkPiece(int pos[4][4][2]){
     return;
 }
 
-void Hero::Render(float x, float y, int dir, int render_index){
+void Hero::Render(float left, float top){
     //fprintf(stderr, "rx = %d ry = %d\n", this->walk_pos[dir][render_index].x, this->walk_pos[dir][render_index].y);
+    int render_index = (status.moving_step/2)%4;
     this->tile_use->Render(
-        x, y, 0.2, 0.3, 
-        this->walk_pos[dir][render_index].x,
-        this->walk_pos[dir][render_index].y,
+        left, top, 0.2, 0.3, 
+        this->walk_pos[status.moving_dir][render_index].x,
+        this->walk_pos[status.moving_dir][render_index].y,
         1
     );
     return;

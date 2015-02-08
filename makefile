@@ -22,7 +22,7 @@ CFRAME += -lopengl32 -lglu32 -lglut
 #CFLAGS += -D_STDCALL_SUPPORTED -D_M_IX86
 endif
 
-OBJECTS = Image.o Tile.o Map.o Hero.o Event.o MoverComponent.o Type.o Tool.o File.o Config.o Script.o
+OBJECTS = Image.o Tile.o Map.o Hero.o Event.o MoverComponent.o Type.o Tool.o File.o Config.o Script.o Object.o
 
 INSTANCE = Mask.o ImgCtrl.o AudioSystem.o GlobalVariable.o GameObject.o PyLock.o SysCall.o InputCtrl.o
 

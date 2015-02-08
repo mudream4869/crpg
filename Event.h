@@ -11,6 +11,7 @@
 
 #include "Tool.h"
 
+#include "Object.h"
 #include "MoverComponent.h"
 
 const int TRIGGER_CONDITION_NULL = 0;
@@ -25,7 +26,7 @@ const int COND_TYPE_PRIVATE_FLAG = 2; // TODO
 
 class MoverComponent;
 
-class Event{
+class Event : public Object{
 public:
     Event(const char* map_name, const char* str);
     ~Event();
@@ -50,7 +51,6 @@ public:
     HeroStatus GetStatus();
     void SetStatus(HeroStatus status);
     
-    HeroStatus status;
     MoverComponent* mover_component;
 
 private:

@@ -29,9 +29,9 @@ ScenePlay::ScenePlay(){
     hero_use->SetTile(hero_tile);
     hero_use->SetWalkPiece();
 
-    hero_status.status = 0; // Stop
-    hero_status.moving_dir = 0;
-    hero_status.moving_step = 0;
+    hero_use->status.status = 0; // Stop
+    hero_use->status.moving_dir = 0;
+    hero_use->status.moving_step = 0;
 
     is_obj_menu_open = false;
     is_main_menu_open = false;
@@ -83,11 +83,11 @@ void ScenePlay::Call(){
 
 void ScenePlay::ChangeMap(Map* _map, int start_x, int start_y, int dir){
     // Set up event
-    hero_status.x = start_x, hero_status.y = start_y;
+    hero_use->status.x = start_x, hero_use->status.y = start_y;
     if(dir != -1) // -1 -> remain same direction
-        hero_status.moving_dir = dir;
-    hero_status.moving_step = 0;
-    hero_status.status = 0;
+        hero_use->status.moving_dir = dir;
+    hero_use->status.moving_step = 0;
+    hero_use->status.status = 0;
     this->SetMap(_map);
     return;
 }
@@ -170,7 +170,7 @@ void ScenePlay::InputEvent(Input inp){
             return;
         }
         for(int lx = 0;lx < events.size();lx++){
-            events[lx]->Action(hero_status, inp.normal_key == 13);
+            events[lx]->Action(hero_use->status, inp.normal_key == 13);
         }
     }
     return;
@@ -186,24 +186,24 @@ void ScenePlay::TickEvent(int delta_time){
         this->obj_menu->TickEvent(delta_time);
         return;
     }
-    if(hero_status.status == 1){
-        hero_status.moving_step = std::min(hero_status.moving_step + delta_time, 16);
-        if(hero_status.moving_step == 16){ // TODO: make this constant
+    if(hero_use->status.status == 1){
+        hero_use->status.moving_step = std::min(hero_use->status.moving_step + delta_time, 16);
+        if(hero_use->status.moving_step == 16){ // TODO: make this constant
             int dir_x[] = {0, -1, 1, 0};
             int dir_y[] = {1, 0, 0, -1};
-            hero_status.x += dir_x[hero_status.moving_dir];
-            hero_status.y += dir_y[hero_status.moving_dir];
-            hero_status.status = 0;
-            hero_status.moving_step = 0;
+            hero_use->status.x += dir_x[hero_use->status.moving_dir];
+            hero_use->status.y += dir_y[hero_use->status.moving_dir];
+            hero_use->status.status = 0;
+            hero_use->status.moving_step = 0;
         }
-    }else if(hero_status.status == 0){
+    }else if(hero_use->status.status == 0){
         int arr_index = InputCtrl::GetArrowCommand();
         if(arr_index != -1){
-            if(CanDo(hero_status.x, hero_status.y, arr_index)){
-                hero_status.status = 1;
-                hero_status.moving_step = 0;
+            if(CanDo(hero_use->status.x, hero_use->status.y, arr_index)){
+                hero_use->status.status = 1;
+                hero_use->status.moving_step = 0;
             }
-            hero_status.moving_dir = arr_index;
+            hero_use->status.moving_dir = arr_index;
         }
     }
     for(int lx = 0;lx < events.size();lx++){
@@ -218,10 +218,10 @@ void ScenePlay::Render(){
     static int dir_x[] = {0, -1, 1, 0};
     static int dir_y[] = {1, 0, 0, -1};
     
-    float hero_real_x = ((float)(hero_status.x) + 
-                dir_x[hero_status.moving_dir]*hero_status.moving_step/(float)16)*screen_width/10,
-          hero_real_y = ((float)(hero_status.y) +
-                dir_y[hero_status.moving_dir]*hero_status.moving_step/(float)16)*screen_height/10 + 1/(float)5 - 0.3;
+    float hero_real_x = ((float)(hero_use->status.x) + 
+                dir_x[hero_use->status.moving_dir]*hero_use->status.moving_step/(float)16)*screen_width/10,
+          hero_real_y = ((float)(hero_use->status.y) +
+                dir_y[hero_use->status.moving_dir]*hero_use->status.moving_step/(float)16)*screen_height/10 + 1/(float)5 - 0.3;
     
     float start_x = 1 - hero_real_x;
     float start_y = 1 - hero_real_y;
@@ -242,13 +242,8 @@ void ScenePlay::Render(){
         for(int lx = 0;lx < events.size();lx++)
             if(events[lx]->GetPriority() == 1 and events[lx]->Position().y == ly)
                 events[lx]->Render(start_x, start_y);
-        if(ly == hero_status.y)
-            hero_use->Render(
-                hero_real_x + start_x,
-                hero_real_y + start_y,
-                hero_status.moving_dir,
-                (hero_status.moving_step/2)%4
-            );
+        if(ly == hero_use->status.y)
+            hero_use->Render(hero_real_x + start_x, hero_real_y + start_y);
     }
 
     // Prioroty > 1
@@ -270,5 +265,5 @@ void ScenePlay::Render(){
 }
 
 HeroStatus ScenePlay::GetHeroStatus()const{
-    return hero_status;
+    return hero_use->status;
 }

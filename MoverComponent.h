@@ -3,14 +3,14 @@
 
 #include <queue>
 
-#include "Event.h"
+#include "Object.h"
 #include "Type.h"
 
-class Event;
+class Object;
 
 class MoverComponent{
 public:
-    MoverComponent(Event* _obj);
+    MoverComponent(Object* _obj);
     void TickEvent(int delta_time);
     void Update();
 
@@ -19,7 +19,7 @@ public:
 
 private:
     std::queue<int> move_queue;
-    Event* obj;
+    Object* obj;
 };
 
 #endif

@@ -1,7 +1,6 @@
 #include "MoverComponent.h"
 
-
-MoverComponent::MoverComponent(Event* _obj) : obj(_obj){
+MoverComponent::MoverComponent(Object* _obj) : obj(_obj){
 }
 
 void MoverComponent::TickEvent(int delta_time){
@@ -41,4 +40,4 @@ bool MoverComponent::IsMoving(){
         return true;
 
     return obj->status.status == 1;
-}   
+}
