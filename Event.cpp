@@ -142,15 +142,6 @@ Event::Event(const char* map_name, const char* str){
         this->trigger_condition = TRIGGER_CONDITION_NULL;
     }
     
-    //TODO: basic event setting
-    //fprintf(stderr, "Basic setting....\n");
-    for(int lx = 0;lx < 4;lx++){
-        for(int ly = 0;ly < 4;ly++){
-            walk_pos[lx][ly].x = ly;
-            walk_pos[lx][ly].y = lx;
-        }
-    }
-
     status.status = 0;
     status.moving_dir = 0;
     status.moving_step = 0;
@@ -159,6 +150,7 @@ Event::Event(const char* map_name, const char* str){
     status.y = 5;
     
     mover_component = new MoverComponent(this);
+    graphic_component = new GraphicComponent(this);
 
 #ifdef DEBUG    
     fprintf(stderr, "Event loads from %s ok\n", tmp);
@@ -171,7 +163,8 @@ Event::~Event(){
     Event::event_pool.erase(event_name);
     delete script;
     delete mover_component;
-
+    delete graphic_component;
+    
     if(tile_use != nullptr){
         delete tile_use->GetImage();
         delete tile_use;
@@ -264,25 +257,8 @@ void Event::TickEvent(int delta_time){
 }
 
 void Event::Render(float left, float top){
-    // TODO: make 2 environment
-    //if(this->Condition() == false) return;
-    int dir_x[] = {0, -1, 1, 0};
-    int dir_y[] = {1, 0, 0, -1};
     if(this->Condition() == false) return;
-    
-    if(tile_use != nullptr){
-        float paint_x = ((float)status.x + status.moving_step*dir_x[status.moving_dir]/16.0)/10.0*2 + left;
-        float paint_y = ((float)status.y + status.moving_step*dir_y[status.moving_dir]/16.0)/10.0*2 + top;
-        Vec2i sz = tile_use->GetSize();
-        paint_y = paint_y + 1/(float)5 - sz.y/(float)32*0.2;
-        this->tile_use->Render(
-            paint_x, paint_y,
-            sz.x/(float)32*0.2,
-            sz.y/(float)32*0.2, 
-            this->walk_pos[status.moving_dir][(status.moving_step/2)%4].x,
-            this->walk_pos[status.moving_dir][(status.moving_step/2)%4].y,
-        2);
-    }
+    graphic_component->Render(left, top); 
     return;
 }
 

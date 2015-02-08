@@ -27,7 +27,6 @@ ScenePlay::ScenePlay(){
     hero_tile->SetImage(img1);
     hero_tile->SetSize(32, 48);
     hero_use->SetTile(hero_tile);
-    hero_use->SetWalkPiece();
 
     hero_use->status.status = 0; // Stop
     hero_use->status.moving_dir = 0;
@@ -235,7 +234,7 @@ void ScenePlay::Render(){
             if(events[lx]->GetPriority() == 1 and events[lx]->Position().y == ly)
                 events[lx]->Render(start_x, start_y);
         if(ly == hero_use->status.y)
-            hero_use->Render(hero_real_x + start_x, hero_real_y + start_y);
+            hero_use->Render(start_x, start_y);
     }
 
     // Prioroty > 1

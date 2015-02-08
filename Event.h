@@ -13,6 +13,7 @@
 
 #include "Object.h"
 #include "MoverComponent.h"
+#include "GraphicComponent.h"
 
 const int TRIGGER_CONDITION_NULL = 0;
 const int TRIGGER_CONDITION_ON_CHAT = 1;
@@ -23,8 +24,6 @@ const int TRIGGER_CONDITION_SYNC = 4;
 const int COND_TYPE_FLAG = 0;
 const int COND_TYPE_VALUE = 1;
 const int COND_TYPE_PRIVATE_FLAG = 2; // TODO
-
-class MoverComponent;
 
 class Event : public Object{
 public:
@@ -52,14 +51,11 @@ public:
     void SetStatus(HeroStatus status);
     
     MoverComponent* mover_component;
+    GraphicComponent* graphic_component;
 
 private:
-    bool is_solid;
-    bool fixed_direction;
-    Vec2i walk_pos[4][4]; 
     char event_name[20];
    
-    int priority;
 
     struct cond{
         int type;
@@ -70,7 +66,6 @@ private:
     std::vector<cond> reject_cond;
 
     Script* script;
-    Tile* tile_use;
 };
 
 #endif

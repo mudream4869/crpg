@@ -22,7 +22,9 @@ CFRAME += -lopengl32 -lglu32 -lglut
 #CFLAGS += -D_STDCALL_SUPPORTED -D_M_IX86
 endif
 
-OBJECTS = Image.o Tile.o Map.o Hero.o Event.o MoverComponent.o Type.o Tool.o File.o Config.o Script.o Object.o
+OBJECTS = Image.o Tile.o Map.o Hero.o Event.o Type.o Tool.o File.o Config.o Script.o Object.o
+
+COMPONENT = MoverComponent.o GraphicComponent.o
 
 INSTANCE = Mask.o ImgCtrl.o AudioSystem.o GlobalVariable.o GameObject.o PyLock.o SysCall.o InputCtrl.o
 
@@ -32,8 +34,8 @@ WINDOW = Window.o WindowBlockType.o WindowMsg.o WindowSelect.o WindowGameObject.
 
 LIBS = lodepng.o
 
-main: $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) *.h $(LIBS)
-	$(CXX) main.cpp $(CFLAGS) $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) $(LIBS)  $(CFRAME) -o test
+main: $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) $(COMPONENT) *.h $(LIBS)
+	$(CXX) main.cpp $(CFLAGS) $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) $(COMPONENT) $(LIBS)  $(CFRAME) -o test
 
 lodepng.o:
 	$(CXX) loadpng/lodepng.cpp -c $(CFLAGS)
