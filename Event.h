@@ -42,18 +42,12 @@ public:
 
     bool IsSolid() const;
     
-    Vec2i Position() const;
-    void SetPosition(int x, int y);
-    
-    int trigger_condition;
-    
-    HeroStatus GetStatus();
-    void SetStatus(HeroStatus status);
-    
     MoverComponent* mover_component;
     GraphicComponent* graphic_component;
 
 private:
+    int trigger_condition;
+    
     char event_name[20];
 
     struct cond{

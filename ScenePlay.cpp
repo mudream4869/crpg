@@ -121,7 +121,7 @@ bool ScenePlay::CanDo(int x, int y, int dir)const{
     //printf("Vis ScenePlay : x, y = %d, %d\n", x, y);
     for(int lx = 0;lx < events.size();lx++){
         if(events[lx]->IsSolid() == false) continue;
-        Vec2i pos = events[lx]->Position();
+        Vec2i pos = events[lx]->GetPosition();
         if(pos.x == x and pos.y == y) return false;
         if(pos.x == x + dir_x[dir] and pos.y ==  y + dir_y[dir]) return false;
     }
@@ -231,7 +231,7 @@ void ScenePlay::Render(){
     map_use->RenderAtPriority(start_x, start_y, screen_width*2, screen_height*2, 1);
     for(int ly = 0;ly < map_size.y;ly++){
         for(int lx = 0;lx < events.size();lx++)
-            if(events[lx]->GetPriority() == 1 and events[lx]->Position().y == ly)
+            if(events[lx]->GetPriority() == 1 and events[lx]->status.y == ly)
                 events[lx]->Render(start_x, start_y);
         if(ly == hero_use->status.y)
             hero_use->Render(start_x, start_y);
@@ -242,7 +242,7 @@ void ScenePlay::Render(){
         map_use->RenderAtPriority(start_x, start_y, screen_width*2, screen_height*2, priority);
         for(int ly = 0;ly < map_size.y;ly++){
             for(int lx = 0;lx < events.size();lx++)
-                if(events[lx]->GetPriority() == priority and events[lx]->Position().y == ly)
+                if(events[lx]->GetPriority() == priority and events[lx]->status.y == ly)
                     events[lx]->Render(start_x, start_y);
         }
     }

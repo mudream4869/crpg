@@ -8,6 +8,9 @@ class Object{
 public:
     Object();
     HeroStatus status;
+    
+    Vec2i GetPosition();
+    void SetPosition(int x, int y);
 
     int priority;
     

@@ -87,7 +87,7 @@ void File::LoadFile(const char* filename){
         fscanf(fp, "%d %d %d %d %d", &get_event_status.status, 
             &get_event_status.x, &get_event_status.y, 
             &get_event_status.moving_dir, &get_event_status.moving_step);
-        Event::event_pool[event_name]->SetStatus(get_event_status);
+        Event::event_pool[event_name]->status = get_event_status;
     }
     return;
 }
@@ -123,7 +123,7 @@ void File::SaveFile(const char* filename, std::vector<unsigned char>& enc_png){
     fprintf(fp, "%d\n", (int) Event::event_pool.size());
     for(auto it = Event::event_pool.begin(); it != Event::event_pool.end(); it++){
         Event* get_event = it->second;
-        HeroStatus get_event_status = get_event->GetStatus();
+        HeroStatus get_event_status = get_event->status;
         fprintf(fp, "%s ", it->first);
         fprintf(fp, "%d %d %d %d %d\n", get_event_status.status, 
             get_event_status.x, get_event_status.y, 

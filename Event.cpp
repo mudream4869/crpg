@@ -243,10 +243,6 @@ bool Event::IsSolid()const{
     return this->is_solid;
 }
 
-Vec2i Event::Position()const{
-    return {status.x, status.y};
-}
-
 int Event::GetPriority(){
     return this->priority;
 }
@@ -259,20 +255,5 @@ void Event::TickEvent(int delta_time){
 void Event::Render(float left, float top){
     if(this->Condition() == false) return;
     graphic_component->Render(left, top); 
-    return;
-}
-
-HeroStatus Event::GetStatus(){
-    return status;
-}
-
-void Event::SetStatus(HeroStatus _status){
-    status = _status;
-    return;
-}
- 
-void Event::SetPosition(int x, int y){
-    status.x = x;
-    status.y = y;
     return;
 }
