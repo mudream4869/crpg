@@ -9,6 +9,7 @@ public:
     virtual void InputEvent(Input inp);
     virtual void TickEvent(int delta_time);
     virtual void Render();
+    virtual void Call();
     
     static Scene* scene_certain;
 protected:

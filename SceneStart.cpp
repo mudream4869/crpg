@@ -47,7 +47,7 @@ void SceneStart::InputEvent(Input inp){
     if(inp.type == INPUT_NORMAL_KEY_DOWN){
         if(inp.normal_key == 13){
             if(select_index == 0){
-                ScenePlay::Call(
+                ScenePlay::scene_play->Call(
                     Map::map_pool[Config::GAME_START_MAP_NAME],
                     Config::GAME_START_POS.x,
                     Config::GAME_START_POS.y,
@@ -55,7 +55,7 @@ void SceneStart::InputEvent(Input inp){
                 );
                 return;
             }else if(select_index == 1){
-                SceneLoad::Call();
+                SceneLoad::scene_load->Call(this);
                 return; 
             }else if(select_index == 2){
                 exit(0);

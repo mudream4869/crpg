@@ -33,6 +33,7 @@ void WindowSelect::InputEvent(Input inp){
             return;
         }else if(inp.normal_key == 13){
             choose_callback(select_index);
+            this->Update();
             return;
         }
     }

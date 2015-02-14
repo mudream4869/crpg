@@ -10,13 +10,15 @@ public:
     void InputEvent(Input inp);
     //void TickEvent(int delta_time);
     void Render();
+    void Call(Scene* ret);
     
-    static void Call();
-    static Scene* scene_load;
+    static SceneLoad* scene_load;
 private:
     Window* win_select;
     Window* win_show;
     Window* win_title;
+    
+    Scene* scene_ret;
 };
 
 

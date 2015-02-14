@@ -34,7 +34,7 @@ SceneSave::SceneSave(){
         [this](int index){
             // choose function
             if(index == -1){
-                ScenePlay::Call();
+                ScenePlay::scene_play->Call();
                 return;
             }
             char tmp[20];
@@ -54,7 +54,7 @@ SceneSave::SceneSave(){
             std::vector<unsigned char> vec_enc_img;
             lodepng::encode(vec_enc_img, vec_raw_img, 600, 600);
             File::SaveFile(tmp, vec_enc_img);
-            ScenePlay::Call();
+            ScenePlay::scene_play->Call();
             return;
         },
         [this](int index){

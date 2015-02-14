@@ -10,7 +10,7 @@
 
 #include "GlobalVariable.h"
 
-Scene* SceneLoad::scene_load = nullptr;
+SceneLoad* SceneLoad::scene_load = nullptr;
 
 SceneLoad::SceneLoad(){
     static const int SaveFileCount = 10;
@@ -31,7 +31,7 @@ SceneLoad::SceneLoad(){
         [this](int index){
             if(index == -1){
                 // TODO: Scene Stack
-                ScenePlay::Call();
+                scene_ret->Call();
                 return;
             }
             char tmp[20];
@@ -42,7 +42,7 @@ SceneLoad::SceneLoad(){
                 return;
 
             File::LoadFile(tmp);
-            ScenePlay::Call();
+            scene_ret->Call();
             return;
         },
         [this](int index){
@@ -64,8 +64,9 @@ SceneLoad::SceneLoad(){
     return;
 }
 
-void SceneLoad::Call(){
+void SceneLoad::Call(Scene* ret){
     Scene::scene_certain = SceneLoad::scene_load;
+    scene_ret = ret;
     return;
 }
 

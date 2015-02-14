@@ -255,6 +255,7 @@ void AudioSystem::StopBGM(){
         alDeleteBuffers(1, &bgm_buffer);
     }
     alSourceStop(bgm_source);
+    strcpy(certain_bgm, "");
     return;
 }
 

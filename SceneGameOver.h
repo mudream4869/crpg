@@ -9,8 +9,8 @@ public:
     SceneGameOver();
     void InputEvent(Input inp);
     void Render();
-
-    static void Call();
+    void Call();
+    
     static Scene* scene_gameover;
 
 private:

@@ -9,9 +9,9 @@ public:
     SceneStart();
     void InputEvent(Input inp);
     void TickEvent(int delta_time);
-    void Render();
-    
-    static void Call();
+    void Render(); 
+    void Call();
+
     static Scene* scene_start;
 
 private:

@@ -19,7 +19,7 @@ void SceneGameOver::Call(){
 
 void SceneGameOver::InputEvent(Input inp){
     if(inp.type != INPUT_NORMAL_KEY_DOWN) return;
-    SceneStart::Call();
+    SceneStart::scene_start->Call();
     return;
 }
 

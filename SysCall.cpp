@@ -115,7 +115,7 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         ret_value = Py_None;
 
     }else if(strcmp(cmd, "ShowSaveFile") == 0){
-        SceneSave::Call();
+        SceneSave::scene_save->Call();
         // Wait for saving
         Py_INCREF(Py_None);
         ret_value = Py_None;
@@ -233,11 +233,11 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
     
     }else if(strcmp(cmd, "GameOver") == 0){
         fprintf(stderr, "game over\n"); 
-        SceneGameOver::Call(); 
+        SceneGameOver::scene_gameover->Call(); 
         Py_INCREF(Py_None);
         ret_value = Py_None;
     }else if(strcmp(cmd, "ReturnStart") == 0){
-        SceneStart::Call();
+        SceneStart::scene_start->Call();
         Py_INCREF(Py_None);
         ret_value = Py_None;
 

@@ -13,10 +13,10 @@ public:
     void InputEvent(Input inp);
     //void TickEvent(int delta_time);
     void Render();
+    void Call();
     
     void Snap();
 
-    static void Call();
     static SceneSave* scene_save;
     static unsigned char* snap_img; 
 

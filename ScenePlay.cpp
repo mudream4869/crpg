@@ -40,10 +40,10 @@ ScenePlay::ScenePlay(){
         [this](int index){
             if(index == -1) this->is_main_menu_open = false;
             if(index == 0){
-                SceneLoad::Call();
+                SceneLoad::scene_load->Call(this);
                 return;
             }else if(index == 1){
-                SceneStart::Call();
+                SceneStart::scene_start->Call();
                 return;
             }else if(index == 2){
                 //TODO:Exit Game
@@ -126,7 +126,7 @@ bool ScenePlay::CanDo(int x, int y, int dir)const{
 
 void ScenePlay::InputEvent(Input inp){
     if(inp.type == INPUT_SPECIAL_KEY_DOWN and inp.special_key == GLUT_KEY_F7){
-        SceneStart::Call();
+        SceneStart::scene_start->Call();
         return;
     }
 

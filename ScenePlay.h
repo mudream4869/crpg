@@ -26,8 +26,9 @@ public:
      
     HeroStatus GetHeroStatus()const;
 
-    static void Call();
-    static void Call(Map*, int, int, int);
+    void Call();
+    void Call(Map*, int, int, int);
+    
     static ScenePlay* scene_play;
 private:
 

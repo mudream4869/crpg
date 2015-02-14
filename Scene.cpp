@@ -21,3 +21,8 @@ void Scene::TickEvent(int delta_time){
 void Scene::Render(){
     return;
 }
+
+void Scene::Call(){
+    Scene::scene_certain = this;
+    return;
+}
