@@ -2,27 +2,16 @@
 #include <cstdio>
 #include "Tile.h"
 
-Tile::Tile(){
-    piece_width = 32;
-    piece_height = 32;
-    image_use = nullptr;
+Tile::Tile(int w, int h, Image* img){
+    piece_width = w;
+    piece_height = h;
+    image_use = img;
     return;
 } 
-
-void Tile::SetSize(int w, int h){
-    this->piece_width = w;
-    this->piece_height = h;
-    return;
-}
 
 Vec2i Tile::GetSize(){
     return {this->piece_width, this->piece_height};
 }
-
-void Tile::SetImage(Image* img){
-    this->image_use = img;
-    return;
-} 
 
 Image* Tile::GetImage(){
     return this->image_use;

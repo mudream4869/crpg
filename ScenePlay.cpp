@@ -22,11 +22,7 @@ ScenePlay::ScenePlay(){
     ScenePlay::scene_play = this;
     
     auto img1 = new Image("textures/hero.bmp");
-    auto hero_tile = new Tile();
-    hero_use = new Hero();
-    hero_tile->SetImage(img1);
-    hero_tile->SetSize(32, 48);
-    hero_use->SetTile(hero_tile);
+    hero_use = new Hero(new Tile(32, 48, img1));
 
     hero_use->status.status = 0; // Stop
     hero_use->status.moving_dir = 0;

@@ -6,12 +6,10 @@
 
 class Tile{
 public:
-    Tile();
+    Tile(int w, int h, Image* img);
     
-    void SetSize(int w, int h);
     Vec2i GetSize();
 
-    void SetImage(Image* img);
     Image* GetImage();
     void Render(float left, float top, float width, float height, int x, int y, int level);
 

@@ -31,12 +31,9 @@
 #include "Tool.h"
 
 void LoadMaps();
-void LoadConfig();
 
 void InitResource(){
     Py_Initialize();
-    //PyEval_InitThreads();
-    //PyEval_ReleaseLock();
     PySys_SetPath(".");
     
     Sys::InitSys();
@@ -59,7 +56,6 @@ void InitResource(){
     new SceneLoad();
     new SceneGameOver();
 
-    fprintf(stderr, "load scenes ok\n");
     // Load Maps
     printf("Init ok.\n");
 

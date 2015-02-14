@@ -108,12 +108,10 @@ Event::Event(const char* map_name, const char* str){
     Event::event_pool[event_name] = this;
 
     if(img_path[0] != 0){
-        this->tile_use = new Tile;
         char full_img_name[40];
         sprintf(full_img_name, "textures/%s", GetFileName(img_path));
         Image* tile_img = new Image(full_img_name);
-        this->tile_use->SetImage(tile_img); 
-        this->tile_use->SetSize(tile_img->GetWidth()/4, tile_img->GetHeight()/4);
+        this->tile_use = new Tile(tile_img->GetWidth()/4, tile_img->GetHeight()/4, tile_img);
     }else{
         this->tile_use = nullptr;
     }

@@ -10,7 +10,7 @@
 
 class Hero : public Object{
 public:
-    Hero();
+    Hero(Tile* _tile_use = nullptr);
     void SetTile(Tile* tile);
 
     void Render(float left, float top);

@@ -74,13 +74,12 @@ Map::Map(const char* _map_name){
         trans_color
     );
     //fprintf(stderr, "img load ok\n");
-    tile_use = new Tile();
-    tile_use->SetImage(img);
     int img_pw = std::atoi(tileset_node->first_attribute("tilewidth")->value());
     int img_ph = std::atoi(tileset_node->first_attribute("tileheight")->value());
+    tile_use = new Tile(img_pw, img_ph, img);
+    
     int img_width_count = img->GetWidth()/img_pw;
     int img_height_count = img->GetHeight()/img_ph;
-    tile_use->SetSize(img_pw, img_ph);
 
     fprintf(stderr, "ready to load terrain\n");
     for(auto terrain_node = tileset_node->first_node("tile"); terrain_node; terrain_node = terrain_node->next_sibling("tile")){
