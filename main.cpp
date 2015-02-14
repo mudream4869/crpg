@@ -1,6 +1,7 @@
 #include "inc_gl.h"
 #include "inc_py.h"
 #include <cstdlib>
+#include <cstring>
 
 #include "Config.h"
 #include "Loader.cpp"
@@ -97,6 +98,20 @@ int main(int argc, char* argv[])
 
 #ifdef DEBUG
     fprintf(stderr, "Enter debug mod\n");
+#endif
+
+// 調整目錄
+#ifdef __APPLE__
+    int ptr = -1;
+    char cd_path[1000]; 
+    strcpy(cd_path, argv[0]);
+    for(int lx = 0;cd_path[lx] != 0;lx++)
+        if(cd_path[lx] == '/')
+            ptr = lx;
+    if(ptr >= 0){
+        cd_path[ptr] = 0;
+        chdir(cd_path);
+    }
 #endif
 
     Config::InitConfig();
