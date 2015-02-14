@@ -7,7 +7,8 @@
 #include <cstdlib>
 
 int Absi(int a);
-//std::vector<std::string> GetFilenamesUnderDir(const char* dir_name);
+
+std::vector<std::string> GetFileUnderDir(const char* dir_name);
 
 char* GetFileName(char* path);
 
