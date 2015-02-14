@@ -196,26 +196,25 @@ void AudioSystem::InitAudioSystem(){
     alSourcef(bgm_source, AL_GAIN, 1.0f);
     alSourcefv(bgm_source, AL_POSITION, source0Pos);
     alSourcefv(bgm_source, AL_VELOCITY, source0Vel);
+    
 
-    FILE* fp = fopen("sounds/SE/__init__.ini", "r");
-    if(fp == NULL){
-        fprintf(stderr, "sounds/SE/__init__.ini not found.\n");
-    }else{
+    std::vector<std::string> get_se_list = GetFileUnderDir("sounds/SE");
+    for(int lx = 0;lx < get_se_list.size();lx++){
         char sfn[20];
-        while(fscanf(fp, "%s", sfn) != EOF){
-            char fn[40];
-            sprintf(fn, "sounds/SE/%s", sfn);
-            ALuint* buffer = new ALuint;
-            ALsizei size, frequency;
-            ALenum format;
-            if(LoadWavFile(fn, buffer, &size, &frequency, &format)){
-                char* tmp_fn = new char[strlen(fn) + 2];
-                strcpy(tmp_fn, fn);
-                se_sound[tmp_fn] = (int)se_buffer.size();
-                se_buffer.push_back(buffer);
-            }else{
-                delete buffer;
-            }
+        strcpy(sfn, get_se_list[lx].c_str());
+        if(strcmp(GetFileNameExt(sfn), "wav") != 0) continue; //目前只支援wav
+        char fn[40];
+        sprintf(fn, "sounds/SE/%s", sfn);
+        ALuint* buffer = new ALuint;
+        ALsizei size, frequency;
+        ALenum format;
+        if(LoadWavFile(fn, buffer, &size, &frequency, &format)){
+            char* tmp_fn = new char[strlen(fn) + 2];
+            strcpy(tmp_fn, fn);
+            se_sound[tmp_fn] = (int)se_buffer.size();
+            se_buffer.push_back(buffer);
+        }else{
+            delete buffer;
         }
     }
     return;

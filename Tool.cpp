@@ -55,8 +55,6 @@ std::vector<std::string> GetFileUnderDir(const char* dir_name){
     }
 #endif
     return ret;
-
-
 }
 
 char* GetFileName(char* path){
@@ -67,3 +65,13 @@ char* GetFileName(char* path){
     else
         return path + sl;
 }
+
+char* GetFileNameExt(char* filename){
+    int sl = strlen(filename);
+    int rc = sl;
+    for(;sl >= 0;sl--)
+        if(filename[sl] == '.')
+            rc = sl+1;
+    return filename + rc;
+}
+ 

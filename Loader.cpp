@@ -28,6 +28,7 @@
 #include "ImgCtrl.h"
 
 #include "Config.h"
+#include "Tool.h"
 
 void LoadMaps();
 void LoadConfig();
@@ -66,18 +67,15 @@ void InitResource(){
 }
 
 void LoadMaps(){
-    FILE* fp = fopen("maps/__init__.ini", "r") ;
-    if(fp == NULL){
-        fprintf(stderr, "Error : Not found maps/__init__.ini\n");
-        exit(1);
-    }
-    char map_name[20];
-    while(fscanf(fp, "%s", map_name) != EOF){
+    std::vector<std::string> get_file_list = GetFileUnderDir("maps");
+    for(int lx = 0;lx < get_file_list.size();lx++){
+        char map_name[20];
+        strcpy(map_name, get_file_list[lx].c_str());
+        if(strcmp(GetFileNameExt(map_name), "tmx") != 0) continue;
         char full_map_name[20];
         sprintf(full_map_name, "maps/%s", map_name);
         new Map(map_name);
         fprintf(stderr, "add map %s\n", map_name);
     }
-    fclose(fp);
     return;
 }
