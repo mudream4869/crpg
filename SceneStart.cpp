@@ -47,11 +47,20 @@ void SceneStart::InputEvent(Input inp){
     if(inp.type == INPUT_NORMAL_KEY_DOWN){
         if(inp.normal_key == 13){
             if(select_index == 0){
+                int dir = 0;
+                if(strcmp(Config::GAME_START_DIR, "left") == 0){
+                    dir = 1;
+                }else if(strcmp(Config::GAME_START_DIR, "right") == 0 ){
+                    dir = 2;
+                }else if(strcmp(Config::GAME_START_DIR, "up") == 0){
+                    dir = 3;
+                }else
+                    dir = 0;
                 ScenePlay::scene_play->Call(
                     Map::map_pool[Config::GAME_START_MAP_NAME],
                     Config::GAME_START_POS.x,
                     Config::GAME_START_POS.y,
-                    0
+                    dir
                 );
                 return;
             }else if(select_index == 1){

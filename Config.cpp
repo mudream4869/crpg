@@ -10,6 +10,8 @@ char Config::SCENESTART_IMG_NAME[20];
 char Config::SCENESTART_BGM_NAME[20];
 char Config::GAME_START_MAP_NAME[20];
 char Config::SCRIPT_PATH[] = ".";
+char Config::HERO_IMG_NAME[20];
+char Config::GAME_START_DIR[20];
 
 Vec2i Config::GAME_START_POS;
 char Config::GAME_TITLE[20];
@@ -40,6 +42,10 @@ void Config::InitConfig(){
             sprintf(SCENESTART_BGM_NAME, "%s", line+eq_ptr+1);
         }else if(strcmp(line, "gametitle") == 0){
             strcpy(GAME_TITLE, line+eq_ptr+1);
+        }else if(strcmp(line, "heroimg") == 0){
+            strcpy(HERO_IMG_NAME, line+eq_ptr+1);
+        }else if(strcmp(line, "startdir") == 0){
+            strcpy(GAME_START_DIR, line+eq_ptr+1);
         }else{
 
 #ifdef DEBUG

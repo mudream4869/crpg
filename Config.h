@@ -14,7 +14,9 @@ namespace Config{
     extern char SCENESTART_BGM_NAME[20];
     extern char GAME_TITLE[20];
     extern char GAME_START_MAP_NAME[20];
+    extern char HERO_IMG_NAME[20];
     extern Vec2i GAME_START_POS;
+    extern char GAME_START_DIR[20];
     
     void InitConfig();
 
