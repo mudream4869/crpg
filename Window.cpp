@@ -18,12 +18,31 @@ Window::~Window(){
 }
 
 void Window::DrawText(float x, float y, const char* str){
-    WindowDraw windraw;
-    windraw.DrawId = WINDOW_DRAW_TEXT;
-    windraw.Pos = {x, y};
-    windraw.Str = new char[strlen(str) + 2];
-    strcpy(windraw.Str, str);
-    window_draw.push_back(windraw); 
+    float dy = 0.1;
+    int pre_ptr = 0;
+    char tmp[100]; strcpy(tmp, str);
+    for(int lx = 0;;lx++){
+        if(tmp[lx] == '\n'){
+            WindowDraw windraw;
+            windraw.DrawId = WINDOW_DRAW_TEXT;
+            windraw.Pos = {x, y};
+            windraw.Str = new char[lx - pre_ptr + 3];
+            tmp[lx] = 0;
+            strcpy(windraw.Str, tmp + pre_ptr);
+            window_draw.push_back(windraw);
+            pre_ptr = lx+1;
+            y += dy;
+        }else if(tmp[lx] == 0){
+            WindowDraw windraw;
+            windraw.DrawId = WINDOW_DRAW_TEXT;
+            windraw.Pos = {x, y};
+            windraw.Str = new char[lx - pre_ptr + 3];
+            tmp[lx] = 0;
+            strcpy(windraw.Str, tmp + pre_ptr);
+            window_draw.push_back(windraw);
+            break;
+        }
+    }
     return;
 }
 
