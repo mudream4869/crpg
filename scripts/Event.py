@@ -1,3 +1,5 @@
+from Tool import Random
+
 class GlobalValue:
     def __init__(self, syscall):
         self.syscall = syscall
@@ -34,12 +36,33 @@ class GameObject:
 
 
 class Event:
+    rand_seq = None
+    DIR_LEFT = 1
+    DIR_RIGHT = 2
+    DIR_UP = 3
+    DIR_DOWN = 0
     def __init__(self, syscall):
         self.syscall = syscall
         self.global_value = GlobalValue(syscall)
         self.global_flag = GlobalFlag(syscall)
         self.gameobject = GameObject(syscall)
+        
+        if Event.rand_seq == None:
+            Event.rand_seq = Random()
 
+    def AutoConfig(self):
+        rand_name = "__" + str(Event.rand_seq.Rand())
+        self.config = {
+            "event_name" : rand_name,
+            "image" : "",
+            "trigger_condition" : "on chat",
+            "solid" : True,
+            "fixed_direction" : True,
+            "priority" : 1,
+            "display_cond" : [],
+            "reject_cond" : []
+        }
+    
     def ShowMsg(self, msg):
         self.syscall("ShowMsg", str(msg))
     
