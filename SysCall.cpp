@@ -24,7 +24,8 @@
 #include "WindowInputNumber.h"
 #include "WindowMsgSelect.h"
 
-std::mutex Sys::syscall_mutex;
+std::mutex Sys::func_lock;
+std::queue< std::function<void()> > Sys::func_que;
 
 void Sys::InitSys(){
     return;
@@ -135,18 +136,23 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         ret_value = Py_None;
 
     }else if(strcmp(cmd, "ChangeMap") == 0){
-        char map_name[20];
+        char* map_name = new char[20];
         int start_x, start_y, dir;
         strcpy(map_name, PyString_AsString(PyTuple_GetItem(para, 1)));
         start_x = (int)(PyInt_AsLong(PyTuple_GetItem(para, 2)));
         start_y = (int)(PyInt_AsLong(PyTuple_GetItem(para, 3)));
         dir = (int)(PyInt_AsLong(PyTuple_GetItem(para, 4)));
+        fprintf(stderr, "ready to change map\n");
         /*if(env->count("scene_play") == 0){
             fprintf(stderr, "akjsfhkaj\n");
         }*/
-        ScenePlay::scene_play->ChangeMap(Map::map_pool[map_name], start_x, start_y, dir);
+        PushFunc([start_x, start_y, dir, map_name](){
+            ScenePlay::scene_play->ChangeMap(Map::map_pool[map_name], start_x, start_y, dir);
+            delete[] map_name;
+        });
         Py_INCREF(Py_None);
         ret_value = Py_None;
+        fprintf(stderr, "change map ok\n");
     
     }else if(strcmp(cmd, "SetGameObject") == 0){
         fprintf(stderr, "call SetGameObject");
@@ -260,4 +266,21 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
     }
 
     return ret_value;
+}
+
+void Sys::PushFunc(std::function<void()> inp){
+    func_lock.lock();
+    func_que.push(inp);
+    func_lock.unlock();
+    return;
+}
+
+void Sys::DoFunc(){
+    func_lock.lock();
+    while(func_que.size()){
+        auto get_func = func_que.front(); func_que.pop();
+        get_func();
+    }
+    func_lock.unlock();
+    return;
 }

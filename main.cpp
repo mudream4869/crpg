@@ -71,6 +71,7 @@ void SystemTimer(int value){
 
 void MaskTimer(int value){
     Mask::TickEvent(value);
+    Sys::DoFunc();
     glutPostRedisplay();
     glutTimerFunc(12, MaskTimer, 1);
     return;

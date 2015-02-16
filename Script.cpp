@@ -87,6 +87,7 @@ void Script::Shell(){
         return;
     std::thread torun(
         [this]{
+            fprintf(stderr, "=================\n");
             PyLock();
             auto state = Py_NewInterpreter(); 
             PyEval_RestoreThread(state);
