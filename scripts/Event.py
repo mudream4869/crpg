@@ -83,9 +83,21 @@ class Event:
             if item[0] == "Left": to_arr.append(1)
             if item[0] == "Right" : to_arr.append(2)
         self.syscall("DoMove", self.config["event_name"], to_arr)
-
+    
+    def HeroMove(self, arr):
+        to_arr = []
+        for item in arr:
+            if item[0] == "Up": to_arr.append(3)
+            if item[0] == "Down" : to_arr.append(0)
+            if item[0] == "Left": to_arr.append(1)
+            if item[0] == "Right" : to_arr.append(2)
+        self.syscall("HeroMove", to_arr)
+    
     def WaitForMove(self):
         self.syscall("WaitForMove", self.config["event_name"])
+    
+    def WaitForHeroMove(self):
+        self.syscall("WaitForHeroMove")
 
     def ChangeMap(self, map_name, point, direction = -1):
         self.syscall("ChangeMap", map_name, point[0], point[1], direction)
@@ -116,7 +128,8 @@ class Event:
 
     def Action(self):
         return
-    
+
+ 
 class ScriptNone(Event):
     def __init__(self, syscall):
         Event.__init__(self, syscall)

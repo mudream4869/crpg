@@ -115,6 +115,16 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         Py_INCREF(Py_None);
         ret_value = Py_None;
 
+    }else if(strcmp(cmd, "HeroMove") == 0){
+        PyObject* moving_list = PyTuple_GetItem(para, 1);
+        std::queue<int> arg;
+        for(int lx = 0;lx < (int)PyList_Size(moving_list);lx++){
+            arg.push((int)PyInt_AsLong(PyList_GetItem(moving_list, lx)));
+        }
+        ScenePlay::scene_play->hero_use->mover_component->SetMoveQueue(arg);
+        Py_INCREF(Py_None);
+        ret_value = Py_None;
+    
     }else if(strcmp(cmd, "ShowSaveFile") == 0){
         SceneSave::scene_save->Call();
         // Wait for saving
@@ -129,6 +139,17 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         auto state = PyEval_SaveThread();
         PyUnlock();
         while(check_event->mover_component->IsMoving()); // TODO: use condition var
+        PyLock();
+        PyEval_RestoreThread(state);
+        
+        Py_INCREF(Py_None);
+        ret_value = Py_None;
+
+    }else if(strcmp(cmd, "WaitForHeroMove") == 0){
+        
+        auto state = PyEval_SaveThread();
+        PyUnlock();
+        while(ScenePlay::scene_play->hero_use->mover_component->IsMoving()); // TODO: use condition var
         PyLock();
         PyEval_RestoreThread(state);
         

@@ -30,12 +30,13 @@ public:
     void Call(Map*, int, int, int);
     
     static ScenePlay* scene_play;
+    Hero* hero_use;
+
 private:
 
     void SetMap(Map* _map);
 
     Map* map_use;
-    Hero* hero_use;
     
     Window* main_menu;
     Window* obj_menu;
