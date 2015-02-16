@@ -3,18 +3,12 @@ from Event import Event
 class Event1(Event):
     def __init__(self, func):
         Event.__init__(self, func)
-        self.config = {
-            "event_name" : "event1",
-            "image" : "hero.bmp",
-            "trigger_condition" : "on chat",
-            "solid" : True,
-            "fixed_direction" : False,
-            "priority" : 1,
-            "display_cond" : [],
-            "reject_cond" : [
-                ["flag", "Test2"]
-            ],
-        }
+        self.AutoConfig()
+        self.config["image"] = "hero.bmp"
+        self.config["fixed_direction"] = False
+        self.config["reject_cond"] = [
+            ["flag", "Test2"]
+        ]
 
     def Action(self):
         print("Enter Script's Action")
