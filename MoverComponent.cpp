@@ -6,7 +6,9 @@ MoverComponent::MoverComponent(Object* _obj) : obj(_obj){
 void MoverComponent::TickEvent(int delta_time){
     int dir_x[] = {0, -1, 1, 0};
     int dir_y[] = {1, 0, 0, -1};
-    if(obj->status.status == 1){
+    if(obj->status.sleep_ms){
+        obj->status.sleep_ms = std::max(0, obj->status.sleep_ms - delta_time);
+    }else if(obj->status.status == 1){
         obj->status.moving_step = std::min(obj->status.moving_step + delta_time, 16);
         if(obj->status.moving_step == 16){ // TODO: make this constant
             obj->status.x += dir_x[obj->status.moving_dir];
@@ -39,6 +41,11 @@ void MoverComponent::Update(){
         case CMD_FACETO:
             obj->status.face_dir = get_cmd.y;
             obj->status.moving_dir = get_cmd.y;
+            obj->status.status = 0;
+            update_no_wait = true;
+            break;
+        case CMD_SLEEP:
+            obj->status.sleep_ms += get_cmd.y;
             obj->status.status = 0;
             update_no_wait = true;
             break;

@@ -20,6 +20,7 @@ class Event1(Event):
             MoveList()
             .To(MoveList.DIR_RIGHT, 3)
             .FaceTo(MoveList.DIR_UP)
+            .Sleep(50)
             .Backward()
             .Gen()
         )

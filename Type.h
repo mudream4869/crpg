@@ -46,13 +46,25 @@ struct _vec2i{
 
 typedef _vec2i Vec2i;
 
-typedef struct _hero_status{
+struct _hero_status{
     int status;
     int moving_dir;
     int face_dir;
     int moving_step;
+    int sleep_ms;
     int x, y;
-}HeroStatus;
+    _hero_status(){
+        status = 0;
+        moving_dir = 0;
+        face_dir = 0;
+        moving_step = 0;
+        sleep_ms = 0;
+        x = y = 0;
+        return;
+    }
+};
+
+typedef _hero_status HeroStatus;
 
 typedef struct _mover_status{
     int status;

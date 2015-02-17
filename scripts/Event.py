@@ -87,8 +87,8 @@ class MoveList:
                     ret_arr.append([item[0], 0])
             elif(item[0] == MoveList.CMD_FACETO):
                 ret_arr.append([item[0], item[1]])
-            elif(item[0] == MoveList.CMDSLEEP):
-                ret_arr.append([item[0], ms])
+            elif(item[0] == MoveList.CMD_SLEEP):
+                ret_arr.append([item[0], item[1]])
         return ret_arr
 
 

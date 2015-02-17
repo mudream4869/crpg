@@ -32,7 +32,7 @@ public:
     
     static std::map<const char*, Event*, StrComp> event_pool;  
      
-    void Action(HeroStatus hero_status, bool is_enter);
+    void Action(bool is_enter);
     bool Condition();
     
     void TickEvent(int delta_time);

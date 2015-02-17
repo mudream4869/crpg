@@ -28,11 +28,6 @@ ScenePlay::ScenePlay(){
     auto img1 = new Image(full_hero_img_path);
     hero_use = new Hero(new Tile(img1->GetWidth()/4, img1->GetHeight()/4, img1));
 
-    hero_use->status.status = 0; // Stop
-    hero_use->status.moving_dir = 0;
-    hero_use->status.face_dir = 0;
-    hero_use->status.moving_step = 0;
-
     is_obj_menu_open = false;
     is_main_menu_open = false;
     
@@ -170,7 +165,7 @@ void ScenePlay::InputEvent(Input inp){
             return;
         }
         for(int lx = 0;lx < events.size();lx++){
-            events[lx]->Action(hero_use->status, inp.normal_key == 13);
+            events[lx]->Action(inp.normal_key == 13);
         }
     }
     return;
@@ -202,7 +197,7 @@ void ScenePlay::TickEvent(int delta_time){
     for(int lx = 0;lx < events.size();lx++){
         events[lx]->TickEvent(delta_time);
         // TODO: weird part: how to control auto event
-        events[lx]->Action({-1, -1}, 0);
+        events[lx]->Action(0);
     }
     return;
 }

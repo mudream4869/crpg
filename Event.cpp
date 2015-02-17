@@ -13,6 +13,7 @@
 #include "GlobalVariable.h"
 
 #include "SceneSave.h"
+#include "ScenePlay.h"
 
 std::map<const char*, Event*, StrComp> Event::event_pool;  
 
@@ -140,14 +141,6 @@ Event::Event(const char* map_name, const char* str){
         this->trigger_condition = TRIGGER_CONDITION_NULL;
     }
     
-    status.status = 0;
-    status.moving_dir = 0;
-    status.face_dir = 0;
-    status.moving_step = 0;
-    // TODO: maybe read from config
-    status.x = 7;
-    status.y = 5;
-    
     mover_component = new MoverComponent(this);
     graphic_component = new GraphicComponent(this);
 
@@ -196,7 +189,7 @@ bool Event::Condition(){
     return true;
 }
 
-void Event::Action(HeroStatus hero_status, bool is_enter){
+void Event::Action(bool is_enter){
     // TODO: check the incref real implement
     if(this->Condition() == false){
         return;
@@ -204,6 +197,7 @@ void Event::Action(HeroStatus hero_status, bool is_enter){
     int dir_x[] = {0, -1, 1, 0};
     int dir_y[] = {1, 0, 0, -1};
     bool fit_cond = false;
+    HeroStatus hero_status = ScenePlay::scene_play->hero_use->status;
     if(this->trigger_condition == TRIGGER_CONDITION_ON_CHAT){
         if(this->is_solid == false)
             fit_cond = is_enter and 
