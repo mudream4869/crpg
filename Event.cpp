@@ -50,6 +50,7 @@ Event::Event(const char* map_name, const char* str){
 
     this->is_solid = Py_True == PyDict_GetItemString(p_config, "solid");
     this->fixed_direction = Py_True == PyDict_GetItemString(p_config, "fixed_direction");
+    this->is_stay = Py_True == PyDict_GetItemString(p_config, "stay");
      
     // To load event name, event shouldn;t be empty
 

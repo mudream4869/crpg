@@ -1,6 +1,18 @@
 from Event import Event 
 from Event import MoveList
 
+class TestAni(Event):
+    def __init__(self, func):
+        Event.__init__(self, func)
+        self.AutoConfig()
+        self.config["image"] = "hero.bmp"
+        self.config["stay"] = True
+        self.config["auto_move"] = (
+            MoveList()
+            .To(MoveList.DIR_UP)
+            .Gen()
+        )
+
 class TestAutoMove(Event):
     def __init__(self, func):
         Event.__init__(self, func)

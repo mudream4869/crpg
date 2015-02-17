@@ -1,6 +1,8 @@
 #include "Object.h"
 
-Object::Object(){}
+Object::Object(){
+    is_stay = false;
+}
 
 Vec2i Object::GetPosition(){
     return {status.x, status.y};

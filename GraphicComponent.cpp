@@ -17,6 +17,11 @@ void GraphicComponent::Render(float left, float top){
     if(obj->tile_use != nullptr){
         float paint_x = ((float)obj->status.x + obj->status.moving_step*dir_x[obj->status.moving_dir]/16.0)/10.0*2 + left;
         float paint_y = ((float)obj->status.y + obj->status.moving_step*dir_y[obj->status.moving_dir]/16.0)/10.0*2 + top;
+        if(obj->is_stay){
+            paint_x = ((float)obj->status.x)/10.0*2 + left;
+            paint_y = ((float)obj->status.y)/10.0*2 + top;
+        }
+
         Vec2i sz = obj->tile_use->GetSize();
         paint_y = paint_y + 1/(float)5 - sz.y/(float)32*0.2;
         obj->tile_use->Render(

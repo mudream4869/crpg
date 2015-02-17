@@ -16,7 +16,9 @@ public:
     
     bool is_solid;
     bool fixed_direction;
+    bool is_stay;
     Tile* tile_use;
+    
 };
 
 #endif
