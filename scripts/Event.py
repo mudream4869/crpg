@@ -35,12 +35,66 @@ class GameObject:
         return self.syscall("GetGameObject", key)
 
 
-class Event:
-    rand_seq = None
+class MoveList:
     DIR_LEFT = 1
     DIR_RIGHT = 2
     DIR_UP = 3
     DIR_DOWN = 0
+    DIR_NONE = -1
+    
+    CMD_TO = 0;
+    CMD_TOWARD = 1;
+    CMD_BACKWARD = 2;
+    CMD_FACETO = 3;
+    CMD_SLEEP = 4;
+     
+    def __init__(self):
+        self.mmlist = []
+
+    def To(self, direction = DIR_NONE, step = 1):
+        print(1, direction, step)
+        self.mmlist.append([MoveList.CMD_TO, direction, step])
+        print(2)
+        return self
+    
+    def MoveToward(self, step = 1):
+        self.mmlist.append([MoveList.CMD_TOWARD, step])
+        return self
+
+    def MoveBackward(self, step = 1):
+        self.mmlist.append([MoveList.CMD_BACKWARD, step])
+        return self
+    
+    def FaceTo(self, direction = DIR_NONE):
+        self.mmlist.append([MoveList.CMD_FACETO, direction])
+        return self
+    
+    def Sleep(self, ms = 1000):
+        self.mmlist.append([MoveList.CMD_SLEEP, ms])
+        return self
+
+    def Gen(self):
+        print("Gen!!!")
+        ret_arr = []
+        for item in self.mmlist:
+            if(item[0] == MoveList.CMD_TO):
+                for _step in range(0, item[2]):
+                    ret_arr.append([item[0], item[1]])
+            elif(item[0] == MoveList.CMD_TOWARD):
+                for _step in range(0, item[1]):
+                    ret_arr.append([item[0], 0])
+            elif(item[0] == MoveList.CMD_BACKWARD):
+                for _step in range(0, item[1]):
+                    ret_arr.append([item[0], 0])
+            elif(item[0] == MoveList.CMD_FACETO):
+                ret_arr.append([item[0], 0])
+            elif(item[0] == MoveList.CMDSLEEP):
+                ret_arr.append([item[0], ms])
+        return ret_arr
+
+
+class Event:
+    rand_seq = None
     def __init__(self, syscall):
         self.syscall = syscall
         self.global_value = GlobalValue(syscall)
@@ -76,22 +130,10 @@ class Event:
         self.syscall("ShowSaveFile")
 
     def DoMove(self, arr):
-        to_arr = []
-        for item in arr:
-            if item[0] == "Up": to_arr.append(3)
-            if item[0] == "Down" : to_arr.append(0)
-            if item[0] == "Left": to_arr.append(1)
-            if item[0] == "Right" : to_arr.append(2)
-        self.syscall("DoMove", self.config["event_name"], to_arr)
+        self.syscall("DoMove", self.config["event_name"], arr)
     
     def HeroMove(self, arr):
-        to_arr = []
-        for item in arr:
-            if item[0] == "Up": to_arr.append(3)
-            if item[0] == "Down" : to_arr.append(0)
-            if item[0] == "Left": to_arr.append(1)
-            if item[0] == "Right" : to_arr.append(2)
-        self.syscall("HeroMove", to_arr)
+        self.syscall("HeroMove", arr)
     
     def WaitForMove(self):
         self.syscall("WaitForMove", self.config["event_name"])

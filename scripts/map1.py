@@ -1,4 +1,5 @@
 from Event import Event 
+from Event import MoveList
 
 class Event1(Event):
     def __init__(self, func):
@@ -14,10 +15,14 @@ class Event1(Event):
         print("Enter Script's Action")
         self.global_value["Test1"] += 1
         self.ShowMsg("Hello~" + str(self.global_value["Test1"]))
-        self.DoMove((["Right"],
-                     ["Right"],
-                     ["Right"],
-                     ["Down"]))
+        
+        self.DoMove(
+            MoveList()
+            .To(MoveList.DIR_RIGHT, 3)
+            .To(MoveList.DIR_DOWN)
+            .Gen()
+        )
+
         self.ShowImg(0, "pictures/haha.png", (1, 1), (1, 1))
         self.WaitForMove()
         self.KillImg(0) 
@@ -25,6 +30,7 @@ class Event1(Event):
         self.PlaySE("Swoosh.wav")
         self.PlayBGM("Under_Water.wav")
         self.ShowSaveFile()
+
 
 class EventTestAuto(Event):
     def __init__(self, func):

@@ -107,9 +107,12 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         char active_event_name[20];
         strcpy(active_event_name, PyString_AsString(PyTuple_GetItem(para, 1)));
         PyObject* moving_list = PyTuple_GetItem(para, 2);
-        std::queue<int> arg;
+        std::queue<Vec2i> arg;
         for(int lx = 0;lx < (int)PyList_Size(moving_list);lx++){
-            arg.push((int)PyInt_AsLong(PyList_GetItem(moving_list, lx)));
+            PyObject* get_cmd = PyList_GetItem(moving_list, lx);
+            int cmd_type = (int)PyInt_AsLong(PyList_GetItem(get_cmd, 0));
+            int l_arg = (int)PyInt_AsLong(PyList_GetItem(get_cmd, 1));
+            arg.push(Vec2i(cmd_type, l_arg));
         }
         Event::event_pool[active_event_name]->mover_component->SetMoveQueue(arg);
         Py_INCREF(Py_None);
@@ -117,9 +120,12 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
 
     }else if(strcmp(cmd, "HeroMove") == 0){
         PyObject* moving_list = PyTuple_GetItem(para, 1);
-        std::queue<int> arg;
+        std::queue<Vec2i> arg;
         for(int lx = 0;lx < (int)PyList_Size(moving_list);lx++){
-            arg.push((int)PyInt_AsLong(PyList_GetItem(moving_list, lx)));
+            PyObject* get_cmd = PyList_GetItem(moving_list, lx);
+            arg.push(Vec2i((int)PyInt_AsLong(PyList_GetItem(get_cmd, 0)),
+                          (int)PyInt_AsLong(PyList_GetItem(get_cmd, 1))
+                    ));
         }
         ScenePlay::scene_play->hero_use->mover_component->SetMoveQueue(arg);
         Py_INCREF(Py_None);

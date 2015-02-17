@@ -37,9 +37,14 @@ typedef struct _vec2f{
     float x, y;
 }Vec2f;
 
-typedef struct _vec2i{
+struct _vec2i{
     int x, y;
-}Vec2i;
+    _vec2i(int _x = 0, int _y = 0){
+        x = _x, y = _y;
+    }
+};
+
+typedef _vec2i Vec2i;
 
 typedef struct _hero_status{
     int status;

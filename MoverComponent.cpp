@@ -23,13 +23,13 @@ void MoverComponent::Update(){
     if(move_queue.size()){
         obj->status.status = 1;
         obj->status.moving_step = 0;
-        obj->status.moving_dir = move_queue.front();
+        obj->status.moving_dir = move_queue.front().y;
         move_queue.pop();
     }
     return;
 }
 
-void MoverComponent::SetMoveQueue(const std::queue<int>& _move_queue){
+void MoverComponent::SetMoveQueue(const std::queue<Vec2i>& _move_queue){
     move_queue = _move_queue;
     Update();
     return;
