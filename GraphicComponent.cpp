@@ -23,8 +23,8 @@ void GraphicComponent::Render(float left, float top){
             paint_x, paint_y,
             sz.x/(float)32*0.2,
             sz.y/(float)32*0.2, 
-            walk_pos[obj->status.moving_dir][(obj->status.moving_step/2)%4].x,
-            walk_pos[obj->status.moving_dir][(obj->status.moving_step/2)%4].y,
+            walk_pos[obj->status.face_dir][(obj->status.moving_step/2)%4].x,
+            walk_pos[obj->status.face_dir][(obj->status.moving_step/2)%4].y,
         2);
     }
     return;

@@ -52,20 +52,19 @@ class MoveList:
         self.mmlist = []
 
     def To(self, direction = DIR_NONE, step = 1):
-        print(1, direction, step)
         self.mmlist.append([MoveList.CMD_TO, direction, step])
-        print(2)
         return self
     
-    def MoveToward(self, step = 1):
+    def Toward(self, step = 1):
         self.mmlist.append([MoveList.CMD_TOWARD, step])
         return self
 
-    def MoveBackward(self, step = 1):
+    def Backward(self, step = 1):
         self.mmlist.append([MoveList.CMD_BACKWARD, step])
         return self
     
     def FaceTo(self, direction = DIR_NONE):
+        print(1, direction)
         self.mmlist.append([MoveList.CMD_FACETO, direction])
         return self
     
@@ -87,7 +86,7 @@ class MoveList:
                 for _step in range(0, item[1]):
                     ret_arr.append([item[0], 0])
             elif(item[0] == MoveList.CMD_FACETO):
-                ret_arr.append([item[0], 0])
+                ret_arr.append([item[0], item[1]])
             elif(item[0] == MoveList.CMDSLEEP):
                 ret_arr.append([item[0], ms])
         return ret_arr

@@ -142,6 +142,7 @@ Event::Event(const char* map_name, const char* str){
     
     status.status = 0;
     status.moving_dir = 0;
+    status.face_dir = 0;
     status.moving_step = 0;
     // TODO: maybe read from config
     status.x = 7;
@@ -216,7 +217,7 @@ void Event::Action(HeroStatus hero_status, bool is_enter){
                     status.y == hero_status.y + dir_y[hero_status.moving_dir];
         /* weird */
         if(fit_cond and this->fixed_direction == false){
-            status.moving_dir = 3 - hero_status.moving_dir; 
+            status.face_dir = 3 - hero_status.moving_dir; 
         }
     }else if(this->trigger_condition == TRIGGER_CONDITION_ON_STAND){
         fit_cond = hero_status.moving_step == 0 and

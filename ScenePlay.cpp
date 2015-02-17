@@ -30,6 +30,7 @@ ScenePlay::ScenePlay(){
 
     hero_use->status.status = 0; // Stop
     hero_use->status.moving_dir = 0;
+    hero_use->status.face_dir = 0;
     hero_use->status.moving_step = 0;
 
     is_obj_menu_open = false;
@@ -195,6 +196,7 @@ void ScenePlay::TickEvent(int delta_time){
                 hero_use->status.moving_step = 0;
             }
             hero_use->status.moving_dir = arr_index;
+            hero_use->status.face_dir = arr_index;
         }
     }
     for(int lx = 0;lx < events.size();lx++){

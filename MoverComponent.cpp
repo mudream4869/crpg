@@ -21,10 +21,31 @@ void MoverComponent::TickEvent(int delta_time){
 
 void MoverComponent::Update(){
     if(move_queue.size()){
+        Vec2i get_cmd = move_queue.front();
         obj->status.status = 1;
         obj->status.moving_step = 0;
-        obj->status.moving_dir = move_queue.front().y;
+        fprintf(stderr, "cmd = %d\n", get_cmd.x);
+        bool update_no_wait = false;
+        switch(get_cmd.x){
+        case CMD_TO:
+            obj->status.moving_dir = get_cmd.y;
+            obj->status.face_dir = get_cmd.y;
+            break;
+        case CMD_TOWARD:
+            break;
+        case CMD_BACKWARD:
+            obj->status.moving_dir = 3 - obj->status.face_dir;
+            break;
+        case CMD_FACETO:
+            obj->status.face_dir = get_cmd.y;
+            obj->status.moving_dir = get_cmd.y;
+            obj->status.status = 0;
+            update_no_wait = true;
+            break;
+        }
         move_queue.pop();
+        if(update_no_wait)
+            Update();
     }
     return;
 }

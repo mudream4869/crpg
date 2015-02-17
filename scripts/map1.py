@@ -19,7 +19,8 @@ class Event1(Event):
         self.DoMove(
             MoveList()
             .To(MoveList.DIR_RIGHT, 3)
-            .To(MoveList.DIR_DOWN)
+            .FaceTo(MoveList.DIR_UP)
+            .Backward()
             .Gen()
         )
 

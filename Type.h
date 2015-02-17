@@ -49,6 +49,7 @@ typedef _vec2i Vec2i;
 typedef struct _hero_status{
     int status;
     int moving_dir;
+    int face_dir;
     int moving_step;
     int x, y;
 }HeroStatus;
