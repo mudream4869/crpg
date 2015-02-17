@@ -1,6 +1,23 @@
 from Event import Event 
 from Event import MoveList
 
+class TestAutoMove(Event):
+    def __init__(self, func):
+        Event.__init__(self, func)
+        self.AutoConfig()
+        self.config["image"] = "hero.bmp"
+        self.config["auto_move"] = (
+            MoveList()
+            .To(MoveList.DIR_LEFT)
+            .To(MoveList.DIR_UP)
+            .To(MoveList.DIR_RIGHT)
+            .To(MoveList.DIR_DOWN)
+            .Gen()
+        )
+
+    def Action(self):
+        pass
+
 class Event1(Event):
     def __init__(self, func):
         Event.__init__(self, func)
@@ -38,18 +55,10 @@ class Event1(Event):
 class EventTestAuto(Event):
     def __init__(self, func):
         Event.__init__(self, func)
-        self.config = {
-            "event_name" : "event2",
-            "image" : "",
-            "trigger_condition" : "sync",
-            "solid" : False,
-            "fixed_direction" : False,
-            "priority" : 1,
-            "display_cond" : [
-                ["flag", "Test2"],
-            ],
-            "reject_cond" : []
-        }
+        self.AutoConfig()
+        self.config["trigger_condition"] = "sync"
+        self.config["solid"] = False
+        self.config["display_cond"] = [["flag", "Test2"]]
 
     def Action(self):
         self.gameobject["object1"] = 3

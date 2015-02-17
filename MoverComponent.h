@@ -2,7 +2,7 @@
 #define MOVERCOMPONENT_DEF
 
 #include <queue>
-
+#include <vector>
 #include "Object.h"
 #include "Type.h"
 
@@ -16,7 +16,7 @@ const int CMD_SLEEP = 4;
 
 class MoverComponent{
 public:
-    MoverComponent(Object* _obj);
+    MoverComponent(Object* _obj, std::vector<Vec2i> _auto_que = std::vector<Vec2i>());
     void TickEvent(int delta_time);
     void Update();
 
@@ -25,7 +25,11 @@ public:
 
 private:
     std::queue<Vec2i> move_queue;
+    std::vector<Vec2i> auto_move_queue;
+    bool is_auto_move;
+    int auto_move_ptr;
     Object* obj;
+    
 };
 
 #endif

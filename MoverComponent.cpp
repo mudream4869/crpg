@@ -1,6 +1,16 @@
 #include "MoverComponent.h"
 
-MoverComponent::MoverComponent(Object* _obj) : obj(_obj){
+MoverComponent::MoverComponent(Object* _obj, 
+                               std::vector<Vec2i> _auto_move_que) : obj(_obj){
+    if(_auto_move_que.size() == 0){
+        is_auto_move = false;
+    }else{
+        is_auto_move = true;
+        auto_move_queue = _auto_move_que;
+        auto_move_ptr = 0;
+        Update();
+    }
+    return;
 }
 
 void MoverComponent::TickEvent(int delta_time){
@@ -26,7 +36,6 @@ void MoverComponent::Update(){
         Vec2i get_cmd = move_queue.front();
         obj->status.status = 1;
         obj->status.moving_step = 0;
-        fprintf(stderr, "cmd = %d\n", get_cmd.x);
         bool update_no_wait = false;
         switch(get_cmd.x){
         case CMD_TO:
@@ -54,6 +63,11 @@ void MoverComponent::Update(){
         move_queue.pop();
         if(update_no_wait)
             Update();
+    }else if(is_auto_move){
+        move_queue.push(auto_move_queue[auto_move_ptr++]);
+        if(auto_move_ptr == auto_move_queue.size())
+            auto_move_ptr = 0;
+        Update();
     }
     return;
 }

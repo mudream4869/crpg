@@ -141,7 +141,17 @@ Event::Event(const char* map_name, const char* str){
         this->trigger_condition = TRIGGER_CONDITION_NULL;
     }
     
-    mover_component = new MoverComponent(this);
+    std::vector<Vec2i> auto_move_que;
+    PyObject* p_auto_move_que = PyDict_GetItemString(p_config, "auto_move");
+    int q_sz = PyList_Size(p_auto_move_que);
+    for(int lx = 0;lx < q_sz;lx++){
+        PyObject* get_cmd = PyList_GetItem(p_auto_move_que, lx);
+        int cmd_type = (int)PyInt_AsLong(PyList_GetItem(get_cmd, 0));
+        int l_arg = (int)PyInt_AsLong(PyList_GetItem(get_cmd, 1));
+        auto_move_que.push_back(Vec2i(cmd_type, l_arg));
+    }
+
+    mover_component = new MoverComponent(this, auto_move_que);
     graphic_component = new GraphicComponent(this);
 
 #ifdef DEBUG    

@@ -113,7 +113,9 @@ class Event:
             "fixed_direction" : True,
             "priority" : 1,
             "display_cond" : [],
-            "reject_cond" : []
+            "reject_cond" : [],
+            "stay" : False,
+            "auto_move" : []
         }
     
     def ShowMsg(self, msg):
