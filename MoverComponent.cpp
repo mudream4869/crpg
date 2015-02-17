@@ -34,6 +34,7 @@ void MoverComponent::Update(){
             obj->status.face_dir = get_cmd.y;
             break;
         case CMD_TOWARD:
+            obj->status.moving_dir = obj->status.face_dir;
             break;
         case CMD_BACKWARD:
             obj->status.moving_dir = 3 - obj->status.face_dir;
