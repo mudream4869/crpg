@@ -8,13 +8,20 @@ C++ 和 Python 愛好者
 
 目前在`Mac OS` `Windows8` 上測試成功，`BSD`仍有[問題](https://github.com/mudream4869/crpg/issues/14)待解決．
 
+* Mac
+
+    請額外裝 `libvorbis`
+
+        brew install libvorbis
+
 * Windows測試背景
 
-    * msys2 + mingw64-x86_64
-    * make
-    * mingw64-glut
-    * mingw64-openal
-    * mingw64-python2.7
+    * `msys2 + mingw64-x86_64`
+    * `make`
+    * `mingw64-glut`
+    * `mingw64-openal`
+    * `mingw64-python2.7`
+    * `mingw64-libvorbis`
 
 ```
 $ make os_switch
