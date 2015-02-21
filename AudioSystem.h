@@ -18,7 +18,7 @@ namespace AudioSystem{
     extern bool is_play_bgm;
 
     extern ALuint bgm_buffer;
-    extern std::vector<ALuint*> se_buffer;
+    extern std::vector<ALuint> se_buffer;
 
     extern char certain_bgm[20];
 

@@ -17,5 +17,6 @@ typedef struct __AudioFileData{
 
 AudioFileData LoadWavFile(const char* filename);
 AudioFileData LoadOggFile(const char* filename);
+AudioFileData LoadAudioFile(const char* filename);
 
 #endif

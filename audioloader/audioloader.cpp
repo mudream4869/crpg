@@ -1,6 +1,9 @@
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include "audioloader.h"
 
-#include<vorbis/vorbisfile.h>
+#include <vorbis/vorbisfile.h>
 
 struct RIFF_Header {
     char chunkID[4];
@@ -24,7 +27,7 @@ struct WAVE_Data {
     int subChunk2Size; //Stores the size of the data block
 };
 
-void CheckError(int op = -1, int _err = 0){
+static void CheckError(int op = -1, int _err = 0){
     int err;
     if(op == -1)
         err = alGetError(); // clear any error messages
@@ -46,7 +49,7 @@ void CheckError(int op = -1, int _err = 0){
     return;
 }
 
-bool _strcmp(const char* base, const char* cp){
+static bool _strcmp(const char* base, const char* cp){
     for(int lx = 0; base[lx] != 0;lx++){
         if(cp[lx] != base[lx])
             return false;
@@ -66,7 +69,7 @@ AudioFileData LoadWavFile(const char* filename){
 
     ALsizei size;
     ALsizei frequency;
-    Alenum format;
+    ALenum format;
     
     try{
         soundFile = fopen(filename, "rb");
@@ -155,6 +158,8 @@ AudioFileData LoadOggFile(const char* filename){
     OggVorbis_File ogg_file;
     unsigned int size = 0;
  
+    ALenum format;
+    
     if (ov_open(file, &ogg_file, NULL, 0) < 0){
         ret.isok = false;
         fclose(file);
@@ -176,7 +181,7 @@ AudioFileData LoadOggFile(const char* filename){
     // Read the Ogg file into audio buffer
     while (size < data_size) {
         int section;
-        result = ov_read(&ogg_file, data + size, data_size - size, 0, 2, 1, &section);
+        int result = ov_read(&ogg_file, data + size, data_size - size, 0, 2, 1, &section);
         if (result > 0)
             size += result;
         else if (result < 0) {
@@ -189,6 +194,21 @@ AudioFileData LoadOggFile(const char* filename){
     }
     // Load PCM data into OpenAL buffer.
     alGenBuffers(1, &ret.buffer);
-    alBufferData(buffer[0], ret.format, data, data_size, info->rate);
+    alBufferData(ret.buffer, format, data, data_size, info->rate);
     return ret;
 }
+
+AudioFileData LoadAudioFile(const char* filename){
+    int sl = strlen(filename);
+    const char* ext = filename + sl - 3;
+    if(strcmp(ext, "wav") == 0)
+        return LoadWavFile(filename);
+    else if(strcmp(ext, "ogg") == 0)
+        return LoadOggFile(filename);
+    else{
+        AudioFileData ret;
+        ret.isok = false;
+        return ret;
+    }
+}
+

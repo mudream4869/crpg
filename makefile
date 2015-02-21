@@ -22,6 +22,8 @@ CFRAME += -lopengl32 -lglu32 -lglut
 #CFLAGS += -D_STDCALL_SUPPORTED -D_M_IX86
 endif
 
+CFRAME += -lvorbisfile
+
 OBJECTS = Image.o Tile.o Map.o Hero.o Event.o Type.o Tool.o File.o Config.o Script.o Object.o
 
 COMPONENT = MoverComponent.o GraphicComponent.o
@@ -32,13 +34,16 @@ SCENE = Scene.o ScenePlay.o SceneGameOver.o SceneStart.o SceneSave.o SceneLoad.o
 
 WINDOW = Window.o WindowBlockType.o WindowMsg.o WindowSelect.o WindowGameObject.o WindowInputNumber.o WindowMsgSelect.o
 
-LIBS = lodepng.o
+LIBS = lodepng.o audioloader.o
 
 main: $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) $(COMPONENT) *.h $(LIBS)
 	$(CXX) main.cpp $(CFLAGS) $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) $(COMPONENT) $(LIBS)  $(CFRAME) -o test
 
 lodepng.o:
 	$(CXX) loadpng/lodepng.cpp -c $(CFLAGS)
+
+audioloader.o:
+	$(CXX) audioloader/audioloader.cpp -c $(CFLAGS)
 
 %.o: %.cpp *.h
 	$(CXX) $< $(CFLAGS) -c
