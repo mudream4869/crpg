@@ -1,4 +1,5 @@
 #include <mutex>
+#include <cstdio>
 #include "PyLock.h"
 
 static std::mutex mut;

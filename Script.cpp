@@ -1,6 +1,6 @@
 #include <thread>
 #include "Script.h"
-#include "Syscall.h"
+#include "SysCall.h"
 #include "PyLock.h"
 
 Script::Script(const char* file_name, const char* class_name){
