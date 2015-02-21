@@ -4,7 +4,7 @@
 #include "Tool.h"
 
 // For GetFileUnderDir header
-#ifdef __APPLE__
+#if __APPLE__ || __FreeBSD__ || __linux 
 #include <sys/types.h>
 #include <dirent.h>
 #elif __WIN32
@@ -20,7 +20,7 @@ int Absi(int a){
 std::vector<std::string> GetFileUnderDir(const char* dir_name){
     std::vector<std::string> ret;
 
-#ifdef __APPLE__
+#if __APPLE__ || __FreeBSD__ || __linux 
     DIR* dp = opendir(dir_name);
     struct dirent* ep; 
     if(dp != NULL){
