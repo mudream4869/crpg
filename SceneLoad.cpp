@@ -42,7 +42,7 @@ SceneLoad::SceneLoad(){
                 return;
 
             File::LoadFile(tmp);
-            scene_ret->Call();
+            ScenePlay::scene_play->Call();
             return;
         },
         [this](int index){

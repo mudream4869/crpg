@@ -73,7 +73,6 @@ class MoveList:
         return self
 
     def Gen(self):
-        print("Gen!!!")
         ret_arr = []
         for item in self.mmlist:
             if(item[0] == MoveList.CMD_TO):
