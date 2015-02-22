@@ -46,6 +46,7 @@ void SceneStart::UpdateSelectBox(){
 void SceneStart::InputEvent(Input inp){
     if(inp.type == INPUT_NORMAL_KEY_DOWN){
         if(inp.normal_key == 13){
+            AudioSystem::PlaySE("item_choose.ogg");
             if(select_index == 0){
                 int dir = 0;
                 if(strcmp(Config::GAME_START_DIR, "left") == 0){
@@ -74,9 +75,9 @@ void SceneStart::InputEvent(Input inp){
     int dir = Input2Dir(inp);
     bool change = false;
     if(dir == DIR_UP and select_index > 0)
-        select_index--, change = true;
+        select_index--, change = true, AudioSystem::PlaySE("item_switch.ogg");
     else if(dir == DIR_DOWN and select_index < 2)
-        select_index++, change = true;
+        select_index++, change = true, AudioSystem::PlaySE("item_switch.ogg");
     if(change)
         UpdateSelectBox();
     return;

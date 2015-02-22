@@ -42,7 +42,7 @@ main: $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) $(COMPONENT) *.h $(LIBS)
 lodepng.o:
 	$(CXX) loadpng/lodepng.cpp -c $(CFLAGS)
 
-audioloader.o:
+audioloader.o: audioloader/audioloader.cpp
 	$(CXX) audioloader/audioloader.cpp -c $(CFLAGS)
 
 %.o: %.cpp *.h
