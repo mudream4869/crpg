@@ -195,6 +195,7 @@ AudioFileData LoadOggFile(const char* filename){
     // Load PCM data into OpenAL buffer.
     alGenBuffers(1, &ret.buffer);
     alBufferData(ret.buffer, format, data, data_size, info->rate);
+    ret.isok = true;
     return ret;
 }
 
