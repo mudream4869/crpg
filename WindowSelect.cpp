@@ -1,5 +1,7 @@
 #include "WindowSelect.h"
 
+#include "AudioSystem.h"
+
 #include "Constant.h"
 
 WindowSelect::WindowSelect(float _left, float _top, float _width, float _height,
@@ -32,6 +34,7 @@ void WindowSelect::InputEvent(Input inp){
             choose_callback(-1);
             return;
         }else if(inp.normal_key == 13){
+            AudioSystem::PlaySE("item_choose.ogg");
             choose_callback(select_index);
             this->Update();
             return;
@@ -41,10 +44,12 @@ void WindowSelect::InputEvent(Input inp){
             
     if(dir == DIR_UP and select_index > 0){
         select_index--;
+        AudioSystem::PlaySE("item_switch.ogg");
         this->Update();
     }
     if(dir == DIR_DOWN and select_index+1 < items.size()){
         select_index++;
+        AudioSystem::PlaySE("item_switch.ogg");
         this->Update();
     }
     return;
