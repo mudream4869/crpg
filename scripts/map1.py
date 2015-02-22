@@ -59,10 +59,10 @@ class Event1(Event):
         self.WaitForMove()
         self.KillImg(0) 
         self.gameobject["object2"] = 2
+        self.gameobject["object1"] = 1
         self.PlaySE("Swoosh.wav")
         self.PlayBGM("Under_Water.wav")
         self.ShowSaveFile()
-
 
 class EventTestAuto(Event):
     def __init__(self, func):
