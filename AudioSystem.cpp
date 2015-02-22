@@ -65,8 +65,8 @@ void AudioSystem::InitAudioSystem(){
         sprintf(fn, "sounds/SE/%s", sfn);
         AudioFileData get_info = LoadAudioFile(fn);
         if(get_info.isok){
-            char* tmp_fn = new char[strlen(fn) + 2];
-            strcpy(tmp_fn, fn);
+            char* tmp_fn = new char[strlen(sfn) + 2];
+            strcpy(tmp_fn, sfn);
             se_sound[tmp_fn] = (int)se_buffer.size();
             se_buffer.push_back(get_info.buffer);
         }
