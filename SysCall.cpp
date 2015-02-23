@@ -33,9 +33,11 @@ void Sys::InitSys(){
 
 PyObject* Sys::SysCall(PyObject* self, PyObject* para){
     // TODO: garbage recycle
+#ifdef DEBUG
     fprintf(stderr, "SysCall========\n");
     //PyObject_Print(self, stderr, 0);
-    //PyObject_Print(para, stderr, 0);
+    PyObject_Print(para, stderr, 0);
+#endif
     PyObject* ret_value;
     //printf("SysCall\n");
     char cmd[20];

@@ -21,7 +21,10 @@ WindowMsg::~WindowMsg(){
 void WindowMsg::InputEvent(Input inp){
     if(inp.type != INPUT_NORMAL_KEY_DOWN) return;
     if(inp.normal_key != 13) return;
-    if(msg[ptr] == 0)
+    if(msg[ptr] != 0){
+        for(int lx = 0;lx < 10;lx++)
+            TickEvent(1);
+    }else
         delete this;
     return;
 }
