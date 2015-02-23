@@ -61,6 +61,11 @@ void MoverComponent::Update(){
             obj->status.status = 0;
             update_no_wait = true;
             break;
+        case CMD_SPEED:
+            obj->speed = get_cmd.y;
+            obj->status.status = 0;
+            update_no_wait = true;
+            break; 
         }
         move_queue.pop();
         if(update_no_wait)

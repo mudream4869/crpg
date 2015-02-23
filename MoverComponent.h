@@ -13,6 +13,7 @@ const int CMD_TOWARD = 1;
 const int CMD_BACKWARD = 2;
 const int CMD_FACETO = 3;
 const int CMD_SLEEP = 4;
+const int CMD_SPEED = 5;
 
 class MoverComponent{
 public:

@@ -42,12 +42,12 @@ class MoveList:
     DIR_DOWN = 0
     DIR_NONE = -1
     
-    CMD_TO = 0;
-    CMD_TOWARD = 1;
-    CMD_BACKWARD = 2;
-    CMD_FACETO = 3;
-    CMD_SLEEP = 4;
-     
+    CMD_TO = 0
+    CMD_TOWARD = 1
+    CMD_BACKWARD = 2
+    CMD_FACETO = 3
+    CMD_SLEEP = 4
+    CMD_SPEED = 5     
     def __init__(self):
         self.mmlist = []
 
@@ -71,6 +71,10 @@ class MoveList:
     def Sleep(self, ms = 1000):
         self.mmlist.append([MoveList.CMD_SLEEP, ms])
         return self
+    
+    def SetSpeed(self, speed):
+        self.mmlist.append([MoveList.CMD_SPEED, speed])
+        return self
 
     def Gen(self):
         ret_arr = []
@@ -87,6 +91,8 @@ class MoveList:
             elif(item[0] == MoveList.CMD_FACETO):
                 ret_arr.append([item[0], item[1]])
             elif(item[0] == MoveList.CMD_SLEEP):
+                ret_arr.append([item[0], item[1]])
+            elif(item[0] == MoveList.CMD_SPEED):
                 ret_arr.append([item[0], item[1]])
         return ret_arr
 
