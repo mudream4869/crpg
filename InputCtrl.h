@@ -22,6 +22,7 @@ namespace InputCtrl{
     const int ARROW_RIGHT = 2;
     const int ARROW_UP = 3;
     int GetArrowCommand();
+
 };
 
 #endif

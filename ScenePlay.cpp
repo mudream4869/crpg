@@ -181,6 +181,12 @@ void ScenePlay::TickEvent(int delta_time){
         this->obj_menu->TickEvent(delta_time);
         return;
     }
+
+    if(InputCtrl::IsNormalKeyPress('z'))
+        this->hero_use->speed = 2;
+    else
+        this->hero_use->speed = 0;
+
     if(hero_use->status.status == 1){
         hero_use->mover_component->TickEvent(delta_time);
     }else if(hero_use->status.status == 0){
