@@ -129,15 +129,21 @@ class Event:
     def ShowSaveFile(self):
         self.syscall("ShowSaveFile")
 
-    def DoMove(self, arr):
-        self.syscall("DoMove", self.config["event_name"], arr)
-    
+    def DoMove(self, arr, event_name = ""):
+        if event_name == "":
+            self.syscall("DoMove", self.config["event_name"], arr)
+        else:
+            self.syscall("DoMove", event_name, arr)
+
     def HeroMove(self, arr):
         self.syscall("HeroMove", arr)
     
-    def WaitForMove(self):
-        self.syscall("WaitForMove", self.config["event_name"])
-    
+    def WaitForMove(self, event_name = ""):
+        if(event_name == ""):
+            self.syscall("WaitForMove", self.config["event_name"])
+        else:
+            self.syscall("WaitForMove", event_name)
+
     def WaitForHeroMove(self):
         self.syscall("WaitForHeroMove")
 
