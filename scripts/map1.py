@@ -44,7 +44,7 @@ class Event1(Event):
         print("Enter Script's Action")
         self.global_value["Test1"] += 1
         self.ShowMsg("Hello~" + str(self.global_value["Test1"]))
-        
+        self.SetSpeed(1) 
         self.DoMove(
             MoveList()
             .To(MoveList.DIR_RIGHT, 3)

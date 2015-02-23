@@ -8,6 +8,7 @@ class Object{
 public:
     Object();
     HeroStatus status;
+    int speed;    
     
     Vec2i GetPosition();
     void SetPosition(int x, int y);
@@ -18,7 +19,6 @@ public:
     bool fixed_direction;
     bool is_stay;
     Tile* tile_use;
-    
 };
 
 #endif

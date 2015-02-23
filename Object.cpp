@@ -2,6 +2,7 @@
 
 Object::Object(){
     is_stay = false;
+    speed = 0;
 }
 
 Vec2i Object::GetPosition(){

@@ -271,6 +271,7 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         SceneGameOver::scene_gameover->Call(); 
         Py_INCREF(Py_None);
         ret_value = Py_None;
+    
     }else if(strcmp(cmd, "ReturnStart") == 0){
         SceneStart::scene_start->Call();
         Py_INCREF(Py_None);
@@ -288,10 +289,24 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         fprintf(stderr, "%d\n", WindowBlockType::ret_value.int_value); 
         ret_value = Py_BuildValue("i", WindowBlockType::ret_value.int_value);
     
+    }else if(strcmp(cmd, "SetSpeed") == 0){
+        char active_event_name[20];
+        strcpy(active_event_name, PyString_AsString(PyTuple_GetItem(para, 1)));
+        int speed = PyLong_AsLong(PyTuple_GetItem(para, 2));
+        Event::event_pool[active_event_name]->speed = speed;
+        Py_INCREF(Py_None);
+        ret_value = Py_None;
+
+    }else if(strcmp(cmd, "SetHeroSpeed") == 0){
+        int speed = PyLong_AsLong(PyTuple_GetItem(para, 1));
+        ScenePlay::scene_play->hero_use->speed = speed;
+        Py_INCREF(Py_None);
+        ret_value = Py_None;
+
     }else{
         Py_INCREF(Py_None);
         ret_value = Py_None;
-    
+
     }
 
     return ret_value;

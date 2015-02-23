@@ -24,12 +24,13 @@ void GraphicComponent::Render(float left, float top){
 
         Vec2i sz = obj->tile_use->GetSize();
         paint_y = paint_y + 1/(float)5 - sz.y/(float)32*0.2;
+        int face_id = obj->status.moving_step/(1<<(1+obj->speed))%4;
         obj->tile_use->Render(
             paint_x, paint_y,
             sz.x/(float)32*0.2,
-            sz.y/(float)32*0.2, 
-            walk_pos[obj->status.face_dir][(obj->status.moving_step/2)%4].x,
-            walk_pos[obj->status.face_dir][(obj->status.moving_step/2)%4].y,
+            sz.y/(float)32*0.2,
+            walk_pos[obj->status.face_dir][face_id].x,
+            walk_pos[obj->status.face_dir][face_id].y,
         2);
     }
     return;

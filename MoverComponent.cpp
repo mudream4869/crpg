@@ -19,7 +19,7 @@ void MoverComponent::TickEvent(int delta_time){
     if(obj->status.sleep_ms){
         obj->status.sleep_ms = std::max(0, obj->status.sleep_ms - delta_time);
     }else if(obj->status.status == 1){
-        obj->status.moving_step = std::min(obj->status.moving_step + delta_time, 16);
+        obj->status.moving_step = std::min(obj->status.moving_step + delta_time*(1<<obj->speed), 16);
         if(obj->status.moving_step == 16){ // TODO: make this constant
             if(obj->is_stay == false){
                 obj->status.x += dir_x[obj->status.moving_dir];

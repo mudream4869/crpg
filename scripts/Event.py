@@ -131,22 +131,31 @@ class Event:
 
     def DoMove(self, arr, event_name = ""):
         if event_name == "":
-            self.syscall("DoMove", self.config["event_name"], arr)
-        else:
-            self.syscall("DoMove", event_name, arr)
+            event_name = self.config["event_name"]
+        
+        self.syscall("DoMove", event_name, arr)
 
     def HeroMove(self, arr):
         self.syscall("HeroMove", arr)
     
     def WaitForMove(self, event_name = ""):
-        if(event_name == ""):
-            self.syscall("WaitForMove", self.config["event_name"])
-        else:
-            self.syscall("WaitForMove", event_name)
+        if event_name == "":
+            event_name = self.config["event_name"]
+        
+        self.syscall("WaitForMove", event_name)
 
     def WaitForHeroMove(self):
         self.syscall("WaitForHeroMove")
-
+    
+    def SetSpeed(self, speed, event_name = ""):
+        if event_name == "":
+            event_name = self.config["event_name"]
+        
+        self.syscall("SetSpeed", event_name, speed)
+    
+    def SetHeroSpeed(self, speed):  
+        self.syscall("SetHeroSpeed", speed)
+    
     def ChangeMap(self, map_name, point, direction = -1):
         self.syscall("ChangeMap", map_name, point[0], point[1], direction)
 
