@@ -120,7 +120,8 @@ class Event:
             "display_cond" : [],
             "reject_cond" : [],
             "stay" : False,
-            "auto_move" : []
+            "auto_move" : [],
+            "chase_move" : False
         }
     
     def ShowMsg(self, msg):

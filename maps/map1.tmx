@@ -1724,5 +1724,6 @@
   <object name="TestAutoMove" type="Event" x="239" y="241"/>
   <object name="TestAutoMove" type="Event" x="205" y="240"/>
   <object name="TestAni" type="Event" x="370" y="176"/>
+  <object name="TestChase" type="Event" x="269" y="207"/>
  </objectgroup>
 </map>

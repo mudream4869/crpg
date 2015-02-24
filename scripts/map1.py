@@ -1,6 +1,16 @@
 from Event import Event 
 from Event import MoveList
 
+class TestChase(Event):
+    def __init__(self, func):
+        Event.__init__(self, func)
+        self.AutoConfig()
+        self.config["image"] = "hero.bmp"
+        self.config["chase_move"] = True
+    
+    def Action(self):
+        pass
+
 class TestAni(Event):
     def __init__(self, func):
         Event.__init__(self, func)

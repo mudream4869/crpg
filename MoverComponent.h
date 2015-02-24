@@ -17,7 +17,7 @@ const int CMD_SPEED = 5;
 
 class MoverComponent{
 public:
-    MoverComponent(Object* _obj, std::vector<Vec2i> _auto_que = std::vector<Vec2i>());
+    MoverComponent(Object* _obj, std::vector<Vec2i> _auto_que = std::vector<Vec2i>(), bool chase = false);
     void TickEvent(int delta_time);
     void Update();
 
@@ -31,6 +31,7 @@ private:
     int auto_move_ptr;
     Object* obj;
     
+    bool is_chase;
 };
 
 #endif

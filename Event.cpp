@@ -151,8 +151,10 @@ Event::Event(const char* map_name, const char* str){
         int l_arg = (int)PyInt_AsLong(PyList_GetItem(get_cmd, 1));
         auto_move_que.push_back(Vec2i(cmd_type, l_arg));
     }
+    
+    bool is_chase = Py_True == PyDict_GetItemString(p_config, "chase_move");
 
-    mover_component = new MoverComponent(this, auto_move_que);
+    mover_component = new MoverComponent(this, auto_move_que, is_chase);
     graphic_component = new GraphicComponent(this);
 
 #ifdef DEBUG    
@@ -253,6 +255,7 @@ int Event::GetPriority(){
 
 void Event::TickEvent(int delta_time){
     mover_component->TickEvent(delta_time);
+    
     return;
 }
 
