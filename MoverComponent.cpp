@@ -28,7 +28,7 @@ void MoverComponent::TickEvent(int delta_time){
     if(obj->status.status == 1){
         obj->status.moving_step = std::min(obj->status.moving_step + delta_time*(1<<obj->speed), 16);
         if(obj->status.moving_step == 16){ // TODO: make this constant
-            if(obj->is_stay == false){
+            if(obj->is_stay == false and ScenePlay::scene_play->CanDo(obj->status.x, obj->status.y, obj->status.moving_dir)){
                 obj->status.x += dir_x[obj->status.moving_dir];
                 obj->status.y += dir_y[obj->status.moving_dir];
             }

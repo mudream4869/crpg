@@ -115,10 +115,13 @@ bool ScenePlay::CanDo(int x, int y, int dir)const{
     static int dir_x[] = {0, -1, 1, 0};
     static int dir_y[] = {1, 0, 0, -1};
     //printf("Vis ScenePlay : x, y = %d, %d\n", x, y);
+    if(x + dir_x[dir] == hero_use->status.x and y + dir_y[dir] == hero_use->status.y)
+        return false;
+
     for(int lx = 0;lx < events.size();lx++){
         if(events[lx]->IsSolid() == false) continue;
         Vec2i pos = events[lx]->GetPosition();
-        if(pos.x == x and pos.y == y) return false;
+        //if(pos.x == x and pos.y == y) return false;
         if(pos.x == x + dir_x[dir] and pos.y ==  y + dir_y[dir]) return false;
     }
     return (map_use->CanDo(x, y, dir));
