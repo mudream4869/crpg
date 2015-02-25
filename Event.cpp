@@ -17,6 +17,36 @@
 
 std::map<const char*, Event*, StrComp> Event::event_pool;  
 
+std::vector<Event::cond> Event::CondList2Vector(PyObject* cond_list){
+    std::vector<cond> ret;
+    if(cond_list != NULL){
+        int cond_sz = PyList_Size(cond_list);
+        for(int lx = 0;lx < cond_sz;lx++){
+            PyObject* get_cond = PyList_GetItem(cond_list, lx);
+            char* str_type = PyString_AsString(PyList_GetItem(get_cond, 0));
+            char* var_name = PyString_AsString(PyList_GetItem(get_cond, 1));
+            cond new_cond;
+            strcpy(new_cond.var_name, var_name);
+            if(strcmp("flag", str_type) == 0){
+                new_cond.type = COND_TYPE_FLAG;
+            }else if(strcmp("value", str_type) == 0){
+                new_cond.type = COND_TYPE_VALUE;
+                new_cond.limit_value = (int)PyLong_AsLong(PyList_GetItem(get_cond, 2));
+            }
+            ret.push_back(new_cond);
+        }
+    }
+    return ret;
+}
+
+void Event::PyObject2String(PyObject* p_str, char* str_ptr, const char* default_str){
+   if(p_str == NULL)
+       strcpy(str_ptr, default_str);
+    else
+        strcpy(str_ptr, PyString_AsString(p_str));
+    return;
+}
+
 Event::Event(const char* map_name, const char* str){
     char tmp[20];
     script = new Script(map_name, str);     
@@ -33,20 +63,8 @@ Event::Event(const char* map_name, const char* str){
 
     char img_path[20];
     char trigger_condition_str[20];
-    PyObject* p_img_path_str = PyDict_GetItemString(p_config, "image");
-    //PyObject_Print(p_img_path_str, stderr, 0);
-    PyObject* p_trig_cond_str = PyDict_GetItemString(p_config, "trigger_condition");
-    //PyObject_Print(p_trig_cond_str, stderr, 0);
-    
-    if(p_img_path_str == NULL)
-        img_path[0] = '\0';
-    else
-        strcpy(img_path, PyString_AsString(p_img_path_str));
-    
-    if(p_trig_cond_str == NULL)
-        trigger_condition_str[0] = '\0';
-    else
-        strcpy(trigger_condition_str, PyString_AsString(p_trig_cond_str));
+    Event::PyObject2String(PyDict_GetItemString(p_config, "image"), img_path);
+    Event::PyObject2String(PyDict_GetItemString(p_config, "trigger_condition"), trigger_condition_str);
 
     this->is_solid = Py_True == PyDict_GetItemString(p_config, "solid");
     this->fixed_direction = Py_True == PyDict_GetItemString(p_config, "fixed_direction");
@@ -70,42 +88,10 @@ Event::Event(const char* map_name, const char* str){
     
     // display condititon 
     PyObject* p_cond_show = PyDict_GetItemString(p_config, "display_cond");
-    if(p_cond_show != NULL){
-        int cond_show_sz = PyList_Size(p_cond_show);
-        for(int lx = 0;lx < cond_show_sz;lx++){
-            PyObject* get_cond = PyList_GetItem(p_cond_show, lx);
-            char* str_type = PyString_AsString(PyList_GetItem(get_cond, 0));
-            char* var_name = PyString_AsString(PyList_GetItem(get_cond, 1));
-            cond new_cond;
-            strcpy(new_cond.var_name, var_name);
-            if(strcmp("flag", str_type) == 0){
-                new_cond.type = COND_TYPE_FLAG;
-            }else if(strcmp("value", str_type) == 0){
-                new_cond.type = COND_TYPE_VALUE;
-                new_cond.limit_value = (int)PyLong_AsLong(PyList_GetItem(get_cond, 2));
-            }
-            display_cond.push_back(new_cond);
-        }
-    }
+    display_cond = Event::CondList2Vector(p_cond_show);
 
     PyObject* p_cond_reje = PyDict_GetItemString(p_config, "reject_cond");
-    if(p_cond_reje != NULL){
-        int cond_reje_sz = PyList_Size(p_cond_reje);
-        for(int lx = 0;lx < cond_reje_sz;lx++){
-            PyObject* get_cond = PyList_GetItem(p_cond_reje, lx);
-            char* str_type = PyString_AsString(PyList_GetItem(get_cond, 0));
-            char* var_name = PyString_AsString(PyList_GetItem(get_cond, 1));
-            cond new_cond;
-            strcpy(new_cond.var_name, var_name);
-            if(strcmp("flag", str_type) == 0){
-                new_cond.type = COND_TYPE_FLAG;
-            }else if(strcmp("value", str_type) == 0){
-                new_cond.type = COND_TYPE_VALUE;
-                new_cond.limit_value = (int)PyLong_AsLong(PyList_GetItem(get_cond, 2));
-            }
-            reject_cond.push_back(new_cond);
-        }
-    }
+    reject_cond = Event::CondList2Vector(p_cond_reje);
     
     Event::event_pool[event_name] = this;
 

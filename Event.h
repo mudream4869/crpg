@@ -57,6 +57,9 @@ private:
     };
     std::vector<cond> display_cond;
     std::vector<cond> reject_cond;
+    
+    static std::vector<cond> CondList2Vector(PyObject* cond_list);
+    static void PyObject2String(PyObject* p_str, char* str_ptr, const char* default_str = "");
 
     Script* script;
 };
