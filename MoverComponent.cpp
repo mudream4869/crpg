@@ -8,6 +8,10 @@ MoverComponent::MoverComponent(Object* _obj) : obj(_obj){
     return;
 }
 
+bool MoverComponent::IsQueued() const {
+    return control_type == CONTROL_TYPE_NULL and move_queue.size();
+}
+
 void MoverComponent::SetAutoQueue(std::vector<Vec2i> _auto_move_que){
     control_type = CONTROL_TYPE_AUTO;
     auto_move_queue = _auto_move_que;

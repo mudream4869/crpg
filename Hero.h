@@ -11,8 +11,8 @@
 class Hero : public Object{
 public:
     Hero(Tile* _tile_use = nullptr);
-    void SetTile(Tile* tile);
-
+    
+    void TickEvent(int delta_time); 
     void Render(float left, float top);
 
     MoverComponent* mover_component;

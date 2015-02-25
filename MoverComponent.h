@@ -28,6 +28,8 @@ public:
     void SetAutoQueue(std::vector<Vec2i> _auto_que = std::vector<Vec2i>());
     void SetQueue(std::queue<Vec2i> _move_queue = std::queue<Vec2i>());
     void SetChase();
+    
+    bool IsQueued()const;
 
     bool IsMoving();
 

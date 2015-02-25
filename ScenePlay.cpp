@@ -193,24 +193,8 @@ void ScenePlay::TickEvent(int delta_time){
         return;
     }
 
-    if(InputCtrl::IsNormalKeyPress('z'))
-        this->hero_use->speed = 2;
-    else
-        this->hero_use->speed = 0;
+    hero_use->TickEvent(delta_time);
 
-    if(hero_use->status.status == 1){
-        hero_use->mover_component->TickEvent(delta_time);
-    }else if(hero_use->status.status == 0){
-        int arr_index = InputCtrl::GetArrowCommand();
-        if(arr_index != -1){
-            if(CanDo(hero_use->status.x, hero_use->status.y, arr_index, hero_use)){
-                hero_use->status.status = 1;
-                hero_use->status.moving_step = 0;
-            }
-            hero_use->status.moving_dir = arr_index;
-            hero_use->status.face_dir = arr_index;
-        }
-    }
     for(int lx = 0;lx < events.size();lx++){
         events[lx]->TickEvent(delta_time);
         // TODO: weird part: how to control auto event
