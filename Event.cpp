@@ -153,8 +153,15 @@ Event::Event(const char* map_name, const char* str){
     }
     
     bool is_chase = Py_True == PyDict_GetItemString(p_config, "chase_move");
-
-    mover_component = new MoverComponent(this, auto_move_que, is_chase);
+    
+    mover_component = new MoverComponent(this);
+    
+    if(auto_move_que.size()){
+        mover_component->SetAutoQueue(auto_move_que);
+    }else if(is_chase){
+        mover_component->SetChase();
+    }
+    
     graphic_component = new GraphicComponent(this);
 
 #ifdef DEBUG    

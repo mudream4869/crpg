@@ -37,14 +37,15 @@ typedef struct _vec2f{
     float x, y;
 }Vec2f;
 
-struct _vec2i{
+class Vec2i{
+public:
     int x, y;
-    _vec2i(int _x = 0, int _y = 0){
+    Vec2i(int _x = 0, int _y = 0){
         x = _x, y = _y;
     }
 };
 
-typedef _vec2i Vec2i;
+bool operator==(Vec2i a, Vec2i b);
 
 struct _hero_status{
     int status;

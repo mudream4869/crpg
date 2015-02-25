@@ -116,7 +116,7 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
             int l_arg = (int)PyInt_AsLong(PyList_GetItem(get_cmd, 1));
             arg.push(Vec2i(cmd_type, l_arg));
         }
-        Event::event_pool[active_event_name]->mover_component->SetMoveQueue(arg);
+        Event::event_pool[active_event_name]->mover_component->SetQueue(arg);
         Py_INCREF(Py_None);
         ret_value = Py_None;
 
@@ -129,7 +129,7 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
                           (int)PyInt_AsLong(PyList_GetItem(get_cmd, 1))
                     ));
         }
-        ScenePlay::scene_play->hero_use->mover_component->SetMoveQueue(arg);
+        ScenePlay::scene_play->hero_use->mover_component->SetQueue(arg);
         Py_INCREF(Py_None);
         ret_value = Py_None;
     

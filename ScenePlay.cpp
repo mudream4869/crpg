@@ -111,18 +111,26 @@ char* ScenePlay::GetMapName(){
     return map_use->GetName();
 }
 
-bool ScenePlay::CanDo(int x, int y, int dir)const{
+bool ScenePlay::CanDo(int x, int y, int dir, Object* self)const{
     static int dir_x[] = {0, -1, 1, 0};
     static int dir_y[] = {1, 0, 0, -1};
     //printf("Vis ScenePlay : x, y = %d, %d\n", x, y);
     if(x + dir_x[dir] == hero_use->status.x and y + dir_y[dir] == hero_use->status.y)
         return false;
 
+    if(self != hero_use){
+        if(Vec2i(x + dir_x[dir], y + dir_y[dir]) == hero_use->GetNextPosition())
+            return false;
+    }
+
     for(int lx = 0;lx < events.size();lx++){
         if(events[lx]->IsSolid() == false) continue;
+        if(events[lx] == self) continue;
         Vec2i pos = events[lx]->GetPosition();
         //if(pos.x == x and pos.y == y) return false;
         if(pos.x == x + dir_x[dir] and pos.y ==  y + dir_y[dir]) return false;
+        if(events[lx]->GetNextPosition() == Vec2i(x + dir_x[dir], y + dir_y[dir]))
+            return false;
     }
     return (map_use->CanDo(x, y, dir));
 }
@@ -195,7 +203,7 @@ void ScenePlay::TickEvent(int delta_time){
     }else if(hero_use->status.status == 0){
         int arr_index = InputCtrl::GetArrowCommand();
         if(arr_index != -1){
-            if(CanDo(hero_use->status.x, hero_use->status.y, arr_index)){
+            if(CanDo(hero_use->status.x, hero_use->status.y, arr_index, hero_use)){
                 hero_use->status.status = 1;
                 hero_use->status.moving_step = 0;
             }

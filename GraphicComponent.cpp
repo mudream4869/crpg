@@ -18,7 +18,7 @@ void GraphicComponent::Render(float left, float top){
     if(obj->tile_use != nullptr){
         float paint_x = ((float)obj->status.x + obj->status.moving_step*dir_x[obj->status.moving_dir]/16.0)/10.0*2 + left;
         float paint_y = ((float)obj->status.y + obj->status.moving_step*dir_y[obj->status.moving_dir]/16.0)/10.0*2 + top;
-        if(obj->is_stay or ScenePlay::scene_play->CanDo(obj->status.x, obj->status.y, obj->status.moving_dir) == false){
+        if(obj->is_stay){
             paint_x = ((float)obj->status.x)/10.0*2 + left;
             paint_y = ((float)obj->status.y)/10.0*2 + top;
         }

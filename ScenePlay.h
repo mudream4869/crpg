@@ -9,6 +9,8 @@
 #include "Window.h"
 #include "Event.h"
 
+#include "Object.h"
+
 class ScenePlay: public Scene{
 public:
     ScenePlay();
@@ -22,7 +24,7 @@ public:
 
     void Render();
      
-    bool CanDo(int x, int y, int dir)const;
+    bool CanDo(int x, int y, int dir, Object* self = nullptr)const;
      
     HeroStatus GetHeroStatus()const;
 

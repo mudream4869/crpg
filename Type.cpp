@@ -63,3 +63,7 @@ WriteType NewWriteType(int type, int int_value, const char* string_value){
     strcpy(ret.string_value, string_value);
     return ret;
 }
+
+bool operator==(Vec2i a, Vec2i b){
+    return a.x == b.x and a.y == b.y;
+}

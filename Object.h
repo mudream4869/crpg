@@ -11,6 +11,7 @@ public:
     int speed;    
     
     Vec2i GetPosition();
+    Vec2i GetNextPosition();
     void SetPosition(int x, int y);
 
     int priority;
