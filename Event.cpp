@@ -247,8 +247,8 @@ int Event::GetPriority(){
 }
 
 void Event::TickEvent(int delta_time){
+    if(this->Condition() == false) return;
     mover_component->TickEvent(delta_time);
-    
     return;
 }
 

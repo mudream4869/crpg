@@ -125,6 +125,8 @@ bool ScenePlay::CanDo(int x, int y, int dir, Object* self)const{
     for(int lx = 0;lx < events.size();lx++){
         if(events[lx]->IsSolid() == false) continue;
         if(events[lx] == self) continue;
+        if(events[lx]->Condition() == false) continue;
+
         Vec2i pos = events[lx]->GetPosition();
         //if(pos.x == x and pos.y == y) return false;
         if(pos.x == x + dir_x[dir] and pos.y ==  y + dir_y[dir]) return false;
