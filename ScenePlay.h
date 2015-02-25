@@ -26,8 +26,6 @@ public:
      
     bool CanDo(int x, int y, int dir, Object* self = nullptr)const;
      
-    HeroStatus GetHeroStatus()const;
-
     void Call();
     void Call(Map*, int, int, int);
     

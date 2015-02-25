@@ -1,4 +1,3 @@
-/* Only support for Windows and Mac */
 #include <cstdio>
 int main() {
 #ifdef __APPLE__

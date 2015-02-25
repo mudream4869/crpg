@@ -46,7 +46,6 @@ ScenePlay::ScenePlay(){
                 SceneStart::scene_start->Call();
                 return;
             }else if(index == 2){
-                //TODO:Exit Game
                 exit(0);
             }
             return;
@@ -197,7 +196,6 @@ void ScenePlay::TickEvent(int delta_time){
 
     for(int lx = 0;lx < events.size();lx++){
         events[lx]->TickEvent(delta_time);
-        // TODO: weird part: how to control auto event
         events[lx]->Action(0);
     }
     return;
@@ -251,8 +249,4 @@ void ScenePlay::Render(){
     if(is_main_menu_open)
         main_menu->Render();
     return;
-}
-
-HeroStatus ScenePlay::GetHeroStatus()const{
-    return hero_use->status;
 }
