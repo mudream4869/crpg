@@ -1,5 +1,6 @@
 from Tool import Random
 
+
 class GlobalValue:
     def __init__(self, syscall):
         self.syscall = syscall
@@ -97,6 +98,45 @@ class MoveList:
         return ret_arr
 
 
+def set_default_event_name(func):
+    def func_wrapper(self, event_name = ""):
+        if event_name == "" :
+            event_name = self.inst.config["event_name"]
+        return func(self, event_name)
+    return func_wrapper
+
+
+class EventProperty:
+    def __init__(self, inst):
+        self.inst = inst
+ 
+    @set_default_event_name
+    def GetX(self, event_name):
+        return self.inst.syscall("EventProperty.GetX", event_name)
+    
+    @set_default_event_name
+    def GetY(self, event_name):
+        return self.inst.syscall("EventProperty.GetY", event_name)
+    
+    @set_default_event_name
+    def GetDir(self, event_name):
+        return self.inst.syscall("EventProperty.GetDir", event_name)
+
+
+class HeroProperty:
+    def __init__(self, syscall):
+        self.syscall = syscall 
+
+    def GetX(self):
+        return self.syscall("HeroProperty.GetX")
+
+    def GetY(self):
+        return self.syscall("HeroProperty.GetY")
+
+    def GetDir(self):
+        return self.syscall("HeroProperty.GetDir")
+
+
 class Event:
     rand_seq = None
     def __init__(self, syscall):
@@ -105,6 +145,9 @@ class Event:
         self.global_flag = GlobalFlag(syscall)
         self.gameobject = GameObject(syscall)
         
+        self.event_property = EventProperty(self)
+        self.hero_property = HeroProperty(syscall)
+
         if Event.rand_seq == None:
             Event.rand_seq = Random()
 

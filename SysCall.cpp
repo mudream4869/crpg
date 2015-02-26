@@ -302,6 +302,41 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         ScenePlay::scene_play->hero_use->speed = speed;
         Py_INCREF(Py_None);
         ret_value = Py_None;
+    
+    }else if(strncmp(cmd, "EventProperty.", strlen("EventProperty.")) == 0){
+        char* subcmd = cmd + strlen("EventProperty.");
+        char active_event_name[20];
+        strcpy(active_event_name, PyString_AsString(PyTuple_GetItem(para, 1)));
+        
+        if(Event::event_pool.count(active_event_name) == 0){
+            fprintf(stderr, "Find no event : %s\n", active_event_name);
+            Py_INCREF(Py_None);
+            ret_value = Py_None;
+        }
+
+        if(strcmp(subcmd, "GetX") == 0)
+            ret_value = Py_BuildValue("i", Event::event_pool[active_event_name]->status.x);
+        else if(strcmp(subcmd, "GetY") == 0)
+            ret_value = Py_BuildValue("i", Event::event_pool[active_event_name]->status.y);
+        else if(strcmp(subcmd, "GetDir") == 0)
+            ret_value = Py_BuildValue("i", Event::event_pool[active_event_name]->status.moving_dir);
+        else{
+            Py_INCREF(Py_None);
+            ret_value = Py_None;
+        }
+    
+    }else if(strncmp(cmd, "HeroProperty.", strlen("HeroProperty.")) == 0){
+        char* subcmd = cmd + strlen("HeroProperty.");
+        if(strcmp(subcmd, "GetX") == 0)
+            ret_value = Py_BuildValue("i", ScenePlay::scene_play->hero_use->status.x);
+        else if(strcmp(subcmd, "GetY") == 0)
+            ret_value = Py_BuildValue("i", ScenePlay::scene_play->hero_use->status.y);
+        else if(strcmp(subcmd, "GetDir") == 0)
+            ret_value = Py_BuildValue("i", ScenePlay::scene_play->hero_use->status.moving_dir);
+        else{
+            Py_INCREF(Py_None);
+            ret_value = Py_None;
+        }
 
     }else{
         Py_INCREF(Py_None);
