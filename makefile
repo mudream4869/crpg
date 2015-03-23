@@ -23,6 +23,8 @@ CFRAME += -lopengl32 -lglu32 -lglut
 endif
 
 CFRAME += -lvorbisfile
+CFRAME += $(shell freetype-config --libs)
+CINCLUDE = $(shell freetype-config --cflags) 
 
 OBJECTS = Image.o Tile.o Map.o Hero.o Event.o Type.o Tool.o File.o Config.o Script.o Object.o
 
@@ -34,7 +36,7 @@ SCENE = Scene.o ScenePlay.o SceneGameOver.o SceneStart.o SceneSave.o SceneLoad.o
 
 WINDOW = Window.o WindowBlockType.o WindowMsg.o WindowSelect.o WindowGameObject.o WindowInputNumber.o WindowMsgSelect.o
 
-LIBS = lodepng.o audioloader.o
+LIBS = lodepng.o audioloader.o minftgl.o
 
 main: $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) $(COMPONENT) *.h $(LIBS)
 	$(CXX) main.cpp $(CFLAGS) $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) $(COMPONENT) $(LIBS)  $(CFRAME) -o test
@@ -44,6 +46,9 @@ lodepng.o:
 
 audioloader.o: audioloader/audioloader.cpp
 	$(CXX) audioloader/audioloader.cpp -c $(CFLAGS)
+
+minftgl.o:
+	$(CXX) minftgl/minftgl.cpp -c $(CINCLUDE) $(CFLAGS)
 
 %.o: %.cpp *.h
 	$(CXX) $< $(CFLAGS) -c
