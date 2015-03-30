@@ -4,6 +4,8 @@
 #include <cstring>
 #include "Window.h"
 
+minftgl::Font* Window::use_font = nullptr;
+
 Window::Window(float _left, float _top, float _width, float _height){
     left = _left,
     top = _top,
@@ -46,6 +48,15 @@ void Window::DrawText(float x, float y, const char* str){
     return;
 }
 
+void Window::DrawWText(float x, float y, const wchar_t* wstr){
+    WindowDraw windraw;
+    windraw.DrawId = WINDOW_DRAW_WTEXT;
+    windraw.Pos = {x, y};
+    windraw.SpecialPointer = (void*)(new minftgl::Label(wstr, use_font));
+    window_draw.push_back(windraw);
+    return;
+}
+
 void Window::DrawBox(float x, float y, float w, float h, Color4f color){
     WindowDraw windraw;
     windraw.DrawId = WINDOW_DRAW_BOX;
@@ -71,6 +82,8 @@ void Window::Clear(){
         WindowDraw windraw = window_draw[lx];
         if(windraw.DrawId == WINDOW_DRAW_TEXT)
             delete[] windraw.Str;
+        else if(windraw.DrawId == WINDOW_DRAW_WTEXT)
+            delete (minftgl::Label*)(windraw.SpecialPointer);
     }
     window_draw.clear();
     return;
@@ -109,6 +122,8 @@ void Window::Render(){
             glRasterPos2f((GLfloat)x,(GLfloat)y);
             for(int c = 0; windraw.Str[c] != 0; c++)
                 glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, windraw.Str[c]);
+        }else if(windraw.DrawId == WINDOW_DRAW_WTEXT){
+            ((minftgl::Label*)windraw.SpecialPointer)->Render(windraw.Pos.x, windraw.Pos.y); 
         }else if(windraw.DrawId == WINDOW_DRAW_BOX){
             Color4f col = windraw.Color;
             glColor4f(col.r, col.g, col.b, col.a);

@@ -30,6 +30,8 @@
 #include "Config.h"
 #include "Tool.h"
 
+#include "minftgl/minftgl.h"
+
 void LoadMaps();
 
 void InitResource(){
@@ -47,7 +49,10 @@ void InitResource(){
     AudioSystem::InitAudioSystem();
 
     LoadMaps();
-    
+    minftgl::Init();
+     
+    Window::use_font = new minftgl::Font("fonts/test.ttf");
+
     fprintf(stderr, "Ready to load scenes\n");
 
     Scene::scene_certain = new SceneStart();

@@ -60,7 +60,8 @@ $ make main CXX=(指定編譯器) CPLUS_INCLUDE_PATH=(這裡替代成引用的�
 
 * [Kaizer RTP](http://s8.photobucket.com/user/zanyzora/library/Kaizer%20RTP?sort=3&page=1)
 * RpgmakerRTP 默認主角
-* Youtube 音樂庫 [Audio Library](https://www.youtube.com/audiolibrary/music) 
+* Youtube 音樂庫 [Audio Library](https://www.youtube.com/audiolibrary/music)
+* Font: [Wang han zong Slim boldface](http://chinesefontdesign.com/wang-han-zong-slim-boldface-font-traditional-chinese.html)
 
 ## Coding Style
 

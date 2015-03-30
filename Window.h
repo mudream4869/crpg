@@ -1,13 +1,18 @@
 #ifndef WINDOW_DEF
 #define WINDOW_DEF
 #include <vector>
+#include <cwchar>
+
 #include "Type.h"
 #include "Image.h"
 
+#include "minftgl/minftgl.h"
+
 const int WINDOW_DRAW_NULL = 0;
 const int WINDOW_DRAW_TEXT = 1;
-const int WINDOW_DRAW_BOX = 2;
-const int WINDOW_DRAW_IMAGE = 3;
+const int WINDOW_DRAW_WTEXT = 2;
+const int WINDOW_DRAW_BOX = 3;
+const int WINDOW_DRAW_IMAGE = 4;
 
 class Window{
 public:
@@ -15,6 +20,7 @@ public:
     ~Window();
 
     void DrawText(float x, float y, const char* str);
+    void DrawWText(float x, float y, const wchar_t* wstr);
     void DrawBox(float x, float y, float w, float h, Color4f color);
     void DrawImage(float x, float y, float w, float h, Image* img);
 
@@ -24,6 +30,8 @@ public:
     virtual void InputEvent(Input inp);
     virtual void TickEvent(int a); 
     virtual void Update();
+
+    static minftgl::Font* use_font;
 
 protected:
     float left, top, width, height;
