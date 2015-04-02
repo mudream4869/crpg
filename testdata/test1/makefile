@@ -1,0 +1,2 @@
+test:
+	cp ../../src/test .
