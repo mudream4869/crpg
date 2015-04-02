@@ -51,6 +51,17 @@ $ make os_switch CXX=(指定編譯器)
 $ make main CXX=(指定編譯器) CPLUS_INCLUDE_PATH=(這裡替代成引用的路徑)
 ```
 
+## 進行測試
+
+```
+$ cd src
+$ make
+$ cd ..
+$ cd testdata/test{i}
+$ make
+$ ./test
+```
+
 ## Some Special File Type 
 
 * tmx 檔案:
