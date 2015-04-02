@@ -49,11 +49,30 @@ void Window::DrawText(float x, float y, const char* str){
 }
 
 void Window::DrawWText(float x, float y, const wchar_t* wstr){
-    WindowDraw windraw;
-    windraw.DrawId = WINDOW_DRAW_WTEXT;
-    windraw.Pos = {x, y};
-    windraw.SpecialPointer = (void*)(new minftgl::Label(wstr, use_font));
-    window_draw.push_back(windraw);
+    float dy = 0.1;
+    int pre_ptr = 0;
+    wchar_t tmp[100]; wcscpy(tmp, wstr);
+    wchar_t newline[] = L"\n";
+    for(int lx = 0;;lx++){
+        if(tmp[lx] == newline[0]){
+            WindowDraw windraw;
+            windraw.DrawId = WINDOW_DRAW_WTEXT;
+            windraw.Pos = {x, y};
+            tmp[lx] = newline[1];
+            windraw.SpecialPointer = (void*)(new minftgl::Label(tmp + pre_ptr, use_font));
+            window_draw.push_back(windraw);
+            pre_ptr = lx+1;
+            y += dy;
+        }else if(tmp[lx] == newline[1]){
+            WindowDraw windraw;
+            windraw.DrawId = WINDOW_DRAW_WTEXT;
+            windraw.Pos = {x, y};
+            tmp[lx] = newline[1];
+            windraw.SpecialPointer = (void*)(new minftgl::Label(tmp + pre_ptr, use_font));
+            window_draw.push_back(windraw);
+            break;
+        }
+    }
     return;
 }
 

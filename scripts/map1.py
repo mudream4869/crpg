@@ -65,7 +65,7 @@ class Event1(Event):
     def Action(self):
         print("Enter Script's Action")
         self.global_value["Test1"] += 1
-        self.ShowMsg(u"中文字測試haha")
+        self.ShowMsg(u"中文字測試haha\n換行")
         self.DoMove(
             MoveList()
             .To(MoveList.DIR_RIGHT, 3)
