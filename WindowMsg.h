@@ -2,12 +2,12 @@
 #define WINDOW_MSG_DEF
 
 //#include <condition_variable>
-
+#include <cwchar>
 #include "WindowBlockType.h"
 
 class WindowMsg : public WindowBlockType{
 public:
-    WindowMsg(const char* str); 
+    WindowMsg(const wchar_t* str); 
     ~WindowMsg();
     void TickEvent(int a);
     void InputEvent(Input inp);
@@ -15,7 +15,7 @@ public:
 
 private:
     int ptr;
-    char* msg;
+    wchar_t* msg;
     //std::condition_variable cv;
 };
 

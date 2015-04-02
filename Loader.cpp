@@ -51,7 +51,7 @@ void InitResource(){
     LoadMaps();
     minftgl::Init();
      
-    Window::use_font = new minftgl::Font("fonts/test.ttf");
+    Window::use_font = new minftgl::Font("fonts/test.ttf", 40);
 
     fprintf(stderr, "Ready to load scenes\n");
 

@@ -2,12 +2,12 @@
 #include <cstring>
 #include "WindowMsg.h"
 
-WindowMsg::WindowMsg(const char* str)
+WindowMsg::WindowMsg(const wchar_t* str)
     :WindowBlockType(0.1, 1.5, 1.8, 0.4){
     //printf("Init the msg: [%s]\n", str);
     ptr = 0;
-    msg = new char[strlen(str) + 1];
-    strcpy(msg, str);
+    msg = new wchar_t[wcslen(str) + 1];
+    wcscpy(msg, str);
     return;
 }
 
@@ -33,9 +33,9 @@ void WindowMsg::TickEvent(int a){
     if(msg[ptr] == 0){
         return;
     }
-    char tmp = msg[ptr+1];
+    wchar_t tmp = msg[ptr+1];
     msg[ptr+1] = 0;
-    this->DrawText(0.1, 0.1, msg) ;
+    this->DrawWText(0.1, 0.1, msg) ;
     msg[ptr+1] = tmp;
     ptr++;
     return;

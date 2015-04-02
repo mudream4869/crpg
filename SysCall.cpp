@@ -1,6 +1,8 @@
 #include <queue>
 #include <chrono>
 #include <thread>
+#include <cwchar>
+
 #include "Event.h"
 #include "SysCall.h"
 #include "WindowBlockType.h"
@@ -45,8 +47,21 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
     // TODO:ENTERPRETER
     if(strcmp(cmd, "ShowMsg") == 0){
         fprintf(stderr, "Call ShowMsg\n");
-        WindowBlockType::msg = new WindowMsg(PyString_AsString(PyTuple_GetItem(para, 1)));
         
+        PyObject* py_getobj = PyTuple_GetItem(para, 1);
+        Py_UNICODE* py_getwstr = PyUnicode_AS_UNICODE(py_getobj);
+        int sz = PyUnicode_GetSize(py_getobj);
+        wchar_t* wstr = new wchar_t[sz+1];
+        for(int lx = 0;lx < sz;lx++)
+            wstr[lx] = py_getwstr[lx];
+        wstr[sz] = 0;
+        
+        //fwprintf(stderr, L"[%ls]\n", wstr);
+
+        WindowBlockType::msg = new WindowMsg(wstr);
+        
+        delete[] wstr;
+
         auto state = PyEval_SaveThread();
         PyUnlock();
         while(WindowBlockType::msg != nullptr); // TODO: change to cv

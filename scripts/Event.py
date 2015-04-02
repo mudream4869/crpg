@@ -168,7 +168,7 @@ class Event:
         }
     
     def ShowMsg(self, msg):
-        self.syscall("ShowMsg", str(msg))
+        self.syscall("ShowMsg", msg)
     
     def ShowInputNumber(self):
         return self.syscall("ShowInputNumber")

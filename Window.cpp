@@ -122,8 +122,13 @@ void Window::Render(){
             glRasterPos2f((GLfloat)x,(GLfloat)y);
             for(int c = 0; windraw.Str[c] != 0; c++)
                 glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, windraw.Str[c]);
+
         }else if(windraw.DrawId == WINDOW_DRAW_WTEXT){
-            ((minftgl::Label*)windraw.SpecialPointer)->Render(windraw.Pos.x, windraw.Pos.y); 
+            float x = windraw.Pos.x + this->left;
+            float y = windraw.Pos.y + this->top;
+            x = x - 1, y = 1 - y;
+            ((minftgl::Label*)windraw.SpecialPointer)->Render(x, y); 
+
         }else if(windraw.DrawId == WINDOW_DRAW_BOX){
             Color4f col = windraw.Color;
             glColor4f(col.r, col.g, col.b, col.a);

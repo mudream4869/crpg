@@ -1,4 +1,6 @@
-from Event import Event 
+# coding=UTF-8
+
+from Event import Event
 from Event import MoveList
 
 def myabs(a):
@@ -12,13 +14,14 @@ class TestChase(Event):
         Event.__init__(self, func)
         self.AutoConfig()
         self.config["image"] = "hero.bmp"
-        self.config["chase_move"] = True
+        #self.config["chase_move"] = True
         self.config["trigger_condition"] = "sync"
     def Action(self):
-        dx = myabs(self.event_property.GetX() - self.hero_property.GetX())
-        dy = myabs(self.event_property.GetY() - self.hero_property.GetY())
-        if dx + dy <= 1:
-            self.ShowMsg("You Died")
+        pass
+        #dx = myabs(self.event_property.GetX() - self.hero_property.GetX())
+        #dy = myabs(self.event_property.GetY() - self.hero_property.GetY())
+        #if dx + dy <= 1:
+        #    self.ShowMsg("You Died")
 
 class TestAni(Event):
     def __init__(self, func):
@@ -62,7 +65,7 @@ class Event1(Event):
     def Action(self):
         print("Enter Script's Action")
         self.global_value["Test1"] += 1
-        self.ShowMsg("Hello~" + str(self.global_value["Test1"]))
+        self.ShowMsg(u"中文字測試haha")
         self.DoMove(
             MoveList()
             .To(MoveList.DIR_RIGHT, 3)
