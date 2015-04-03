@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="32" tileheight="32">
+ <properties>
+  <property name="bgm" value="Under_Water.wav"/>
+ </properties>
+ <tileset firstgid="1" name="home" tilewidth="32" tileheight="32">
+  <image source="../textures/home.bmp" trans="ff0000" width="256" height="953"/>
+  <terraintypes>
+   <terrain name="terrain" tile="-1"/>
+  </terraintypes>
+  <tile id="24" terrain="0,0,0,0"/>
+  <tile id="72">
+   <properties>
+    <property name="priority" value="1"/>
+   </properties>
+  </tile>
+  <tile id="74">
+   <properties>
+    <property name="priority" value="1"/>
+   </properties>
+  </tile>
+  <tile id="80" terrain="0,0,0,0"/>
+  <tile id="81" terrain="0,0,0,0"/>
+  <tile id="82" terrain="0,0,0,0"/>
+  <tile id="83">
+   <properties>
+    <property name="priority" value="2"/>
+   </properties>
+  </tile>
+  <tile id="89">
+   <properties>
+    <property name="priority" value="2"/>
+   </properties>
+  </tile>
+  <tile id="90">
+   <properties>
+    <property name="priority" value="2"/>
+   </properties>
+  </tile>
+  <tile id="91">
+   <properties>
+    <property name="priority" value="2"/>
+   </properties>
+  </tile>
+  <tile id="97" terrain="0,0,0,0"/>
+  <tile id="98" terrain="0,0,0,0"/>
+  <tile id="99" terrain="0,0,0,0"/>
+  <tile id="126">
+   <properties>
+    <property name="priority" value="2"/>
+   </properties>
+  </tile>
+  <tile id="127">
+   <properties>
+    <property name="priority" value="2"/>
+   </properties>
+  </tile>
+  <tile id="134">
+   <properties>
+    <property name="priority" value="2"/>
+   </properties>
+  </tile>
+  <tile id="135">
+   <properties>
+    <property name="priority" value="2"/>
+   </properties>
+  </tile>
+  <tile id="142" terrain="0,0,0,0"/>
+  <tile id="143" terrain="0,0,0,0"/>
+  <tile id="198" terrain="0,0,0,0"/>
+  <tile id="199" terrain="0,0,0,0"/>
+  <tile id="206" terrain="0,0,0,0"/>
+  <tile id="207" terrain="0,0,0,0"/>
+  <tile id="214" terrain="0,0,0,0"/>
+  <tile id="215" terrain="0,0,0,0"/>
+ </tileset>
+ <layer name="layer1" width="10" height="10">
+  <data>
+   <tile gid="17"/>
+   <tile gid="17"/>
+   <tile gid="17"/>
+   <tile gid="17"/>
+   <tile gid="17"/>
+   <tile gid="17"/>
+   <tile gid="17"/>
+   <tile gid="17"/>
+   <tile gid="1"/>
+   <tile gid="17"/>
+   <tile gid="25"/>
+   <tile gid="25"/>
+   <tile gid="25"/>
+   <tile gid="25"/>
+   <tile gid="25"/>
+   <tile gid="25"/>
+   <tile gid="25"/>
+   <tile gid="25"/>
+   <tile gid="1"/>
+   <tile gid="25"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+  </data>
+ </layer>
+ <layer name="layer2" width="10" height="10">
+  <data>
+   <tile gid="0"/>
+   <tile gid="64"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="72"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="172"/>
+   <tile gid="172"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="180"/>
+   <tile gid="180"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="115"/>
+   <tile gid="0"/>
+   <tile gid="199"/>
+   <tile gid="200"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="207"/>
+   <tile gid="208"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="135"/>
+   <tile gid="136"/>
+   <tile gid="0"/>
+   <tile gid="215"/>
+   <tile gid="216"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="143"/>
+   <tile gid="144"/>
+   <tile gid="90"/>
+   <tile gid="91"/>
+   <tile gid="90"/>
+   <tile gid="91"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="98"/>
+   <tile gid="99"/>
+   <tile gid="98"/>
+   <tile gid="99"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="92"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="100"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+  </data>
+ </layer>
+ <objectgroup name="物件層 1">
+  <object name="EventSavePoint" type="Event" x="209" y="242"/>
+  <object name="Main1" type="Event" x="14" y="304"/>
+  <object name="DoorEvent" type="Event" x="274" y="48"/>
+  <object name="Talk2" type="Event" x="84" y="242"/>
+  <object name="Talk1" type="Event" x="112" y="241"/>
+  <object name="Talk3" type="Event" x="47" y="244"/>
+  <object name="Talk4" type="Event" x="12" y="241"/>
+  <object name="PainoPoint" type="Event" x="307" y="175"/>
+  <object name="Talk22" type="Event" x="74" y="240"/>
+  <object name="Sleep" type="Event" x="85" y="112"/>
+  <object name="Sleep" type="Event" x="50" y="116"/>
+  <object name="Sleep" type="Event" x="50" y="142"/>
+  <object name="Sleep" type="Event" x="82" y="145"/>
+  <object name="Sleep" type="Event" x="82" y="172"/>
+  <object name="Sleep" type="Event" x="47" y="172"/>
+ </objectgroup>
+</map>
