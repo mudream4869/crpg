@@ -9,7 +9,7 @@
 
 #include "ScenePlay.h"
 
-#include "loadpng/lodepng.h"
+#include "lodepng/lodepng.h"
 
 SceneSave* SceneSave::scene_save = nullptr;
 unsigned char* SceneSave::snap_img;

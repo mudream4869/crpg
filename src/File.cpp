@@ -10,7 +10,7 @@
 
 #include "GameObject.h"
 
-#include "loadpng/lodepng.h"
+#include "lodepng/lodepng.h"
 
 // TODO: script's status?
 // TODO: certain scene

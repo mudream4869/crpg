@@ -4,7 +4,7 @@
 #include <vector>
 #include "Image.h"
 #include "Tool.h"
-#include "loadpng/lodepng.h"
+#include "lodepng/lodepng.h"
 
 #define __BMPSHIFT 54
 

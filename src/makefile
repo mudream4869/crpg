@@ -42,7 +42,7 @@ main: $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) $(COMPONENT) *.h $(LIBS)
 	$(CXX) main.cpp $(CFLAGS) $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) $(COMPONENT) $(LIBS)  $(CFRAME) -o test
 
 lodepng.o:
-	$(CXX) loadpng/lodepng.cpp -c $(CFLAGS)
+	$(CXX) lodepng/lodepng.cpp -c $(CFLAGS)
 
 audioloader.o: audioloader/audioloader.cpp
 	$(CXX) audioloader/audioloader.cpp -c $(CFLAGS)
