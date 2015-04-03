@@ -55,14 +55,20 @@ $ make main CXX=(指定編譯器) CPLUS_INCLUDE_PATH=(這裡替代成引用的�
 
 ```
 $ cd src
-$ make
-$ cd ..
-$ cd testdata/test{i}
+$ make os_switch
+$ make main
+$ cd ../testdata/{ test{i} | game{i} }
 $ make
 $ ./test
 ```
 
-## Some Special File Type 
+## 外插開源碼
+
+* rapidxml
+* lodepng
+* minftgl
+
+## 特殊檔案結構 
 
 * tmx 檔案:
     使用 `rapidxml` 讀取
