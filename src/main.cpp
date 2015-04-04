@@ -11,6 +11,8 @@
 #include "WindowBlockType.h"
 #include "Scene.h"
 
+#include "Constant.h"
+
 void NormalKeyDown(unsigned char key, int x, int y){
     InputCtrl::PressNormalKey(key);
     Input inp = {INPUT_NORMAL_KEY_DOWN, x, y, key, 0};
@@ -117,7 +119,7 @@ int main(int argc, char* argv[])
 
     Config::InitConfig();
     glutInit(&argc, argv);
-    glutInitWindowSize(600, 600);
+    glutInitWindowSize(Constant::FULL_WIDTH_PIXEL, Constant::FULL_HEIGHT_PIXEL);
     glutCreateWindow(Config::GAME_TITLE);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_ALPHA); 
  

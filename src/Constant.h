@@ -13,6 +13,12 @@ namespace Constant{
 
     const float DELTA_X = 0.2;
     const float DELTA_Y = 0.2;
+    
+    const float WINDOW_WIDTH = 2;
+    const float WINDOW_HEIGHT = 2;
+
+    const int FULL_WIDTH_PIXEL = 600;
+    const int FULL_HEIGHT_PIXEL = 600;
 };
 
 #endif
