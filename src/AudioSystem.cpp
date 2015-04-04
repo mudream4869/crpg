@@ -7,6 +7,8 @@
 
 #include "audioloader/audioloader.h"
 
+#include "Config.h"
+
 std::map<const char*, int, StrComp> AudioSystem::se_sound;
 
 // device init
@@ -58,11 +60,11 @@ void AudioSystem::InitAudioSystem(){
     alSourcefv(bgm_source, AL_VELOCITY, source0Vel);
     
     // Preload SE
-    std::vector<std::string> get_se_list = GetFileUnderDir("sounds/SE");
+    std::vector<std::string> get_se_list = GetFileUnderDir(Config::PATH_SOUND_SEFILE);
     for(int lx = 0;lx < get_se_list.size();lx++){
         char sfn[20], fn[40];
         strcpy(sfn, get_se_list[lx].c_str());
-        sprintf(fn, "sounds/SE/%s", sfn);
+        sprintf(fn, "%s/%s", Config::PATH_SOUND_SEFILE, sfn);
         AudioFileData get_info = LoadAudioFile(fn);
         if(get_info.isok){
             char* tmp_fn = new char[strlen(sfn) + 2];
@@ -91,7 +93,7 @@ void AudioSystem::PlayBGM(const char* bgm_name){
         alDeleteBuffers(1, &bgm_buffer);
     }
     char full_bgm_name[40];
-    sprintf(full_bgm_name, "sounds/BGM/%s", bgm_name);
+    sprintf(full_bgm_name, "%s/%s", Config::PATH_SOUND_BGMFILE, bgm_name);
     AudioFileData get_info = LoadAudioFile(full_bgm_name);
     if(get_info.isok){
         alSourceStop(bgm_source);

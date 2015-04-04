@@ -3,11 +3,15 @@
 
 #include "SceneStart.h"
 
+#include "Config.h"
+
 Scene* SceneGameOver::scene_gameover;
 
 SceneGameOver::SceneGameOver(){
     SceneGameOver::scene_gameover = this;
-    this->gameover_img = new Image("pictures/gameover.png");
+    char fn[40];
+    sprintf(fn, "%s/gameover.png", Config::PATH_PICTUREFILE); 
+    this->gameover_img = new Image(fn);
     return;
 }
 

@@ -28,6 +28,8 @@
 #include "ImgCtrl.h"
 
 #include "Config.h"
+#include "Constant.h"
+
 #include "Tool.h"
 
 #include "minftgl/minftgl.h"
@@ -50,8 +52,12 @@ void InitResource(){
 
     LoadMaps();
     minftgl::Init();
+    
+    char font_fn[] = "test.ttf";
+    char font_fullpath[30];
+    sprintf(font_fullpath, "%s/%s", Config::PATH_FONTFILE, font_fn);
      
-    Window::use_font = new minftgl::Font("fonts/test.ttf", 40);
+    Window::use_font = new minftgl::Font(font_fullpath, Constant::FONT_HEIGHT_PIXEL);
 
     fprintf(stderr, "Ready to load scenes\n");
 
@@ -74,7 +80,7 @@ void LoadMaps(){
         strcpy(map_name, get_file_list[lx].c_str());
         if(strcmp(GetFileNameExt(map_name), "tmx") != 0) continue;
         char full_map_name[20];
-        sprintf(full_map_name, "maps/%s", map_name);
+        sprintf(full_map_name, "%s%s", Config::PATH_MAPFILE, map_name);
         new Map(map_name);
         fprintf(stderr, "add map %s\n", map_name);
     }

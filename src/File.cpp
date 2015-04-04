@@ -21,7 +21,7 @@ static bool __FileCheckExist(const char* filename){
 
 File::File* File::PreloadFile(const char* filename){
     char full_filename[20];
-    sprintf(full_filename,"%s%s", Config::PATH_SAVEFILE, filename);
+    sprintf(full_filename,"%s/%s", Config::PATH_SAVEFILE, filename);
     
     // chekc if file exists
     // TODO: may use stat under mac?
@@ -40,7 +40,7 @@ File::File* File::PreloadFile(const char* filename){
 
 void File::LoadFile(const char* filename){
     char full_filename[20];
-    sprintf(full_filename, "%s%s", Config::PATH_SAVEFILE, filename);
+    sprintf(full_filename, "%s/%s", Config::PATH_SAVEFILE, filename);
     FILE* fp = fopen(full_filename, "r");
     
     int g_value_count, g_flag_count;
@@ -93,7 +93,7 @@ void File::LoadFile(const char* filename){
 
 void File::SaveFile(const char* filename, std::vector<unsigned char>& enc_png){
     char path_fn[20];
-    sprintf(path_fn, "%s%s", Config::PATH_SAVEFILE, filename);
+    sprintf(path_fn, "%s/%s", Config::PATH_SAVEFILE, filename);
     FILE* fp = fopen(path_fn, "w");
 
     auto& g_value = GlobalVariable::global_value;

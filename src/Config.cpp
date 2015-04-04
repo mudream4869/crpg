@@ -17,9 +17,12 @@ Vec2i Config::GAME_START_POS;
 char Config::GAME_TITLE[20];
 
 void Config::InitConfig(){
-    FILE* fp = fopen("configs/init.ini", "r");
+    char fn[40];
+    sprintf(fn, "%s/init.ini", Config::PATH_CONFIGFILE);
+    
+    FILE* fp = fopen(fn, "r");
     if(fp == NULL){
-        fprintf(stderr, "Error : Not found configs/init.ini\n");
+        fprintf(stderr, "Error : Not found %s\n", fn);
         exit(1);
     }
     char line[100];

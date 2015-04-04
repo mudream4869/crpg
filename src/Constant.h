@@ -19,6 +19,8 @@ namespace Constant{
 
     const int FULL_WIDTH_PIXEL = 600;
     const int FULL_HEIGHT_PIXEL = 600;
+
+    const int FONT_HEIGHT_PIXEL = 40;
 };
 
 #endif

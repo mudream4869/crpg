@@ -25,7 +25,7 @@ Map::Map(const char* _map_name){
     Map::map_pool[map_name] = this;
     
     char path[20];
-    sprintf(path, "%s%s.tmx", Config::PATH_MAPFILE, map_name);
+    sprintf(path, "%s/%s.tmx", Config::PATH_MAPFILE, map_name);
 
     fprintf(stderr, "Map:ready to load %s\n", path);
     // Read map by rapidxml
@@ -67,7 +67,7 @@ Map::Map(const char* _map_name){
     char img_name[20];
     strcpy(img_name, tileset_image_node->first_attribute("source")->value());
     char full_img_name[40];
-    sprintf(full_img_name, "textures/%s", GetFileName(img_name));
+    sprintf(full_img_name, "%s/%s", Config::PATH_TEXTUREFILE, GetFileName(img_name));
      
     //fprintf(stderr, "[%s]\n", full_img_name);
     Image* img = new Image(

@@ -8,6 +8,8 @@
 
 #include "Script.h"
 
+#include "Config.h"
+
 std::map<const char*, GameObjectData::GameObject, StrComp> GameObjectData::gameobject_pool;
 std::map<const char*, int, StrComp> GameObjectData::gameobject_count;
 
@@ -39,7 +41,7 @@ void GameObjectData::InitGameObject(){
     char name[20], image_name[20], script_name[20];
     while(fscanf(finit, "%s %s %s", name, image_name, script_name) != EOF){
         char full_img_path[20];
-        sprintf(full_img_path, "objects/%s", image_name);
+        sprintf(full_img_path, "%s/%s", Config::PATH_OBJECTFILE, image_name);
         
         GameObject new_obj;
         strcpy(new_obj.name, name);
