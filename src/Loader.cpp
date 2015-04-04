@@ -74,13 +74,13 @@ void InitResource(){
 }
 
 void LoadMaps(){
-    std::vector<std::string> get_file_list = GetFileUnderDir("maps");
+    std::vector<std::string> get_file_list = GetFileUnderDir(Config::PATH_MAPFILE);
     for(int lx = 0;lx < get_file_list.size();lx++){
         char map_name[20];
         strcpy(map_name, get_file_list[lx].c_str());
         if(strcmp(GetFileNameExt(map_name), "tmx") != 0) continue;
         char full_map_name[20];
-        sprintf(full_map_name, "%s%s", Config::PATH_MAPFILE, map_name);
+        sprintf(full_map_name, "%s/%s", Config::PATH_MAPFILE, map_name);
         new Map(map_name);
         fprintf(stderr, "add map %s\n", map_name);
     }
