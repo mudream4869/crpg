@@ -25,7 +25,7 @@ void Hero::TickEvent(int delta_time){
     if(mover_component->IsQueued() or status.status){
         mover_component->TickEvent(delta_time);
     }else if(status.status == 0){
-        int arr_index = InputCtrl::GetArrowCommand();
+        int arr_index = InputCtrl::GetDirCommand();
         if(arr_index != -1){
             if(ScenePlay::scene_play->CanDo(status.x, status.y, arr_index, this)){
                 status.status = 1;

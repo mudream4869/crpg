@@ -1,6 +1,8 @@
 #include <cstring>
 
 #include "InputCtrl.h"
+#include "Constant.h"
+
 
 static std::set<int> special_key_table;
 static bool normal_key_table[260] = {0};
@@ -37,10 +39,10 @@ bool InputCtrl::IsNormalKeyPress(unsigned char key){
     return normal_key_table[key];
 }
 
-int InputCtrl::GetArrowCommand(){
-    if(normal_key_table[(unsigned char)'a'] or special_key_table.count(GLUT_KEY_LEFT)) return ARROW_LEFT;
-    if(normal_key_table[(unsigned char)'s'] or special_key_table.count(GLUT_KEY_DOWN)) return ARROW_DOWN;
-    if(normal_key_table[(unsigned char)'w'] or special_key_table.count(GLUT_KEY_UP)) return ARROW_UP;
-    if(normal_key_table[(unsigned char)'d'] or special_key_table.count(GLUT_KEY_RIGHT)) return ARROW_RIGHT;
-    return ARROW_NONE;
+int InputCtrl::GetDirCommand(){
+    if(normal_key_table[(unsigned char)'a'] or special_key_table.count(GLUT_KEY_LEFT)) return Constant::DIR_LEFT;
+    if(normal_key_table[(unsigned char)'s'] or special_key_table.count(GLUT_KEY_DOWN)) return Constant::DIR_DOWN;
+    if(normal_key_table[(unsigned char)'w'] or special_key_table.count(GLUT_KEY_UP)) return Constant::DIR_UP;
+    if(normal_key_table[(unsigned char)'d'] or special_key_table.count(GLUT_KEY_RIGHT)) return Constant::DIR_RIGHT;
+    return Constant::DIR_NONE;
 }
