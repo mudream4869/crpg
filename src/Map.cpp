@@ -7,6 +7,8 @@
 #include "Map.h"
 #include "Config.h"
 #include "Tool.h"
+#include "Constant.h"
+
 #include "rapidxml/rapidxml.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
 
@@ -192,12 +194,11 @@ int Map::GetPriority(int x, int y, int l)const{
 
 void Map::RenderATile(float left, float top, float width, float height, int x, int y, int l){
     if(map_load[l][x][y].x == -1) return;
-    float delta_x = CONFIG_DELTA_X;
-    float delta_y = CONFIG_DELTA_Y;
     tile_use->Render(
-        left + (float)x*delta_x,
-        top + (float)y*delta_y,
-        delta_x, delta_y,
+        left + (float)x*Constant::DELTA_X,
+        top + (float)y*Constant::DELTA_Y,
+        Constant::DELTA_X,
+        Constant::DELTA_Y,
         map_load[l][x][y].x,
         map_load[l][x][y].y,
         l + 1
@@ -206,16 +207,15 @@ void Map::RenderATile(float left, float top, float width, float height, int x, i
 }
 
 void Map::Render(float left, float top, float width, float height){
-    float delta_x = CONFIG_DELTA_X;
-    float delta_y = CONFIG_DELTA_Y;
     for(int l = 0;l < this->level_count;l++){
         for(int lx = 0;lx < map_width;lx++){
             for(int ly = 0;ly < map_height;ly++){
                 if(map_load[l][lx][ly].x == -1) continue;
                 tile_use->Render(
-                    left + (float)lx*delta_x,
-                    top + (float)ly*delta_y,
-                    delta_x, delta_y, // TODO: change
+                    left + (float)lx*Constant::DELTA_X,
+                    top + (float)ly*Constant::DELTA_Y,
+                    Constant::DELTA_X, 
+                    Constant::DELTA_Y,
                     map_load[l][lx][ly].x,
                     map_load[l][lx][ly].y,
                     l + 1
@@ -227,17 +227,16 @@ void Map::Render(float left, float top, float width, float height){
 }
 
 void Map::RenderAtPriority(float left, float top, float width, float height, int priority){
-    float delta_x = CONFIG_DELTA_X;
-    float delta_y = CONFIG_DELTA_Y;
     for(int l = 0;l < this->level_count;l++){
         for(int lx = 0;lx < map_width;lx++){
             for(int ly = 0;ly < map_height;ly++){
                 if(map_load[l][lx][ly].x == -1) continue;
                 if(GetPriority(lx, ly, l) != priority) continue;
                 tile_use->Render(
-                    left + (float)lx*delta_x,
-                    top + (float)ly*delta_y,
-                    delta_x, delta_y, // TODO: change
+                    left + (float)lx*Constant::DELTA_X,
+                    top + (float)ly*Constant::DELTA_Y,
+                    Constant::DELTA_X, 
+                    Constant::DELTA_Y,
                     map_load[l][lx][ly].x,
                     map_load[l][lx][ly].y,
                     l + 1

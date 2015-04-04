@@ -42,12 +42,12 @@ void WindowSelect::InputEvent(Input inp){
     }
     int dir = Input2Dir(inp);
             
-    if(dir == DIR_UP and select_index > 0){
+    if(dir == Constant::DIR_UP and select_index > 0){
         select_index--;
         AudioSystem::PlaySE("item_switch.ogg");
         this->Update();
     }
-    if(dir == DIR_DOWN and select_index+1 < items.size()){
+    if(dir == Constant::DIR_DOWN and select_index+1 < items.size()){
         select_index++;
         AudioSystem::PlaySE("item_switch.ogg");
         this->Update();

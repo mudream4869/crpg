@@ -74,9 +74,9 @@ void SceneStart::InputEvent(Input inp){
     }
     int dir = Input2Dir(inp);
     bool change = false;
-    if(dir == DIR_UP and select_index > 0)
+    if(dir == Constant::DIR_UP and select_index > 0)
         select_index--, change = true, AudioSystem::PlaySE("item_switch.ogg");
-    else if(dir == DIR_DOWN and select_index < 2)
+    else if(dir == Constant::DIR_DOWN and select_index < 2)
         select_index++, change = true, AudioSystem::PlaySE("item_switch.ogg");
     if(change)
         UpdateSelectBox();

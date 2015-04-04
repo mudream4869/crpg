@@ -31,9 +31,9 @@ void WindowMsgSelect::InputEvent(Input inp){
     }
     int dir = Input2Dir(inp);
     bool update = false;
-    if(dir == DIR_UP and ptr)
+    if(dir == Constant::DIR_UP and ptr)
         ptr--, update = true;
-    else if(dir == DIR_DOWN and ptr + 1 < options.size())
+    else if(dir == Constant::DIR_DOWN and ptr + 1 < options.size())
         ptr++, update = true;
     if(update)
         this->Update();

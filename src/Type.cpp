@@ -17,17 +17,17 @@ int __HexChToValue(char c){
 
 int Input2Dir(Input inp){
     if(inp.type == INPUT_NORMAL_KEY_DOWN){
-        if(inp.normal_key == 'a') return DIR_LEFT;
-        if(inp.normal_key == 'w') return DIR_UP;
-        if(inp.normal_key == 's') return DIR_DOWN;
-        if(inp.normal_key == 'd') return DIR_RIGHT;
+        if(inp.normal_key == 'a') return Constant::DIR_LEFT;
+        if(inp.normal_key == 'w') return Constant::DIR_UP;
+        if(inp.normal_key == 's') return Constant::DIR_DOWN;
+        if(inp.normal_key == 'd') return Constant::DIR_RIGHT;
     }else if(inp.type == INPUT_SPECIAL_KEY_DOWN){
-        if(inp.special_key == GLUT_KEY_UP) return DIR_UP;
-        if(inp.special_key == GLUT_KEY_DOWN) return DIR_DOWN;
-        if(inp.special_key == GLUT_KEY_LEFT) return DIR_LEFT;
-        if(inp.special_key == GLUT_KEY_RIGHT) return DIR_RIGHT;
+        if(inp.special_key == GLUT_KEY_UP) return Constant::DIR_UP;
+        if(inp.special_key == GLUT_KEY_DOWN) return Constant::DIR_DOWN;
+        if(inp.special_key == GLUT_KEY_LEFT) return Constant::DIR_LEFT;
+        if(inp.special_key == GLUT_KEY_RIGHT) return Constant::DIR_RIGHT;
     }
-    return DIR_NONE;
+    return Constant::DIR_NONE;
 }
 
 Color3i HexToColor3i(const char* str){

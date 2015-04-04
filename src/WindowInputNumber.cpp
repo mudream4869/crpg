@@ -39,19 +39,19 @@ void WindowInputNumber::InputEvent(Input inp){
     }
     int dir = Input2Dir(inp); 
 
-    if(dir == DIR_LEFT){
+    if(dir == Constant::DIR_LEFT){
         ptr--;
         if(ptr == -1)
             ptr = 3;
-    }else if(dir == DIR_RIGHT){
+    }else if(dir == Constant::DIR_RIGHT){
         ptr++;
         if(ptr == 4)
             ptr = 0;
-    }else if(dir == DIR_UP){
+    }else if(dir == Constant::DIR_UP){
         arr[ptr]++;
         if(arr[ptr] == 10)
             arr[ptr] = 0;
-    }else if(dir == DIR_DOWN){
+    }else if(dir == Constant::DIR_DOWN){
         arr[ptr]--;
         if(arr[ptr] == -1)
             arr[ptr] = 9;

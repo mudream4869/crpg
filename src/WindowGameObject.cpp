@@ -53,12 +53,12 @@ void WindowGameObject::InputEvent(Input inp){
     }
     int dir = Input2Dir(inp);
     bool change = false;
-    if(dir == DIR_UP and ptr > 0){
+    if(dir == Constant::DIR_UP and ptr > 0){
         AudioSystem::PlaySE("packitem_switch.ogg");
         ptr--, change = true;
     }
 
-    if(dir == DIR_DOWN and ptr+1 < GameObjectData::gameobject_count.size()){
+    if(dir == Constant::DIR_DOWN and ptr+1 < GameObjectData::gameobject_count.size()){
         AudioSystem::PlaySE("packitem_switch.ogg");
         ptr++, change = true;
     }
