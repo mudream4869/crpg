@@ -1,2 +1,0 @@
-test:
-	cp ../../src/test .
