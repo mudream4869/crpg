@@ -15,6 +15,8 @@
 #include "SceneSave.h"
 #include "ScenePlay.h"
 
+#include "debugger/debugger.h"
+
 std::map<const char*, Event*, StrComp> Event::event_pool;  
 
 std::vector<Event::cond> Event::CondList2Vector(PyObject* cond_list){
@@ -53,13 +55,9 @@ Event::Event(const char* map_name, const char* str){
 
     PyObject* p_config = script->GetAttr("config");
 
-#ifdef DEBUG
-    if(p_config == NULL){
-        fprintf(stderr, "Fail to get 'config' dictionary from %s\n", str);
-        PyErr_Print();
-        exit(1);
-    }
-#endif
+    Debugger::CheckPyObject(p_config,
+        "Fail to get 'config' dictionary from %s\n", str
+    );
 
     char img_path[20];
     char trigger_condition_str[20];
@@ -72,12 +70,10 @@ Event::Event(const char* map_name, const char* str){
      
     // To load event name, event shouldn;t be empty
 
-#ifdef DEBUG
-    if(PyDict_GetItemString(p_config, "event_name") == NULL){
-        fprintf(stderr, "Event name of %s should not be empty\n", str);
-        exit(1);
-    }
-#endif
+    Debugger::CheckPyObject(
+        PyDict_GetItemString(p_config, "event_name"), 
+        "Event name of %s should not be empty\n", str
+    );
 
     strcpy(this->event_name, PyString_AsString(PyDict_GetItemString(p_config, "event_name")));
     
@@ -111,20 +107,16 @@ Event::Event(const char* map_name, const char* str){
         this->trigger_condition = TRIGGER_CONDITION_ON_STAND;
     else if(strcmp(trigger_condition_str, "auto") == 0){
 
-#ifdef DEBUG
-        fprintf(stderr, "Event: trigger condition 'auto' is not provided.\n");
-#endif
+        Debugger::Print("Event: trigger condition 'auto' is not provided.\n");
 
         this->trigger_condition = TRIGGER_CONDITION_AUTO;
     }else if(strcmp(trigger_condition_str, "sync") == 0)
         this->trigger_condition = TRIGGER_CONDITION_SYNC;
     else{
 
-#ifdef DEBUG
-        fprintf(stderr, "Event: trigger condition empty or not fit.\n");
-        fprintf(stderr, "Warning : this event (%s) will sleep forever.\n", str);
-#endif
-
+        Debugger::Print("Event: trigger condition empty or not fit.\n");
+        Debugger::Print("Warning : this event (%s) will sleep forever.\n", str);
+        
         this->trigger_condition = TRIGGER_CONDITION_NULL;
     }
     
@@ -150,9 +142,7 @@ Event::Event(const char* map_name, const char* str){
     
     graphic_component = new GraphicComponent(this);
 
-#ifdef DEBUG    
-    fprintf(stderr, "Event loads from %s ok\n", tmp);
-#endif
+    Debugger::Print("Event loads from %s ok\n", tmp);
 
     return;
 }

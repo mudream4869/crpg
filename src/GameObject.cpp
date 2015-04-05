@@ -5,10 +5,10 @@
 #include <thread>
 
 #include "GameObject.h"
-
 #include "Script.h"
-
 #include "Config.h"
+
+#include "debugger/debugger.h"
 
 std::map<const char*, GameObjectData::GameObject, StrComp> GameObjectData::gameobject_pool;
 std::map<const char*, int, StrComp> GameObjectData::gameobject_count;
@@ -17,24 +17,16 @@ void GameObjectData::InitGameObject(){
     PyObject* p_module = PyImport_ImportModule("scripts.objects");
     
     if(p_module == NULL){
-
-#ifdef DEBUG
-        fprintf(stderr, "Fail to load scripts.objects\n");
-        PyErr_Print();
-        fprintf(stderr, "[Warning] no gameobject initial.\n");
-#endif
-
+        Debugger::Print("Fail to load scripts.objects\n");
+        Debugger::PrintPyErr();
+        Debugger::Print("[Warning] no gameobject initial.\n");
         return;
     }
 
     FILE* finit = fopen("objects/__init__.ini", "r") ;
     if(finit == NULL){
-
-#ifdef DEBUG
-        fprintf(stderr, "GameObjectData: Fail to open objects/__init__.ini");
-        fprintf(stderr, "[Warning] no gameobject initial.\n");
-#endif
-
+        Debugger::Print("GameObjectData: Fail to open objects/__init__.ini\n");
+        Debugger::Print("[Warning] no gameobject initial.\n");
         return;
     }
 

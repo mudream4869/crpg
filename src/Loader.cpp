@@ -33,6 +33,7 @@
 #include "Tool.h"
 
 #include "minftgl/minftgl.h"
+#include "debugger/debugger.h"
 
 void LoadMaps();
 
@@ -49,10 +50,11 @@ void InitResource(){
      
     std::atexit(AudioSystem::ExitAudioSystem);
     AudioSystem::InitAudioSystem();
-
+    
     LoadMaps();
     minftgl::Init();
-    
+    Debugger::Init();
+
     char font_fn[] = "test.ttf";
     char font_fullpath[30];
     sprintf(font_fullpath, "%s/%s", Config::PATH_FONTFILE, font_fn);

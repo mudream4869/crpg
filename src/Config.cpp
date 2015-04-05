@@ -5,6 +5,7 @@
 #include "Type.h"
 #include "Config.h"
 
+#include "debugger/debugger.h"
 
 char Config::SCENESTART_IMG_NAME[20];
 char Config::SCENESTART_BGM_NAME[20];
@@ -50,11 +51,7 @@ void Config::InitConfig(){
         }else if(strcmp(line, "startdir") == 0){
             strcpy(GAME_START_DIR, line+eq_ptr+1);
         }else{
-
-#ifdef DEBUG
-            fprintf(stderr, "Config: [Warning] unknow setting name: %s\n", line);
-#endif
-        
+            Debugger::Print("Config: [Warning] unknow setting name: %s\n", line);
         }
     }
     fclose(fp);

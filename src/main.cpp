@@ -99,10 +99,6 @@ void CloseFunc(){
 int main(int argc, char* argv[])  
 {
 
-#ifdef DEBUG
-    fprintf(stderr, "Enter debug mod\n");
-#endif
-
 // 調整目錄
 #ifdef __APPLE__
     int ptr = -1;

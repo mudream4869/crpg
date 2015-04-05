@@ -26,6 +26,8 @@
 #include "WindowInputNumber.h"
 #include "WindowMsgSelect.h"
 
+#include "debugger/debugger.h"
+
 std::mutex Sys::func_lock;
 std::queue< std::function<void()> > Sys::func_que;
 
@@ -35,11 +37,10 @@ void Sys::InitSys(){
 
 PyObject* Sys::SysCall(PyObject* self, PyObject* para){
     // TODO: garbage recycle
-#ifdef DEBUG
-    fprintf(stderr, "SysCall========\n");
-    //PyObject_Print(self, stderr, 0);
-    PyObject_Print(para, stderr, 0);
-#endif
+    
+    Debugger::Print("SysCall========\n");
+    Debugger::Print(para);
+    
     PyObject* ret_value;
     //printf("SysCall\n");
     char cmd[20];

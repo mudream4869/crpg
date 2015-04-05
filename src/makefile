@@ -36,7 +36,7 @@ SCENE = Scene.o ScenePlay.o SceneGameOver.o SceneStart.o SceneSave.o SceneLoad.o
 
 WINDOW = Window.o WindowBlockType.o WindowMsg.o WindowSelect.o WindowGameObject.o WindowInputNumber.o WindowMsgSelect.o
 
-LIBS = lodepng.o audioloader.o minftgl.o
+LIBS = lodepng.o audioloader.o minftgl.o debugger.o
 
 main: $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) $(COMPONENT) *.h $(LIBS)
 	$(CXX) main.cpp $(CFLAGS) $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) $(COMPONENT) $(LIBS)  $(CFRAME) -o test
@@ -49,6 +49,9 @@ audioloader.o: audioloader/audioloader.cpp
 
 minftgl.o:
 	$(CXX) minftgl/minftgl.cpp -c $(CINCLUDE) $(CFLAGS)
+
+debugger.o: debugger/debugger.cpp
+	$(CXX) debugger/debugger.cpp -c $(CFLAGS)
 
 %.o: %.cpp *.h
 	$(CXX) $< $(CFLAGS) -c

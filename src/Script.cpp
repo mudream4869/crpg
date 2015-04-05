@@ -3,25 +3,22 @@
 #include "SysCall.h"
 #include "PyLock.h"
 
+#include "debugger/debugger.h"
+
 Script::Script(const char* file_name, const char* class_name){
     char tmp[20];
     
     sprintf(tmp, "scripts.%s", file_name);
     PySys_SetPath(".");
     
-#ifdef DEBUG 
-    fprintf(stderr, "Loading from %s....\n", tmp);
-#endif
+    Debugger::Print("Loading from %s....\n", tmp);
 
     this->p_module = PyImport_ImportModule(tmp);
 
-#ifdef DEBUG
-    if(this->p_module == NULL){
-        fprintf(stderr, "Fail to import %s.\n", tmp);
-        PyErr_Print();
-        exit(1);
-    }
-#endif
+    Debugger::CheckPyObject(
+        this->p_module,
+        "Fail to import %s.\n", tmp 
+    );
 
     Load(class_name);
     return;
@@ -38,13 +35,10 @@ void Script::Load(const char* class_name){
 
     this->p_class = PyObject_GetAttrString(p_module, class_name);
 
-#ifdef DEBUG
-    if(this->p_class == NULL){
-        fprintf(stderr, "Fail to get class '%s'.\n", class_name);
-        PyErr_Print();
-        exit(1);
-    }
-#endif
+    Debugger::CheckPyObject(
+        this->p_class,
+        "Fail to get class '%s'.\n", class_name
+    );
 
     PyMethodDef *callback = new PyMethodDef;
 
@@ -55,27 +49,22 @@ void Script::Load(const char* class_name){
     PyObject* pcb = PyCFunction_New(callback, NULL);
     PyObject* pArg = Py_BuildValue("(O)", pcb);
     this->p_inst = PyObject_CallObject(this->p_class, pArg);
+    
 
-#ifdef DEBUG
-    if(this->p_inst == NULL){
-        fprintf(stderr, "Fail to get new instance of %s\n", class_name);
-        PyErr_Print();
-        exit(1);
-    }
-#endif
+    Debugger::CheckPyObject(
+        this->p_inst,
+        "Fail to get new instance of %s\n", class_name
+    );
 
     this->p_func = PyObject_GetAttrString(this->p_inst, "Action");
+    
 
-#ifdef DEBUG
-    if(this->p_func == NULL){
-        fprintf(stderr, "Fail to get 'Action' function from %s\n", class_name);
-        PyErr_Print();
-        exit(1);
-    }
-#endif
+    Debugger::CheckPyObject(
+        this->p_func,
+        "Fail to get 'Action' function from %s\n", class_name
+    );
 
     return;
-
 }
 
 PyObject* Script::GetAttr(const char* attr_name){
