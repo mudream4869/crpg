@@ -1,6 +1,8 @@
 #include <cstring>
 #include <set>
 
+#include "inc_gl.h"
+
 #include "InputCtrl.h"
 #include "Constant.h"
 

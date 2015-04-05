@@ -2,13 +2,12 @@
 #define MAP_DEF
 
 #include <vector>
-#include <utility>
 #include <map>
 #include <cstdio>
 #include <cstring>
+
 #include "Tile.h"
 #include "Type.h"
-
 #include "Tool.h"
 
 class Map{
@@ -35,19 +34,18 @@ private:
     char map_name[20];
     char map_bgm[20];
     Tile* tile_use;
-    struct point {int x, y;};
-    point new_point(int _x, int _y){
-        point ret;
-        ret.x = _x, ret.y = _y;
-        return ret;
-    }
+    
     int map_width, map_height;
     int peice_width, peice_height;
     int level_count;
+    
+    // from point to terrain
+    std::map<Vec2i, int> terrain;
 
-    std::map<std::pair<int,int>, int> terrain;
-    std::map<std::pair<int,int>, int> priority;
-    std::vector<point**> map_load;
+    //from point to priority
+    std::map<Vec2i, int> priority;
+
+    std::vector<Vec2i**> map_load;
 
     std::vector<EventData> event_datas;
 };

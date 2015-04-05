@@ -1,8 +1,6 @@
 #ifndef INPUTCTRL_DEF
 #define INPUTCTRL_DEF
 
-#include "inc_gl.h"
-
 namespace InputCtrl{
     void Init();
 

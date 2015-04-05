@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include "debugger.h"
 
-static FILE* write_file; 
+static FILE* write_file = nullptr;
 
 void Debugger::Init(){
     write_file = stderr;
@@ -14,13 +14,10 @@ void Debugger::Init(){
 
 void Debugger::Print(const char* format, ... ){
 #ifdef DEBUG
-    char buffer[256];
     va_list args;
-    va_start (args, format);
-    vsprintf (buffer,format, args);
-    perror (buffer);
-    va_end (args);
-    fprintf(write_file, "%s", buffer);
+    va_start(args, format);
+    vfprintf(write_file, format, args);
+    va_end(args);
 #endif
     return;
 }

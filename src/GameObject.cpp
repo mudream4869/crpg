@@ -52,6 +52,7 @@ void GameObjectData::InitGameObject(){
         strcpy(name_tmp, name);
         gameobject_pool[name_tmp] = new_obj;
     }
+    fclose(finit);
     return;
 }
 

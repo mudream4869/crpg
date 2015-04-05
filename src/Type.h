@@ -46,6 +46,8 @@ public:
 };
 
 bool operator==(Vec2i a, Vec2i b);
+bool operator<(Vec2i a, Vec2i b);
+Vec2i Str2Vec2i(const char* str);
 
 struct _hero_status{
     int status;
@@ -78,7 +80,6 @@ Color3i HexToColor3i(const char* str);
 Color3i operator-(const Color3i& a, const Color3i& b);
 double LenOfColor3i(Color3i in);
 
-Vec2i Str2Vec2i(const char* str);
 
 const int WRITE_NULL = 0;
 const int WRITE_INT = 1;

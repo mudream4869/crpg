@@ -4,7 +4,9 @@
 #include <vector>
 #include "Image.h"
 #include "Tool.h"
+
 #include "lodepng/lodepng.h"
+#include "debugger/debugger.h"
 
 #define __BMPSHIFT 54
 
@@ -42,7 +44,7 @@ Image::Image(const char* path, bool is_trans, Color3i trans_color){
 }
 
 void Image::__LoadBmp(const char* path, bool is_trans, Color3i trans_color){
-     FILE* file = fopen(path, "rb");
+    FILE* file = fopen(path, "rb");
     // open texture data
     if (file == NULL){ 
 	    fprintf(stderr, "Fail to load bmp file!\n");
@@ -61,10 +63,10 @@ void Image::__LoadBmp(const char* path, bool is_trans, Color3i trans_color){
     }
  
     fseek(file, 0x1C, SEEK_SET);
-    fread(&this->bits, 2, 1, file);
+    fread(&bits, sizeof(bits), 1, file);
  
-    //fprintf(stderr, "Load img, width = %u, height = %u\n", width, height);
-    //fprintf(stderr, "Img bits = %d\n", (int)this->bits);
+    Debugger::Print("Load img, width = %d, height = %d\n", width, height);
+    Debugger::Print("Img bits = %d\n", (int)bits);
 
     int byte_count = (int)this->bits/8;
     unsigned char* data = (unsigned char *)malloc(width*height*byte_count + __BMPSHIFT);
@@ -98,7 +100,6 @@ void Image::__LoadBmp(const char* path, bool is_trans, Color3i trans_color){
     free(data);
 
     if(not HeightNeg){
-        //fprintf(stderr, "Not pos height\n");
         unsigned char* datt = (unsigned char *)malloc(width*height*4);
         for(int lx = 0;lx < height;lx++)
             for(int ly = lx*width*4;ly < (lx + 1)*width*4;ly++)
@@ -107,7 +108,7 @@ void Image::__LoadBmp(const char* path, bool is_trans, Color3i trans_color){
         free(datt);
     }else
         gluBuild2DMipmaps( GL_TEXTURE_2D, 4, width, height, GL_RGBA, GL_UNSIGNED_BYTE, datt4);
-    // free buffer
+    
     free(datt4);
     return;
 }
@@ -132,7 +133,6 @@ void Image::__LoadPng(const char* path){
 }
 
 Image::~Image(){
-    //TODO: recycle the texture_id?
     glDeleteTextures(1, &this->texture_id);
     return;
 }

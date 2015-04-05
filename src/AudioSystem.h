@@ -1,10 +1,6 @@
 #ifndef AUDIO_DEF
 #define AUDIO_DEF
 
-#include <vector>
-
-#include "Tool.h"
-
 namespace AudioSystem{
     //will check for sounds/BGM/__init__.ini, sounds/SE/__init__.ini
     void InitAudioSystem();
@@ -18,7 +14,5 @@ namespace AudioSystem{
     void PlaySE(const char*);
 
 };
-
-
 
 #endif 

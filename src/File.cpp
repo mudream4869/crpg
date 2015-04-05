@@ -88,6 +88,7 @@ void File::LoadFile(const char* filename){
             &get_event_status.moving_dir, &get_event_status.moving_step);
         Event::event_pool[event_name]->status = get_event_status;
     }
+    fclose(fp);
     return;
 }
 

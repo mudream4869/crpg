@@ -1,7 +1,6 @@
 #ifndef IMGCTRL_DEF
 #define IMGCTRL_DEF
 
-#include "Image.h"
 #include "Type.h"
 
 namespace ImgCtrl{

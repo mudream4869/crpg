@@ -75,6 +75,7 @@ Map::Map(const char* _map_name){
         img_is_trans,
         trans_color
     );
+
     //fprintf(stderr, "img load ok\n");
     int img_pw = std::atoi(tileset_node->first_attribute("tilewidth")->value());
     int img_ph = std::atoi(tileset_node->first_attribute("tileheight")->value());
@@ -94,14 +95,14 @@ Map::Map(const char* _map_name){
             if(tmp_str[lx] == ',') cc++;
             if(tmp_str[lx] == '0') status |= 1<<cc;
         }
-        terrain[std::pair<int,int>(tile_id%img_width_count, tile_id/img_width_count)] = status;
+        terrain[Vec2i(tile_id%img_width_count, tile_id/img_width_count)] = status;
         
         auto properties_node = terrain_node->first_node("properties");
         if(properties_node != 0){
             for(auto property_node = properties_node->first_node("property");
                     property_node; property_node = property_node->next_sibling("property")){
                 if(strcmp("priority", property_node->first_attribute("name")->value()) == 0){
-                    priority[std::pair<int,int>(tile_id%img_width_count, tile_id/img_width_count)]
+                    priority[Vec2i(tile_id%img_width_count, tile_id/img_width_count)]
                         = atoi(property_node->first_attribute("value")->value());
                 }
             }
@@ -110,21 +111,20 @@ Map::Map(const char* _map_name){
 
     fprintf(stderr, "ready to load level\n") ;
 
-    //fprintf(stderr, "level new up ok\n");
     int tmp_value;
     for(auto level_node = root_node->first_node("layer"); level_node; level_node = level_node->next_sibling("layer")){
-        point** prc = new point*[map_width];
+        Vec2i** prc = new Vec2i*[map_width];
         for(int ly = 0;ly < map_width;ly++)
-            prc[ly] = new point[map_height];
+            prc[ly] = new Vec2i[map_height];
 
         auto data_node = level_node->first_node("data");
         int lx = 0, ly = 0;
         for(auto grid_node = data_node->first_node("tile"); grid_node; grid_node = grid_node->next_sibling("tile")){
             tmp_value = std::atoi(grid_node->first_attribute("gid")->value())-1;
             if(tmp_value == -1)
-                prc[lx][ly] = new_point(-1, -1);
+                prc[lx][ly] = Vec2i(-1, -1);
             else
-                prc[lx][ly] = new_point(tmp_value%img_width_count, tmp_value/img_width_count);
+                prc[lx][ly] = Vec2i(tmp_value%img_width_count, tmp_value/img_width_count);
             lx++;
             if(lx == this->map_width){
                 lx = 0, ly++;
@@ -163,11 +163,11 @@ bool Map::CanDo(int xx, int yy, int dir)const{
         int terrain_now = 0;
         int x = map_load[lc][xx][yy].x , y = map_load[lc][xx][yy].y;
         int nx = map_load[lc][nxx][nyy].x, ny = map_load[lc][nxx][nyy].y;
-        if(terrain.count(std::pair<int,int>(x, y)))
-            terrain_now = terrain.at(std::pair<int,int>(x, y));
+        if(terrain.count(Vec2i(x, y)))
+            terrain_now = terrain.at(Vec2i(x, y));
         int terrain_next = 0;
-        if(terrain.count(std::pair<int,int>(nx, ny)))
-            terrain_next = terrain.at(std::pair<int,int>(nx ,ny));
+        if(terrain.count(Vec2i(nx, ny)))
+            terrain_next = terrain.at(Vec2i(nx ,ny));
         if(terrain_next || terrain_now){
             return false;
         }
@@ -187,9 +187,9 @@ int Map::GetPriority(int x, int y, int l)const{
         return 0;  
     int xx = map_load[l][x][y].x,
         yy = map_load[l][x][y].y;
-    if(priority.count(std::pair<int,int>(xx, yy)) == 0)
+    if(priority.count(Vec2i(xx, yy)) == 0)
         return 0;
-    return priority.at(std::pair<int,int>(xx, yy));
+    return priority.at(Vec2i(xx, yy));
 }
 
 void Map::RenderATile(float left, float top, float width, float height, int x, int y, int l){

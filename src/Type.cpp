@@ -67,3 +67,9 @@ WriteType NewWriteType(int type, int int_value, const char* string_value){
 bool operator==(Vec2i a, Vec2i b){
     return a.x == b.x and a.y == b.y;
 }
+
+bool operator<(Vec2i a, Vec2i b){
+    if(a.x < b.x) return true;
+    if(a.x > b.x) return false;
+    return a.y < b.y;
+}

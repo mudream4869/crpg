@@ -41,6 +41,8 @@ void InitResource(){
     Py_Initialize();
     PySys_SetPath(".");
     
+    Debugger::Init();
+    
     Sys::InitSys();
 
     GlobalVariable::InitGlobalVariable();
@@ -53,7 +55,6 @@ void InitResource(){
     
     LoadMaps();
     minftgl::Init();
-    Debugger::Init();
 
     char font_fn[] = "test.ttf";
     char font_fullpath[30];

@@ -4,6 +4,9 @@
 #include <mutex>
 
 #include "ImgCtrl.h"
+#include "Image.h"
+
+#include "debugger/debugger.h"
 
 static struct{
     std::mutex mutlock;
@@ -24,10 +27,9 @@ void ImgCtrl::InitImgCtrl(){
 
 void ImgCtrl::ShowImg(int index, const char* img_fn, Vec2f pos, Vec2f rect){
     if(index < 0 or index >= 100){
-        fprintf(stderr, "ImgCtrl Error=\"index should in [0, 100)\"\n");
+        Debugger::Print("ImgCtrl Error=\"index should in [0, 100)\"\n");
         return;
     }
-    fprintf(stderr, "testshow img\n");
     img_table[index].mutlock.lock();
     //if(img_table[index].img != nullptr)
     //    delete img_table[index].img;
