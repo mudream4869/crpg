@@ -3,37 +3,40 @@
 #include <string>
 #include <cstring>
 #include <vector>
+#include <map>
+
+#include "inc_al.h"
 #include "AudioSystem.h"
+#include "Config.h"
+#include "Tool.h"
 
 #include "audioloader/audioloader.h"
 
-#include "Config.h"
-
-std::map<const char*, int, StrComp> AudioSystem::se_sound;
+static std::map<const char*, int, StrComp> se_sound;
 
 // device init
 // will check for sounds/SE/__init__.ini
 
-ALCdevice* AudioSystem::dev;
-ALCcontext* AudioSystem::ctx;
+static ALCdevice* dev;
+static ALCcontext* ctx;
 
-ALuint AudioSystem::bgm_source;
-ALuint AudioSystem::se_source;
+static ALuint bgm_source;
+static ALuint se_source;
 
-bool AudioSystem::is_play_bgm;
+static bool is_play_bgm;
 
-ALuint AudioSystem::bgm_buffer;
-std::vector<ALuint> AudioSystem::se_buffer;
+static ALuint bgm_buffer;
+static std::vector<ALuint> se_buffer;
 
-char AudioSystem::certain_bgm[20];
+static char certain_bgm[20];
 
 void AudioSystem::InitAudioSystem(){
     
     is_play_bgm = false;
     certain_bgm[0] = 0;
  
-    ALCdevice* dev = alcOpenDevice(NULL);
-    ALCcontext* ctx = alcCreateContext(dev, NULL);
+    dev = alcOpenDevice(NULL);
+    ctx = alcCreateContext(dev, NULL);
     alcMakeContextCurrent(ctx); 
 
     ALfloat source0Pos[]={ -2.0, 0.0, 0.0};

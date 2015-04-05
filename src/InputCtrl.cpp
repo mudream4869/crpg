@@ -1,8 +1,8 @@
 #include <cstring>
+#include <set>
 
 #include "InputCtrl.h"
 #include "Constant.h"
-
 
 static std::set<int> special_key_table;
 static bool normal_key_table[260] = {0};

@@ -1,11 +1,15 @@
 #include <cstdlib>
 #include <cstring>
+#include <mutex>
+#include <map>
+
 #include "GlobalVariable.h"
+#include "Tool.h"
 
-std::map<const char*, int, StrComp> GlobalVariable::global_value;
-std::map<const char*, bool, StrComp> GlobalVariable::global_flag;
+static std::map<const char*, int, StrComp> global_value;
+static std::map<const char*, bool, StrComp> global_flag;
 
-std::mutex GlobalVariable::lock;
+static std::mutex lock;
 
 void GlobalVariable::InitGlobalVariable(){
     return;
@@ -32,6 +36,13 @@ void GlobalVariable::SetValue(const char* name, int a){
     global_value[name] = a;
     lock.unlock();
     return;
+}
+
+vector< pair<string, int> > GlobalVariable::DumpValues(){
+    vector< pair<string, int> > ret;
+    for(auto& it : global_value)
+        ret.push_back(pair<string,int>(it.first, it.second));
+    return ret;
 }
 
 void GlobalVariable::ClearValue(){
@@ -62,6 +73,13 @@ void GlobalVariable::SetFlag(const char* name, bool a){
     global_flag[name] = a;
     lock.unlock();
     return;
+}
+
+vector< pair<string, bool> > GlobalVariable::DumpFlags(){
+    vector< pair<string, bool> > ret;
+    for(auto& it : global_flag)
+        ret.push_back(pair<string,int>(it.first, it.second));
+    return ret;
 }
 
 void GlobalVariable::ClearFlag(){

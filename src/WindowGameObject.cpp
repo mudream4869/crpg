@@ -16,14 +16,13 @@ void WindowGameObject::Update(){
     this->Clear();
     float ly = 0;
     int cnt = 0;
-    for(auto get_data = GameObjectData::gameobject_count.begin();
-             get_data != GameObjectData::gameobject_count.end();
-             get_data++){
-        auto obj_data = GameObjectData::gameobject_pool[get_data->first];
-        this->DrawText(0.10, 0.16*ly + 0.135, obj_data.name);
-        this->DrawImage(0.0, 0.16*ly + 0.07, 0.08, 0.08, obj_data.img);
+    auto get_counts = GameObjectData::DumpCounts();
+    for(auto get_data : get_counts){ 
+        Image* obj_img = GameObjectData::GetGameObjectImage(get_data.first.c_str());
+        this->DrawText(0.10, 0.16*ly + 0.135, get_data.first.c_str());
+        this->DrawImage(0.0, 0.16*ly + 0.07, 0.08, 0.08, obj_img);
         char tmp_count[20];
-        sprintf(tmp_count, "%d", get_data->second);
+        sprintf(tmp_count, "%d", get_data.second);
         this->DrawText(0.45, 0.16*ly + 0.135, tmp_count);
 
         if(ptr == cnt)
@@ -37,17 +36,9 @@ void WindowGameObject::Update(){
 void WindowGameObject::InputEvent(Input inp){
     bool up = false, down = false;
     if(inp.type == INPUT_NORMAL_KEY_DOWN){
-    
         if(inp.normal_key == 13){
-            int ly = 0;
-            for(auto get_data = GameObjectData::gameobject_count.begin();
-                    get_data != GameObjectData::gameobject_count.end();
-                    get_data++, ly++){
-                if(ly == ptr){
-                    GameObjectData::CallGameObject(get_data->first); 
-                    return;
-                }
-            }
+            auto get_counts = GameObjectData::DumpCounts();
+            GameObjectData::CallGameObject(get_counts[ptr].first.c_str());
             return;
         }
     }
@@ -58,7 +49,7 @@ void WindowGameObject::InputEvent(Input inp){
         ptr--, change = true;
     }
 
-    if(dir == Constant::DIR_DOWN and ptr+1 < GameObjectData::gameobject_count.size()){
+    if(dir == Constant::DIR_DOWN and ptr+1 < GameObjectData::GetSize()){
         AudioSystem::PlaySE("packitem_switch.ogg");
         ptr++, change = true;
     }

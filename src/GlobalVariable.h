@@ -1,23 +1,24 @@
 #ifndef GLOBAL_VARIABLE_DEF
 #define GLOBAL_VARIABLE_DEF
 
-#include <mutex>
-#include <map>
-#include "Tool.h"
+#include <vector>
+#include <utility>
+#include <string>
+
+using std::vector;
+using std::string;
+using std::pair;
 
 namespace GlobalVariable{
-    extern std::map<const char*, int, StrComp> global_value;
-    extern std::map<const char*, bool, StrComp> global_flag;
-    
-    extern std::mutex lock;
-
     void InitGlobalVariable();
     int GetValue(const char* name);
     void SetValue(const char* name, int a);
+    vector< pair<string, int> > DumpValues();
     void ClearValue();
 
     bool GetFlag(const char* name);
     void SetFlag(const char* name, bool a);
+    vector< pair<string, bool> > DumpFlags();
     void ClearFlag();
 };
 

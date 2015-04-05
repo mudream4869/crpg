@@ -96,22 +96,22 @@ void File::SaveFile(const char* filename, std::vector<unsigned char>& enc_png){
     sprintf(path_fn, "%s/%s", Config::PATH_SAVEFILE, filename);
     FILE* fp = fopen(path_fn, "w");
 
-    auto& g_value = GlobalVariable::global_value;
-    fprintf(fp, "%d\n", (int)g_value.size());
-    for(auto it = g_value.begin(); it != g_value.end(); it++){
-        fprintf(fp, "%s %d\n", it->first, it->second);
+    auto get_values = GlobalVariable::DumpValues();
+    fprintf(fp, "%d\n", (int)get_values.size());
+    for(auto it : get_values){
+        fprintf(fp, "%s %d\n", it.first.c_str(), it.second);
     }
     
-    auto& g_flag = GlobalVariable::global_flag;
-    fprintf(fp, "%d\n", (int)g_flag.size());
-    for(auto it = g_flag.begin(); it != g_flag.end(); it++){
-        fprintf(fp, "%s %d\n", it->first, it->second);
+    auto get_flags = GlobalVariable::DumpFlags();
+    fprintf(fp, "%d\n", (int)get_flags.size());
+    for(auto it : get_flags){
+        fprintf(fp, "%s %d\n", it.first.c_str(), it.second);
     }
 
-    auto& g_object = GameObjectData::gameobject_count;
-    fprintf(fp, "%d\n", (int)g_object.size());
-    for(auto it = g_object.begin(); it != g_object.end(); it++){
-        fprintf(fp, "%s %d\n", it->first, it->second);
+    auto get_objects = GameObjectData::DumpCounts();
+    fprintf(fp, "%d\n", (int)get_objects.size());
+    for(auto it : get_objects){
+        fprintf(fp, "%s %d\n", it.first.c_str(), it.second);
     }
 
     // Map 

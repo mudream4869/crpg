@@ -3,15 +3,23 @@
 #include <cstdio>
 #include <cstdlib>
 #include <thread>
+#include <map>
 
 #include "GameObject.h"
 #include "Script.h"
 #include "Config.h"
+#include "Tool.h"
 
 #include "debugger/debugger.h"
 
-std::map<const char*, GameObjectData::GameObject, StrComp> GameObjectData::gameobject_pool;
-std::map<const char*, int, StrComp> GameObjectData::gameobject_count;
+struct GameObject{
+    Image* img;
+    char name[20];
+    Script* script;
+};
+
+static std::map<const char*, GameObject, StrComp> gameobject_pool;
+static std::map<const char*, int, StrComp> gameobject_count;
 
 void GameObjectData::InitGameObject(){
     PyObject* p_module = PyImport_ImportModule("scripts.objects");
@@ -78,4 +86,15 @@ void GameObjectData::SetGameObjectCount(const char* str, int val){
     }
     gameobject_count[str] = val;
     return;
+}
+
+vector< pair<string, int> > GameObjectData::DumpCounts(){
+    vector< pair<string,int> > ret;
+    for(auto& it : gameobject_count)
+        ret.push_back(pair<string, int>(it.first, it.second));
+    return ret;
+}
+
+int GameObjectData::GetSize(){
+    return gameobject_count.size();
 }

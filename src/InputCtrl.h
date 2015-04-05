@@ -2,7 +2,6 @@
 #define INPUTCTRL_DEF
 
 #include "inc_gl.h"
-#include <set>
 
 namespace InputCtrl{
     void Init();
