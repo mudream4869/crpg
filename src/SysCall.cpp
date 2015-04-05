@@ -42,13 +42,12 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
     Debugger::Print(para);
     
     PyObject* ret_value;
-    //printf("SysCall\n");
+    
     char cmd[20];
     strcpy(cmd, PyString_AsString(PyTuple_GetItem(para, 0)));
-    // TODO:ENTERPRETER
+    Debugger::Print("Call %s\n", cmd);
+    
     if(strcmp(cmd, "ShowMsg") == 0){
-        fprintf(stderr, "Call ShowMsg\n");
-        
         PyObject* py_getobj = PyTuple_GetItem(para, 1);
         Py_UNICODE* py_getwstr = PyUnicode_AS_UNICODE(py_getobj);
         int sz = PyUnicode_GetSize(py_getobj);
@@ -90,7 +89,6 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
 
         ret_value = Py_BuildValue("i", WindowBlockType::ret_value.int_value);
     }else if(strcmp(cmd, "SetValue") == 0){
-        fprintf(stderr, "Call SetValue\n");
         GlobalVariable::SetValue(
             PyString_AsString(PyTuple_GetItem(para, 1)),
             (int)PyInt_AsLong(PyTuple_GetItem(para, 2))
@@ -99,14 +97,12 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         ret_value = Py_None;
 
     }else if(strcmp(cmd, "GetValue") == 0){
-        fprintf(stderr, "Call GetValue\n");
         int retvalue = GlobalVariable::GetValue(
             PyString_AsString(PyTuple_GetItem(para, 1))
         );
         ret_value = Py_BuildValue("i", retvalue);
 
     }else if(strcmp(cmd, "SetFlag") == 0){
-        fprintf(stderr, "Call SetFlag\n");
         GlobalVariable::SetFlag(
             PyString_AsString(PyTuple_GetItem(para, 1)),
             PyObject_IsTrue((PyTuple_GetItem(para, 2)))
@@ -115,7 +111,6 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         ret_value = Py_None;
 
     }else if(strcmp(cmd, "GetFlag") == 0){
-        fprintf(stderr, "Call GetFLag\n");
         int retvalue = GlobalVariable::GetFlag(
             PyString_AsString(PyTuple_GetItem(para, 1))
         );
@@ -275,7 +270,6 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         Py_INCREF(Py_None);
         ret_value = Py_None;
     }else if(strcmp(cmd, "KillImg") == 0){
-        fprintf(stderr, "call kill img");
         int index = (int)PyLong_AsLong(PyTuple_GetItem(para, 1));
         ImgCtrl::KillImg(index);
 
@@ -283,7 +277,6 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         ret_value = Py_None;
     
     }else if(strcmp(cmd, "GameOver") == 0){
-        fprintf(stderr, "game over\n"); 
         SceneGameOver::scene_gameover->Call(); 
         Py_INCREF(Py_None);
         ret_value = Py_None;
@@ -294,7 +287,6 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
         ret_value = Py_None;
 
     }else if(strcmp(cmd, "ShowInputNumber") == 0){
-        fprintf(stderr, "Show Inut Number");
         WindowBlockType::msg = new WindowInputNumber();
         auto state = PyEval_SaveThread();
         PyUnlock();
