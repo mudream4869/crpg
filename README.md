@@ -58,7 +58,7 @@ $ cd src
 $ make os_switch
 $ make main
 $ cd ../testdata/{ test{i} | game{i} }
-$ make
+$ sh maketest.sh
 $ ./test
 ```
 
