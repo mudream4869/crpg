@@ -38,6 +38,7 @@ protected:
     struct WindowDraw{
         int DrawId;
         char* Str;
+        wchar_t* WStr;
         Vec2f Pos;
         Vec2f Size;
         Color4f Color;

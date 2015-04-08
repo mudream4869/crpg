@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <cwchar>
 
 #include "SceneStart.h"
 #include "Image.h"
@@ -34,11 +35,11 @@ void SceneStart::Call(){
 
 void SceneStart::UpdateSelectBox(){
     select_box->Clear();
-    const char str[][10] = {"New Story", "Old Story", "Exit"};
+    const wchar_t str[][10] = {L"新的故事", L"舊的日記", L"離開"};
     for(int lx = 0;lx < 3;lx++){
         if(lx == select_index)
             select_box->DrawBox(0.08, 0.16*lx + 0.03, 0.4, 0.14, {0.7, 0.3, 0.4, 0.5});
-        select_box->DrawText(0.1, 0.16*lx + 0.135, str[lx]);
+        select_box->DrawWText(0.1, 0.16*lx + 0.135, str[lx]);
     }
     return;
 }

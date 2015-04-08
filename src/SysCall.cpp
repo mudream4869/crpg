@@ -2,6 +2,7 @@
 #include <chrono>
 #include <thread>
 #include <cwchar>
+#include <iostream>
 
 #include "Event.h"
 #include "SysCall.h"
@@ -35,6 +36,15 @@ void Sys::InitSys(){
     return;
 }
 
+std::wstring PyStringToWString(PyObject* pyobj){
+    std::wstring ret;
+    Py_UNICODE* py_getwstr = PyUnicode_AS_UNICODE(pyobj);
+    int sz = PyUnicode_GetSize(pyobj);
+    for(int lx = 0;lx < sz;lx++)
+        ret.push_back(py_getwstr[lx]);
+    return ret;
+}
+
 PyObject* Sys::SysCall(PyObject* self, PyObject* para){
     // TODO: garbage recycle
     
@@ -49,19 +59,10 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
     
     if(strcmp(cmd, "ShowMsg") == 0){
         PyObject* py_getobj = PyTuple_GetItem(para, 1);
-        Py_UNICODE* py_getwstr = PyUnicode_AS_UNICODE(py_getobj);
-        int sz = PyUnicode_GetSize(py_getobj);
-        wchar_t* wstr = new wchar_t[sz+1];
-        for(int lx = 0;lx < sz;lx++)
-            wstr[lx] = py_getwstr[lx];
-        wstr[sz] = 0;
-        
-        //fwprintf(stderr, L"[%ls]\n", wstr);
+        std::wstring str = PyStringToWString(py_getobj);
 
-        WindowBlockType::msg = new WindowMsg(wstr);
+        WindowBlockType::msg = new WindowMsg(str.c_str());
         
-        delete[] wstr;
-
         auto state = PyEval_SaveThread();
         PyUnlock();
         while(WindowBlockType::msg != nullptr); // TODO: change to cv
@@ -73,13 +74,12 @@ PyObject* Sys::SysCall(PyObject* self, PyObject* para){
     }else if(strcmp(cmd, "ShowMsgSelect") == 0){
         PyObject* opt_list = PyTuple_GetItem(para, 1);
         int sz = PyList_Size(opt_list);
-        char** options = new char*[sz];
-        for(int lx = 0;lx < (int)PyList_Size(opt_list);lx++){
-            char* tmp_str = PyString_AsString(PyList_GetItem(opt_list, lx));
-            options[lx] = new char[strlen(tmp_str) + 2];
-            strcpy(options[lx], tmp_str);
+        std::vector<std::wstring> get_str;
+        for(int lx = 0;lx < sz;lx++){
+            get_str.push_back(PyStringToWString(PyList_GetItem(opt_list, lx)));
         }
-        WindowBlockType::msg = new WindowMsgSelect(options, sz);
+        
+        WindowBlockType::msg = new WindowMsgSelect(get_str);
 
         auto state = PyEval_SaveThread();
         PyUnlock();

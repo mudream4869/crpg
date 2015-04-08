@@ -108,5 +108,5 @@ class Sleep(Event):
 
     def Action(self):
         self.ShowMsg(u"確定要睡覺？")
-        if self.ShowMsgSelect(["Yes", "No"]) == 0 :
+        if self.ShowMsgSelect([u"是", u"否"]) == 0 :
             self.GameOver()

@@ -59,7 +59,9 @@ void Window::DrawWText(float x, float y, const wchar_t* wstr){
             windraw.DrawId = WINDOW_DRAW_WTEXT;
             windraw.Pos = {x, y};
             tmp[lx] = newline[1];
-            windraw.SpecialPointer = (void*)(new minftgl::Label(tmp + pre_ptr, use_font));
+            windraw.WStr = new wchar_t[lx - pre_ptr + 3];
+            wcscpy(windraw.WStr, tmp + pre_ptr);
+            windraw.SpecialPointer = nullptr;
             window_draw.push_back(windraw);
             pre_ptr = lx+1;
             y += dy;
@@ -67,8 +69,9 @@ void Window::DrawWText(float x, float y, const wchar_t* wstr){
             WindowDraw windraw;
             windraw.DrawId = WINDOW_DRAW_WTEXT;
             windraw.Pos = {x, y};
-            tmp[lx] = newline[1];
-            windraw.SpecialPointer = (void*)(new minftgl::Label(tmp + pre_ptr, use_font));
+            windraw.WStr = new wchar_t[lx - pre_ptr + 3];
+            wcscpy(windraw.WStr, tmp + pre_ptr);
+            windraw.SpecialPointer = nullptr; 
             window_draw.push_back(windraw);
             break;
         }
@@ -101,8 +104,11 @@ void Window::Clear(){
         WindowDraw windraw = window_draw[lx];
         if(windraw.DrawId == WINDOW_DRAW_TEXT)
             delete[] windraw.Str;
-        else if(windraw.DrawId == WINDOW_DRAW_WTEXT)
-            delete (minftgl::Label*)(windraw.SpecialPointer);
+        else if(windraw.DrawId == WINDOW_DRAW_WTEXT){
+            delete[] windraw.WStr;
+            if(windraw.SpecialPointer != nullptr)
+                delete (minftgl::Label*)(windraw.SpecialPointer);
+        }
     }
     window_draw.clear();
     return;
@@ -146,6 +152,8 @@ void Window::Render(){
             float x = windraw.Pos.x + this->left;
             float y = windraw.Pos.y + this->top;
             x = x - 1, y = 1 - y;
+            if(windraw.SpecialPointer == nullptr)
+                windraw.SpecialPointer = (void*)(new minftgl::Label(windraw.WStr, use_font));
             ((minftgl::Label*)windraw.SpecialPointer)->Render(x, y); 
 
         }else if(windraw.DrawId == WINDOW_DRAW_BOX){

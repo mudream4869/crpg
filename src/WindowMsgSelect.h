@@ -2,18 +2,20 @@
 #define WINDOWMSGSELECT_DEF
 
 #include <vector>
+#include <cwchar>
+#include <string>
 #include "WindowBlockType.h"
 
 class WindowMsgSelect : public WindowBlockType{
 public:
-    WindowMsgSelect(char* _options[], int count);
+    WindowMsgSelect(std::vector<std::wstring>);
     ~WindowMsgSelect();
     void InputEvent(Input inp);
     void Update();
 
 private:
     int ptr;
-    std::vector<char*> options;
+    std::vector<std::wstring> options;
 };
 
 #endif
