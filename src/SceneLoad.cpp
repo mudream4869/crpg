@@ -17,10 +17,11 @@ SceneLoad::SceneLoad(){
     
     SceneLoad::scene_load = this;
 
-    char* save_name[SaveFileCount];
+    std::vector<std::wstring> save_name;
     for(int lx = 0;lx < SaveFileCount;lx++){
-        save_name[lx] = new char[20];
-        sprintf(save_name[lx], "SaveFile%d\n", lx+1);
+        wchar_t str[20];
+        swprintf(str, 20, L"SaveFile%d\n", lx+1);
+        save_name.push_back(str);
     }
 
     win_title = new Window(0, 0, 2, 0.3);
@@ -59,7 +60,7 @@ SceneLoad::SceneLoad(){
             }
             return;
         },
-        save_name, SaveFileCount
+        save_name
     );
     return;
 }

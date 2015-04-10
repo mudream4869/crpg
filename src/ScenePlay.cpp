@@ -31,11 +31,11 @@ ScenePlay::ScenePlay(){
     is_obj_menu_open = false;
     is_main_menu_open = false;
     
-    char* main_menu_string[3] = {new char[20], new char[20], new char[20]};
-    strcpy(main_menu_string[0], "Load File");
-    strcpy(main_menu_string[1], "Return Menu"); 
-    strcpy(main_menu_string[2], "Exit Game"); 
-    fprintf(stderr, "ready for string\n");
+    std::vector<std::wstring> main_menu_string;
+    main_menu_string.push_back(L"讀取日記");
+    main_menu_string.push_back(L"回主選單");
+    main_menu_string.push_back(L"結束遊戲");
+    
     main_menu = new WindowSelect(0.7, 0.75, 0.6, 0.55, 
         [this](int index){
             if(index == -1) this->is_main_menu_open = false;
@@ -51,10 +51,7 @@ ScenePlay::ScenePlay(){
             return;
         }, [this](int index){
             return;
-        }, main_menu_string, 3); 
-    delete[] main_menu_string[0];
-    delete[] main_menu_string[1];
-    delete[] main_menu_string[2];
+        }, main_menu_string);
 
     obj_menu = new WindowGameObject(0.1, 0.1);
     return;

@@ -7,23 +7,16 @@
 WindowSelect::WindowSelect(float _left, float _top, float _width, float _height,
             std::function<void(int)>cb,
             std::function<void(int)>ch,
-            char** _items, int itemcount):Window(_left, _top, _width, _height){
+            std::vector<std::wstring> _items):Window(_left, _top, _width, _height){
     choose_callback = cb;
     change_callback = ch;
-    for(int lx = 0;lx < itemcount;lx++){
-        char* new_str = new char[strlen(_items[lx]) + 2];
-        strcpy(new_str, _items[lx]);
-        items.push_back(new_str);
-    }
+    items = _items;
     select_index = 0;
     this->Update();
     return;
 }
 
 WindowSelect::~WindowSelect(){
-    for(int lx = 0;lx < items.size();lx++){
-        delete[] items[lx];
-    }
     return;
 }
 
@@ -59,7 +52,7 @@ void WindowSelect::Update(){
     Clear();
     change_callback(select_index);
     for(int lx = 0;lx < items.size();lx++){
-        DrawText(0.1, 0.16*lx + 0.135, items[lx]);
+        DrawWText(0.1, 0.16*lx + 0.135, items[lx].c_str());
         if(lx == select_index)
             DrawBox(0.08, 0.16*lx + 0.03, 0.4, 0.14, {0.7, 0.3, 0.4, 0.5});
     }
