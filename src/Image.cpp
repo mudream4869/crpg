@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <vector>
+#include <cmath>
 #include "Image.h"
 #include "Tool.h"
 
@@ -85,9 +86,9 @@ void Image::__LoadBmp(const char* path, bool is_trans, Color3i trans_color){
         datt4[4*lx + 1] = data[lx*byte_count + __BMPSHIFT + 1];
         datt4[4*lx + 2] = data[lx*byte_count + __BMPSHIFT + 0];
         last_trans = now_trans;
-        now_trans = Absi(trans_color.r - (int)datt4[4*lx + 0]) <= 1
-                   and Absi(trans_color.g - (int)datt4[4*lx + 1]) <= 1
-                   and Absi(trans_color.b - (int)datt4[4*lx + 2]) <= 1;
+        now_trans = abs(trans_color.r - (int)datt4[4*lx + 0]) <= 1
+                   and abs(trans_color.g - (int)datt4[4*lx + 1]) <= 1
+                   and abs(trans_color.b - (int)datt4[4*lx + 2]) <= 1;
         if(is_trans and (now_trans) )
             datt4[4*lx + 3] = 0;
         else{

@@ -7,14 +7,6 @@
 #include <string>
 #include <cassert>
 
-struct AbsiTester{
-    void Run(){
-        assert(Absi(-5) == 5);
-        assert(Absi(6) == 6);
-        return;
-    }
-};
-
 struct GetFileNameTester{
     void Run(){
         char path1[] = "C:/abc/def";
@@ -53,7 +45,6 @@ struct GetFileUnderDirTester{
 };
 
 int main(){
-    (new AbsiTester)->Run();
     (new GetFileNameTester)->Run();
     (new GetFileNameExtTester)->Run();
     (new GetFileUnderDirTester)->Run();

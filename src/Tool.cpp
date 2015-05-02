@@ -12,11 +12,6 @@
 #endif
 // ------
 
-
-int Absi(int a){
-    return (a < 0) ? (-a):a;
-}
-
 std::vector<std::string> GetFileUnderDir(const char* dir_name){
     std::vector<std::string> ret;
 
