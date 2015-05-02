@@ -7,10 +7,6 @@
 
 #include "Image.h"
 
-using std::vector;
-using std::string;
-using std::pair;
-
 namespace GameObjectData{
     void InitGameObject();
     int GetGameObjectCount(const char* str);
@@ -20,7 +16,7 @@ namespace GameObjectData{
     
     int GetSize();
      
-    vector< pair<string, int> > DumpCounts();
+    std::vector< std::pair< std::string, int> > DumpCounts();
 };
 
 #endif

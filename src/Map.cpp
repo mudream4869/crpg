@@ -12,20 +12,19 @@
 #include "rapidxml/rapidxml.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
 
-std::map<const char*, Map*, StrComp> Map::map_pool;
+std::map<std::string, Map*> Map::map_pool;
 
-char* Map::GetName(){
+std::string Map::GetName()const{
     return map_name;
 }
 
 Map::Map(const char* _map_name){ 
     
-    strcpy(map_name, _map_name);
-    map_name[strlen(_map_name)-4] = 0;
+    map_name = std::string(_map_name).substr(0, strlen(_map_name)-4); 
     Map::map_pool[map_name] = this;
     
     char path[20];
-    sprintf(path, "%s/%s.tmx", Config::PATH_MAPFILE, map_name);
+    sprintf(path, "%s/%s.tmx", Config::PATH_MAPFILE, map_name.c_str());
 
     fprintf(stderr, "Map:ready to load %s\n", path);
     // Read map by rapidxml
@@ -44,12 +43,11 @@ Map::Map(const char* _map_name){
     this->peice_width = std::atoi(root_node->first_attribute("tilewidth")->value());
     this->peice_height = std::atoi(root_node->first_attribute("tileheight")->value());
     
-    map_bgm[0] = 0;
     rapidxml::xml_node<>* map_property_node = root_node->first_node("properties");
     if(map_property_node){
         for(auto property_node = map_property_node->first_node("property");property_node; property_node = property_node->next_sibling("property")){
             if(strcmp(property_node->first_attribute("name")->value(), "bgm") == 0){
-                strcpy(this->map_bgm, property_node->first_attribute("value")->value());
+                this->map_bgm = std::string(property_node->first_attribute("value")->value());
             }
         }
     }
@@ -175,7 +173,7 @@ bool Map::CanDo(int xx, int yy, int dir)const{
     return true;
 }
 
-char* Map::GetMapBGM(){
+std::string Map::GetMapBGM()const{
     return this->map_bgm;
 }
 Vec2i Map::GetMapSize(){

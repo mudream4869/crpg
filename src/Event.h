@@ -4,6 +4,7 @@
 #include <map>
 #include <cstdlib>
 #include <cstring>
+#include <string>
 
 #include "Tile.h"
 #include "Script.h"
@@ -27,7 +28,7 @@ const int COND_TYPE_PRIVATE_FLAG = 2; // TODO
 
 class Event : public Object{
 public:
-    Event(const char* map_name, const char* str);
+    Event(std::string map_name, const char* str);
     ~Event();
     
     static std::map<const char*, Event*, StrComp> event_pool;  

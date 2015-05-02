@@ -14,15 +14,14 @@ class Map{
 public:
     Map(const char*);
     
-    static std::map<const char*, Map*, StrComp> map_pool;
-
-    char* GetName();
+    static std::map<std::string, Map*> map_pool;
 
     bool CanDo(int x, int y, int dir) const ;
     int GetPriority(int x, int y, int l) const ; 
     int GetLevelCount()const;
-    char* GetMapBGM();
+    std::string GetMapBGM()const;
     Vec2i GetMapSize();
+    std::string GetName()const;
  
     void RenderATile(float left, float top, float width, float height, int x, int y, int l);
     void Render(float left, float top, float width, float height);
@@ -31,8 +30,8 @@ public:
     std::vector<EventData> GetEventDatas();
 
 private:
-    char map_name[20];
-    char map_bgm[20];
+    std::string map_name;
+    std::string map_bgm;
     Tile* tile_use;
     
     int map_width, map_height;

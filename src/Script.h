@@ -1,12 +1,14 @@
 #ifndef SCRIPT_DEF
 #define SCRIPT_DEF
 
+#include <cstring>
+
 #include "inc_py.h"
 #include <mutex>
 
 class Script{
 public:
-    Script(const char* filename, const char* class_name);
+    Script(std::string filename, const char* class_name);
     Script(PyObject* module, const char* class_name);
     
     PyObject* GetAttr(const char* name);

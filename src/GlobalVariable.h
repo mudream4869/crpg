@@ -5,20 +5,17 @@
 #include <utility>
 #include <string>
 
-using std::vector;
-using std::string;
-using std::pair;
 
 namespace GlobalVariable{
     void InitGlobalVariable();
     int GetValue(const char* name);
     void SetValue(const char* name, int a);
-    vector< pair<string, int> > DumpValues();
+    std::vector< std::pair< std::string, int> > DumpValues();
     void ClearValue();
 
     bool GetFlag(const char* name);
     void SetFlag(const char* name, bool a);
-    vector< pair<string, bool> > DumpFlags();
+    std::vector< std::pair< std::string, bool> > DumpFlags();
     void ClearFlag();
 };
 

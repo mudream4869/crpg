@@ -103,7 +103,7 @@ void ScenePlay::SetMap(Map* _map){
     return;
 }
 
-char* ScenePlay::GetMapName(){
+std::string ScenePlay::GetMapName()const{
     return map_use->GetName();
 }
 

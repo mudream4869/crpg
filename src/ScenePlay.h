@@ -17,7 +17,7 @@ public:
     void InputEvent(Input inp);
     
     void ChangeMap(Map* _map, int start_x, int start_y, int dir);
-    char* GetMapName();
+    std::string GetMapName() const;
     // Important Trigger Event
     // Should be called every tick
     void TickEvent(int delta_time);

@@ -118,7 +118,7 @@ void File::SaveFile(const char* filename, std::vector<unsigned char>& enc_png){
     // Map 
     ScenePlay* scene_play = ScenePlay::scene_play;
     HeroStatus hero_status = scene_play->hero_use->status;
-    fprintf(fp, "%s ", scene_play->GetMapName());
+    fprintf(fp, "%s ", scene_play->GetMapName().c_str());
     fprintf(fp, "%d %d %d\n", hero_status.x, hero_status.y, hero_status.moving_dir);
     fprintf(fp, "%d\n", (int) Event::event_pool.size());
     for(auto it = Event::event_pool.begin(); it != Event::event_pool.end(); it++){

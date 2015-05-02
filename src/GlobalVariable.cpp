@@ -6,6 +6,10 @@
 #include "GlobalVariable.h"
 #include "Tool.h"
 
+using std::vector;
+using std::string;
+using std::pair;
+
 static std::map<const char*, int, StrComp> global_value;
 static std::map<const char*, bool, StrComp> global_flag;
 

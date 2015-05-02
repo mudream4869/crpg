@@ -12,6 +12,10 @@
 
 #include "debugger/debugger.h"
 
+using std::vector;
+using std::string;
+using std::pair;
+
 struct GameObject{
     Image* img;
     char name[20];

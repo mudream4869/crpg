@@ -12,7 +12,7 @@
 
 #include "audioloader/audioloader.h"
 
-static std::map<const char*, int, StrComp> se_sound;
+static std::map<std::string, int> se_sound;
 
 // device init
 // will check for sounds/SE/__init__.ini
@@ -28,12 +28,11 @@ static bool is_play_bgm;
 static ALuint bgm_buffer;
 static std::vector<ALuint> se_buffer;
 
-static char certain_bgm[20];
+static std::string certain_bgm;
 
 void AudioSystem::InitAudioSystem(){
     
     is_play_bgm = false;
-    certain_bgm[0] = 0;
  
     dev = alcOpenDevice(NULL);
     ctx = alcCreateContext(dev, NULL);
@@ -65,14 +64,12 @@ void AudioSystem::InitAudioSystem(){
     // Preload SE
     std::vector<std::string> get_se_list = GetFileUnderDir(Config::PATH_SOUND_SEFILE);
     for(int lx = 0;lx < get_se_list.size();lx++){
-        char sfn[20], fn[40];
-        strcpy(sfn, get_se_list[lx].c_str());
-        sprintf(fn, "%s/%s", Config::PATH_SOUND_SEFILE, sfn);
+        char fn[40];
+        std::string& sfn = get_se_list[lx];
+        sprintf(fn, "%s/%s", Config::PATH_SOUND_SEFILE, sfn.c_str());
         AudioFileData get_info = LoadAudioFile(fn);
         if(get_info.isok){
-            char* tmp_fn = new char[strlen(sfn) + 2];
-            strcpy(tmp_fn, sfn);
-            se_sound[tmp_fn] = (int)se_buffer.size();
+            se_sound[sfn] = (int)se_buffer.size();
             se_buffer.push_back(get_info.buffer);
         }
     }
@@ -88,15 +85,15 @@ void AudioSystem::ExitAudioSystem(){
 }
 
 // BGM: Background Music for short
-void AudioSystem::PlayBGM(const char* bgm_name){
-    if(strcmp(bgm_name, certain_bgm) == 0)
+void AudioSystem::PlayBGM(std::string bgm_name){
+    if(bgm_name == certain_bgm)
         return;
-    strcpy(certain_bgm, bgm_name);
+    certain_bgm = bgm_name;
     if(is_play_bgm){
         alDeleteBuffers(1, &bgm_buffer);
     }
     char full_bgm_name[40];
-    sprintf(full_bgm_name, "%s/%s", Config::PATH_SOUND_BGMFILE, bgm_name);
+    sprintf(full_bgm_name, "%s/%s", Config::PATH_SOUND_BGMFILE, bgm_name.c_str());
     AudioFileData get_info = LoadAudioFile(full_bgm_name);
     if(get_info.isok){
         alSourceStop(bgm_source);
@@ -112,12 +109,12 @@ void AudioSystem::StopBGM(){
         alDeleteBuffers(1, &bgm_buffer);
     }
     alSourceStop(bgm_source);
-    strcpy(certain_bgm, "");
+    certain_bgm = "";
     return;
 }
 
 // SE: Sound Effect for short
-void AudioSystem::PlaySE(const char* se_name){
+void AudioSystem::PlaySE(std::string se_name){
     auto se_buffer_index = (se_buffer[se_sound[se_name]]);
     alSourceStop(se_source);
     alSourcei(se_source, AL_BUFFER, se_buffer_index);

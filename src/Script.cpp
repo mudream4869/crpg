@@ -5,10 +5,10 @@
 
 #include "debugger/debugger.h"
 
-Script::Script(const char* file_name, const char* class_name){
+Script::Script(std::string file_name, const char* class_name){
     char tmp[20];
     
-    sprintf(tmp, "scripts.%s", file_name);
+    sprintf(tmp, "scripts.%s", file_name.c_str());
     PySys_SetPath(".");
     
     Debugger::Print("Loading from %s....\n", tmp);

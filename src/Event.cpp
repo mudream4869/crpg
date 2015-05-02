@@ -49,7 +49,7 @@ void Event::PyObject2String(PyObject* p_str, char* str_ptr, const char* default_
     return;
 }
 
-Event::Event(const char* map_name, const char* str){
+Event::Event(std::string map_name, const char* str){
     char tmp[20];
     script = new Script(map_name, str);     
 
