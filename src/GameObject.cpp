@@ -41,7 +41,8 @@ void GameObjectData::InitGameObject(){
         Debugger::Print("[Warning] no gameobject initial.\n");
         return;
     }
-
+    
+    /** Read in gameobject */
     char name[20], image_name[20], script_name[20];
     while(fscanf(finit, "%s %s %s", name, image_name, script_name) != EOF){
         char full_img_path[20];
@@ -80,10 +81,13 @@ void GameObjectData::CallGameObject(const char* str){
 }
 
 void GameObjectData::SetGameObjectCount(const char* str, int val){
+    
+    /** Let 0 amount gameobject display from list*/
     if(val == 0){
         gameobject_count.erase(str);
         return;
     }
+
     if(gameobject_count.count(str) == 0){
         char* tmp = new char[strlen(str) + 2];
         strcpy(tmp, str);

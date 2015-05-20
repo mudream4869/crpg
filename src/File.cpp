@@ -24,7 +24,6 @@ File::File* File::PreloadFile(const char* filename){
     sprintf(full_filename,"%s/%s", Config::PATH_SAVEFILE, filename);
     
     // chekc if file exists
-    // TODO: may use stat under mac?
     if(__FileCheckExist(full_filename) == false)
         return nullptr;
 
@@ -48,20 +47,23 @@ void File::LoadFile(const char* filename){
     
     GlobalVariable::ClearValue();
     GlobalVariable::ClearFlag();
-
+    
+    /** Read values */
     fscanf(fp, "%d", &g_value_count);
     for(int lx = 0;lx < g_value_count;lx++){
         fscanf(fp, "%s %d", name, &value);
         GlobalVariable::SetValue(name, value);
     }
-
+    
+    /** Read flags */
     fscanf(fp, "%d", &g_flag_count);
     for(int lx = 0;lx < g_flag_count;lx++){
         fscanf(fp, "%s %d", name, &value);
         GlobalVariable::SetFlag(name, value);
         fprintf(stderr, "load %s -> %d\n", name, value);
     }
-
+    
+    /** Read GameObject */
     int g_obj_count;
     fscanf(fp, "%d", &g_obj_count);
     for(int lx = 0;lx < g_obj_count;lx++){
@@ -77,6 +79,7 @@ void File::LoadFile(const char* filename){
     fscanf(fp, "%d %d %d", &hero_status.x, &hero_status.y, &hero_status.moving_dir);
     scene_play->ChangeMap(Map::map_pool[get_map_name], hero_status.x, hero_status.y, hero_status.moving_dir);
     
+    /** Read Event Setting */
     int event_size;
     fscanf(fp, "%d", &event_size);
     for(int lx = 0;lx < event_size;lx++){
@@ -96,19 +99,22 @@ void File::SaveFile(const char* filename, std::vector<unsigned char>& enc_png){
     char path_fn[20];
     sprintf(path_fn, "%s/%s", Config::PATH_SAVEFILE, filename);
     FILE* fp = fopen(path_fn, "w");
-
+    
+    /** Write values */
     auto get_values = GlobalVariable::DumpValues();
     fprintf(fp, "%d\n", (int)get_values.size());
     for(auto it : get_values){
         fprintf(fp, "%s %d\n", it.first.c_str(), it.second);
     }
     
+    /** Write flags */
     auto get_flags = GlobalVariable::DumpFlags();
     fprintf(fp, "%d\n", (int)get_flags.size());
     for(auto it : get_flags){
         fprintf(fp, "%s %d\n", it.first.c_str(), it.second);
     }
-
+    
+    /** Write GameObject */
     auto get_objects = GameObjectData::DumpCounts();
     fprintf(fp, "%d\n", (int)get_objects.size());
     for(auto it : get_objects){
@@ -120,6 +126,8 @@ void File::SaveFile(const char* filename, std::vector<unsigned char>& enc_png){
     HeroStatus hero_status = scene_play->hero_use->status;
     fprintf(fp, "%s ", scene_play->GetMapName().c_str());
     fprintf(fp, "%d %d %d\n", hero_status.x, hero_status.y, hero_status.moving_dir);
+    
+    /** Write Event Setting */
     fprintf(fp, "%d\n", (int) Event::event_pool.size());
     for(auto it = Event::event_pool.begin(); it != Event::event_pool.end(); it++){
         Event* get_event = it->second;
@@ -128,7 +136,7 @@ void File::SaveFile(const char* filename, std::vector<unsigned char>& enc_png){
         fprintf(fp, "%d %d %d %d %d\n", get_event_status.status, 
             get_event_status.x, get_event_status.y, 
             get_event_status.moving_dir, get_event_status.moving_step);
-        // the moving queue
+        //TODO: the moving queue
     }
     fclose(fp);
     
