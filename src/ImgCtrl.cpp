@@ -8,6 +8,7 @@
 
 #include "debugger/debugger.h"
 
+/** The images' table*/
 static struct{
     std::mutex mutlock;
     bool to_display;
@@ -55,9 +56,12 @@ void ImgCtrl::Render(){
     for(int lx = 0;lx < 100;lx++){
         if(img_table[lx].to_display == false) continue;
         img_table[lx].mutlock.lock();
+        
+        /** lazy create the image*/
         if(img_table[lx].img == nullptr){
             img_table[lx].img = new Image(img_table[lx].img_fn);
         }
+
         img_table[lx].img->Render(
             img_table[lx].pos.x, 
             img_table[lx].pos.y,
@@ -65,6 +69,7 @@ void ImgCtrl::Render(){
             img_table[lx].rect.y,
             lx + 5
         );
+
         img_table[lx].mutlock.unlock();
     }
     return;

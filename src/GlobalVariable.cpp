@@ -32,11 +32,14 @@ int GlobalVariable::GetValue(const char* name){
 
 void GlobalVariable::SetValue(const char* name, int a){
     lock.lock();
+    
+    /** Initialize to 0 */
     if(global_value.count(name) == 0){
         char* str = new char[strlen(name) + 2];
         strcpy(str, name);
         global_value[str] = 0;
     }
+
     global_value[name] = a;
     lock.unlock();
     return;
@@ -69,11 +72,14 @@ bool GlobalVariable::GetFlag(const char* name){
 
 void GlobalVariable::SetFlag(const char* name, bool a){
     lock.lock();
+
+    /** Initialize to false */
     if(global_flag.count(name) == 0){
         char* str = new char[strlen(name) + 2];
         strcpy(str, name);
         global_flag[str] = false;
     }
+
     global_flag[name] = a;
     lock.unlock();
     return;

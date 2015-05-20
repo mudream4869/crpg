@@ -50,7 +50,6 @@ void Event::PyObject2String(PyObject* p_str, char* str_ptr, const char* default_
 }
 
 Event::Event(std::string map_name, const char* str){
-    char tmp[20];
     script = new Script(map_name, str);     
 
     PyObject* p_config = script->GetAttr("config");
@@ -142,7 +141,7 @@ Event::Event(std::string map_name, const char* str){
     
     graphic_component = new GraphicComponent(this);
 
-    Debugger::Print("Event loads from %s ok\n", tmp);
+    Debugger::Print("Event loads from %s ok\n", map_name.c_str());
 
     return;
 }

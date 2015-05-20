@@ -7,15 +7,68 @@
 
 
 namespace GlobalVariable{
-    void InitGlobalVariable();
-    int GetValue(const char* name);
-    void SetValue(const char* name, int a);
-    std::vector< std::pair< std::string, int> > DumpValues();
-    void ClearValue();
 
+    /**
+     *  @brief Initialize the GlobalVariable envirnment
+     */
+    void InitGlobalVariable();
+
+    /**
+     *  @brief Get value by its name
+     *  @param
+     *      name: value's name
+     *  @return 
+     *      value's value
+     */
+    int GetValue(const char* name);
+
+    /**
+     *  @brief Set value by its name
+     *  @param 
+     *      name: value's name
+     *      a: value's value
+     */
+    void SetValue(const char* name, int a);
+
+    /**
+     *  @brief Dump value's name -> value Map
+     *  @return 
+     *      [(value name, value)]
+     */
+    std::vector< std::pair< std::string, int> > DumpValues();
+
+    /**
+     *  @brief Erase all value
+     */
+    void ClearValue();
+    
+    /**
+     *  @brief Get the flag by its name
+     *  @param 
+     *      name: flag's name
+     *  @return 
+     *      flag's value
+     */
     bool GetFlag(const char* name);
+    
+    /**
+     *  @brief Set the flag by its name
+     *  @param 
+     *      name: flag's name
+     *      a: flag's value
+     */
     void SetFlag(const char* name, bool a);
+
+    /**
+     *  @brief Dump flag's name -> value Map
+     *  @return 
+     *      [(flag name, value)]
+     */
     std::vector< std::pair< std::string, bool> > DumpFlags();
+
+    /**
+     *  @brief Erase all flag
+     */
     void ClearFlag();
 };
 
