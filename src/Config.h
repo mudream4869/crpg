@@ -4,6 +4,10 @@
 #include "Type.h"
 
 namespace Config{
+
+    /**
+     *  @brief path of each resource
+     */
     const char PATH_SAVEFILE[] = "saves";
     const char PATH_MAPFILE[] =  "maps";
     const char PATH_FONTFILE[] = "fonts";
@@ -23,6 +27,9 @@ namespace Config{
     extern Vec2i GAME_START_POS;
     extern char GAME_START_DIR[20];
     
+    /**
+     *  @brief Read Config from setting file
+     */
     void InitConfig();
 };
 

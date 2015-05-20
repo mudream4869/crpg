@@ -12,6 +12,9 @@
 
 #include "audioloader/audioloader.h"
 
+/**
+ *  map : sound effect filename -> sound effect id in vector
+ */
 static std::map<std::string, int> se_sound;
 
 // device init
@@ -26,6 +29,10 @@ static ALuint se_source;
 static bool is_play_bgm;
 
 static ALuint bgm_buffer;
+
+/**
+ *  map : id -> sound effect id
+ */
 static std::vector<ALuint> se_buffer;
 
 static std::string certain_bgm;
@@ -37,13 +44,14 @@ void AudioSystem::InitAudioSystem(){
     dev = alcOpenDevice(NULL);
     ctx = alcCreateContext(dev, NULL);
     alcMakeContextCurrent(ctx); 
-
+    
+    /** magic position of sound source*/
     ALfloat source0Pos[]={ -2.0, 0.0, 0.0};
     ALfloat source0Vel[]={ 0.0, 0.0, 0.0}; 
     ALfloat listenerPos[]={0.0,0.0,4.0};
     ALfloat listenerVel[]={0.0,0.0,0.0};
     ALfloat listenerOri[]={0.0,0.0,1.0, 0.0,1.0,0.0};
-    
+     
     alListenerfv(AL_POSITION,listenerPos);
     alListenerfv(AL_VELOCITY,listenerVel);
     alListenerfv(AL_ORIENTATION,listenerOri);
