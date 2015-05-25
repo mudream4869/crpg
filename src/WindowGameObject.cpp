@@ -38,7 +38,9 @@ void WindowGameObject::InputEvent(Input inp){
     if(inp.type == INPUT_NORMAL_KEY_DOWN){
         if(inp.normal_key == 13){
             auto get_counts = GameObjectData::DumpCounts();
-            GameObjectData::CallGameObject(get_counts[ptr].first.c_str());
+            
+            if(get_counts.size())
+                GameObjectData::CallGameObject(get_counts[ptr].first.c_str());
             return;
         }
     }
