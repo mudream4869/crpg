@@ -21,7 +21,7 @@ namespace GameObjectData{
      *  @return
      *      the amount of gameobject
      */
-    int GetGameObjectCount(const char* str);
+    int GetGameObjectCount(std::string str);
 
     /**
      *  @brief Get the image of GameObject by its name
@@ -30,14 +30,14 @@ namespace GameObjectData{
      *  @return
      *      the Image of GameObject
      */
-    Image* GetGameObjectImage(const char* str);
+    Image* GetGameObjectImage(std::string str);
 
     /**
      *  @brief Call the GameObject's Trigger function
      *  @param
      *      str: gameobject's name
      */
-    void CallGameObject(const char* str); 
+    void CallGameObject(std::string str); 
 
     /**
      *  @brief Set the GameObject's amount by its name
@@ -45,13 +45,18 @@ namespace GameObjectData{
      *      str: gameobject's name
      *      val: amount of the gameobject
      */
-    void SetGameObjectCount(const char* str, int val);
+    void SetGameObjectCount(std::string str, int val);
     
     /**
      *  @return
      *      the size of gameobjects
      */
     int GetSize();
+    
+    /**
+     *  @brief Clear all gameobject counting
+     */
+    void ClearGameObject();
     
     /**
      *  @brief Dump the gameobject -> amount Map

@@ -20,7 +20,7 @@ namespace GlobalVariable{
      *  @return 
      *      value's value
      */
-    int GetValue(const char* name);
+    int GetValue(std::string name);
 
     /**
      *  @brief Set value by its name
@@ -28,7 +28,7 @@ namespace GlobalVariable{
      *      name: value's name
      *      a: value's value
      */
-    void SetValue(const char* name, int a);
+    void SetValue(std::string name, int a);
 
     /**
      *  @brief Dump value's name -> value Map
@@ -49,7 +49,7 @@ namespace GlobalVariable{
      *  @return 
      *      flag's value
      */
-    bool GetFlag(const char* name);
+    bool GetFlag(std::string name);
     
     /**
      *  @brief Set the flag by its name
@@ -57,7 +57,7 @@ namespace GlobalVariable{
      *      name: flag's name
      *      a: flag's value
      */
-    void SetFlag(const char* name, bool a);
+    void SetFlag(std::string name, bool a);
 
     /**
      *  @brief Dump flag's name -> value Map

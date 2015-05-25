@@ -12,6 +12,9 @@
 
 #include "Constant.h"
 
+#include "GlobalVariable.h"
+#include "GameObject.h"
+
 Scene* SceneStart::scene_start = nullptr;
 
 SceneStart::SceneStart(){
@@ -58,6 +61,12 @@ void SceneStart::InputEvent(Input inp){
                     dir = 3;
                 }else
                     dir = 0;
+                
+                /** Clear Old Data*/
+                GlobalVariable::ClearFlag();
+                GlobalVariable::ClearValue();
+                GameObjectData::ClearGameObject(); 
+
                 ScenePlay::scene_play->Call(
                     Map::map_pool[Config::GAME_START_MAP_NAME],
                     Config::GAME_START_POS.x,

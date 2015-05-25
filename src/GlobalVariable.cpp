@@ -10,8 +10,8 @@ using std::vector;
 using std::string;
 using std::pair;
 
-static std::map<const char*, int, StrComp> global_value;
-static std::map<const char*, bool, StrComp> global_flag;
+static std::map<string, int> global_value;
+static std::map<string, bool> global_flag;
 
 static std::mutex lock;
 
@@ -19,7 +19,7 @@ void GlobalVariable::InitGlobalVariable(){
     return;
 } 
 
-int GlobalVariable::GetValue(const char* name){
+int GlobalVariable::GetValue(string name){
     int ret_value;
     lock.lock();
     if(global_value.count(name) == 0)
@@ -30,16 +30,8 @@ int GlobalVariable::GetValue(const char* name){
     return ret_value;
 }
 
-void GlobalVariable::SetValue(const char* name, int a){
+void GlobalVariable::SetValue(string name, int a){
     lock.lock();
-    
-    /** Initialize to 0 */
-    if(global_value.count(name) == 0){
-        char* str = new char[strlen(name) + 2];
-        strcpy(str, name);
-        global_value[str] = 0;
-    }
-
     global_value[name] = a;
     lock.unlock();
     return;
@@ -59,7 +51,7 @@ void GlobalVariable::ClearValue(){
     return;
 }
 
-bool GlobalVariable::GetFlag(const char* name){
+bool GlobalVariable::GetFlag(string name){
     bool ret_value;
     lock.lock();
     if(global_flag.count(name) == 0)
@@ -70,16 +62,8 @@ bool GlobalVariable::GetFlag(const char* name){
     return ret_value; 
 }
 
-void GlobalVariable::SetFlag(const char* name, bool a){
+void GlobalVariable::SetFlag(string name, bool a){
     lock.lock();
-
-    /** Initialize to false */
-    if(global_flag.count(name) == 0){
-        char* str = new char[strlen(name) + 2];
-        strcpy(str, name);
-        global_flag[str] = false;
-    }
-
     global_flag[name] = a;
     lock.unlock();
     return;

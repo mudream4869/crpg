@@ -22,8 +22,8 @@ struct GameObject{
     Script* script;
 };
 
-static std::map<const char*, GameObject, StrComp> gameobject_pool;
-static std::map<const char*, int, StrComp> gameobject_count;
+static std::map<string, GameObject> gameobject_pool;
+static std::map<string, int> gameobject_count;
 
 void GameObjectData::InitGameObject(){
     PyObject* p_module = PyImport_ImportModule("scripts.objects");
@@ -53,34 +53,32 @@ void GameObjectData::InitGameObject(){
         new_obj.img = new Image(full_img_path);
         new_obj.script = new Script(p_module, script_name);
         
-        char* name_tmp = new char[strlen(name) + 2];
-        strcpy(name_tmp, name);
-        gameobject_pool[name_tmp] = new_obj;
+        gameobject_pool[string(name)] = new_obj;
     }
     fclose(finit);
     return;
 }
 
-int GameObjectData::GetGameObjectCount(const char* str){
+int GameObjectData::GetGameObjectCount(string str){
     if(gameobject_count.count(str) == 0)
         return 0;
     return gameobject_count[str];
 }
 
-Image* GameObjectData::GetGameObjectImage(const char* str){
+Image* GameObjectData::GetGameObjectImage(string str){
     if(gameobject_pool.count(str) == 0)
         return nullptr;
     return gameobject_pool[str].img;
 }
 
-void GameObjectData::CallGameObject(const char* str){
+void GameObjectData::CallGameObject(string str){
     if(gameobject_pool.count(str) == 0)
         return;
     gameobject_pool[str].script->Shell();
     return;
 }
 
-void GameObjectData::SetGameObjectCount(const char* str, int val){
+void GameObjectData::SetGameObjectCount(string str, int val){
     
     /** Let 0 amount gameobject display from list*/
     if(val == 0){
@@ -88,11 +86,9 @@ void GameObjectData::SetGameObjectCount(const char* str, int val){
         return;
     }
 
-    if(gameobject_count.count(str) == 0){
-        char* tmp = new char[strlen(str) + 2];
-        strcpy(tmp, str);
-        gameobject_count[tmp] = 0;
-    }
+    if(gameobject_count.count(str) == 0)
+        gameobject_count[str] = 0;
+    
     gameobject_count[str] = val;
     return;
 }
@@ -106,4 +102,9 @@ vector< pair<string, int> > GameObjectData::DumpCounts(){
 
 int GameObjectData::GetSize(){
     return gameobject_count.size();
+}
+
+void GameObjectData::ClearGameObject(){
+    gameobject_count.clear();
+    return;
 }
