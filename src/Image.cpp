@@ -138,19 +138,19 @@ Image::~Image(){
     return;
 }
 
-int Image::GetHeight(){
+int Image::GetHeight() const{
     return height;
 }
 
-int Image::GetWidth(){
+int Image::GetWidth() const{
     return width;
 }
 
-GLuint Image::GetTextureId(){
+GLuint Image::GetTextureId() const{
     return texture_id;
 }
 
-short int Image::GetBits(){
+short int Image::GetBits() const{
     return bits;
 }
 

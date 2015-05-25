@@ -15,6 +15,9 @@
 std::vector<std::string> GetFileUnderDir(const char* dir_name){
     std::vector<std::string> ret;
 
+
+/** Here windows and linux use different method */
+
 #if __APPLE__ || __FreeBSD__ || __linux 
     DIR* dp = opendir(dir_name);
     struct dirent* ep; 

@@ -44,7 +44,7 @@ void InitResource(){
     Debugger::Init();
     
     Sys::InitSys();
-
+    
     GlobalVariable::InitGlobalVariable();
     GameObjectData::InitGameObject();
     Mask::InitMask();
@@ -55,27 +55,30 @@ void InitResource(){
     
     LoadMaps();
     minftgl::Init();
-
+    
+    /** Setting up font */
     char font_fn[] = "test.ttf";
     char font_fullpath[30];
     sprintf(font_fullpath, "%s/%s", Config::PATH_FONTFILE, font_fn);
-     
     Window::use_font = new minftgl::Font(font_fullpath, Constant::FONT_HEIGHT_PIXEL);
 
     fprintf(stderr, "Ready to load scenes\n");
-
+    
+    /** Initial Scene singleton*/
     Scene::scene_certain = new SceneStart();
     new ScenePlay();
     new SceneSave();
     new SceneLoad();
     new SceneGameOver();
 
-    // Load Maps
     printf("Init ok.\n");
 
     return;
 }
 
+/**
+ *  @brief new all the map in maps/
+ */
 void LoadMaps(){
     std::vector<std::string> get_file_list = GetFileUnderDir(Config::PATH_MAPFILE);
     for(int lx = 0;lx < get_file_list.size();lx++){

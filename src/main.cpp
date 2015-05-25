@@ -114,6 +114,7 @@ int main(int argc, char* argv[])
 #endif
 
     Config::InitConfig();
+
     glutInit(&argc, argv);
     glutInitWindowSize(Constant::FULL_WIDTH_PIXEL, Constant::FULL_HEIGHT_PIXEL);
     glutCreateWindow(Config::GAME_TITLE);
