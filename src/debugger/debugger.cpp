@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include "debugger.h"
 
+using std::string;
+
 static FILE* write_file = nullptr;
 
 void Debugger::Init(){
@@ -57,5 +59,20 @@ void Debugger::CheckPyObject(PyObject* obj , const char* format, ... ){
         exit(1);
     }
 #endif
+    return;
+}
+
+void PrintFatal(std::string from, std::string msg){
+    printf("[Fatal] From %s : %s\n", from.c_str(), msg.c_str());
+    return;
+}
+
+void PrintError(std::string from, std::string msg){
+    printf("[Error] From %s : %s\n", from.c_str(), msg.c_str());
+    return;
+}
+
+void PrintWarning(std::string from, std::string msg){
+    printf("[Warning] From %s : %s\n", from.c_str(), msg.c_str());
     return;
 }

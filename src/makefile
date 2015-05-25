@@ -38,7 +38,7 @@ WINDOW = Window.o WindowBlockType.o WindowMsg.o WindowSelect.o WindowGameObject.
 
 LIBS = lodepng.o audioloader.o minftgl.o debugger.o
 
-main: $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) $(COMPONENT) *.h $(LIBS)
+main: $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) $(COMPONENT) *.h debugger/debugger.h audioloader/audioloader.h $(LIBS)
 	$(CXX) main.cpp $(CFLAGS) $(OBJECTS) $(INSTANCE) $(SCENE) $(WINDOW) $(COMPONENT) $(LIBS)  $(CFRAME) -o test
 
 lodepng.o:
